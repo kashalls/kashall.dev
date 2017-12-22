@@ -1,11 +1,3 @@
-/*
-* MALIN - Perfect Coming Soon Template
-* Build Date: August 2015
-* Author: Madeon08
-* Copyright (C) 2015 Madeon08
-* This is a premium product available exclusively here : http://themeforest.net/user/Madeon08/portfolio
-*/
-
 /*  TABLE OF CONTENTS
     ---------------------------
     1. Loading / Opening
