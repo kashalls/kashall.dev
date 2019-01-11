@@ -127,7 +127,8 @@ h1 {
   font-size: 90px;
   text-transform: uppercase;
   font-weight: 600;
-  color: #FFFFFF; }
+  color: #FFFFFF; 
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
 
 h2 {
   font-size: 35px;
@@ -200,12 +201,14 @@ h3 {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   opacity: 1;
-  visibility: visible; }
+  visibility: visible; 
+}
   .item-title p {
     color: #F8F8F8;
     text-transform: uppercase;
     letter-spacing: 3px;
-    margin-top: 15px; }
+    margin-top: 15px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 }
 
 p.copyright {
   bottom: 0;
