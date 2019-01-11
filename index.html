@@ -56,8 +56,16 @@
             iv_load_policy: 3,
             // modestbranding: 1,
             showinfo: 1
+        },
+        events: {
+           'onReady': onPlayerReady
         }
     }); 
+    
+    function onPlayerReady(event) {
+       event.target.setVolume(20);
+       event.target.playVideo();
+    }
  };
             </script>
             <!-- <iframe allow="autoplay; fullscreen" id="youtubevid" src="https://www.youtube.com/embed/mji6oHeMgw0?autoplay=1&loop=1&cc_load_policy=1rel=0&amp;controls=0&amp;showinfo=0&playlist=mji6oHeMgw0"
