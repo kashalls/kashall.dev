@@ -141,46 +141,6 @@ h3 {
   color: #323a45;
   margin-bottom: 25px; }
 
-h4 {
-  font-size: 25px;
-  font-weight: 700;
-  color: #323a45;
-  margin-bottom: 25px; }
-
-h5 {
-  font-size: 20px;
-  font-weight: 700;
-  color: #323a45;
-  margin-bottom: 25px; }
-
-h6 {
-  font-size: 15px;
-  font-weight: 700;
-  color: #323a45;
-  margin-bottom: 25px; }
-
-sub {
-  font-size: 0.8em;
-  position: relative;
-  top: 0.5em; }
-
-sup {
-  font-size: 0.8em;
-  position: relative;
-  top: -0.5em; }
-
-.clear {
-  clear: both; }
-
-.display-none {
-  display: none !important; }
-
-.align-left {
-  text-align: left; }
-
-.align-center {
-  text-align: center; }
-
 .align-right {
   text-align: right; }
 
