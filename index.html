@@ -49,8 +49,12 @@
     player = new YT.Player('player', { 
         videoId: 'mji6oHeMgw0',
         playerVars: {
+            playlist: 'mji6oHeMgw0',
+            cc_load_policy: 1,
+            showinfo: 0,
             controls: 0,
             autoplay: 1,
+            loop: 1,
             disablekb: 1,
             enablejsapi: 1,
             iv_load_policy: 3,
@@ -63,12 +67,13 @@
     }); 
     
     function onPlayerReady(event) {
-       event.target.setVolume(20);
+       event.target.setVolume(15);
        event.target.playVideo();
     }
  };
             </script>
-            <!-- <iframe allow="autoplay; fullscreen" id="youtubevid" src="https://www.youtube.com/embed/mji6oHeMgw0?autoplay=1&loop=1&cc_load_policy=1rel=0&amp;controls=0&amp;showinfo=0&playlist=mji6oHeMgw0"
+            <!-- <iframe allow="autoplay; fullscreen" id="youtubevid" src="https://www.youtube.com/embed/mji6oHeMgw0?
+autoplay=1&loop=1&cc_load_policy=1rel=0&amp;controls=0&amp;showinfo=0&playlist=mji6oHeMgw0"
                frameborder="0" allowfullscreen></iframe> -->
          </div>
       </div>
