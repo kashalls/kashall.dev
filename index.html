@@ -35,7 +35,7 @@
    </style>
    <section class=scale-max id=home-part>
       <div class="video-background">
-         <div class="video-foreground">
+         <div class="video-foreground" id="player">
             <script>
  var tag = document.createElement('script');
  tag.src = "https://www.youtube.com/iframe_api";
@@ -47,10 +47,10 @@
     console.log("YouTube API Ready");
 
     player = new YT.Player('player', { 
-        videoId: curVideoId,
+        videoId: 'mji6oHeMgw0',
         playerVars: {
-            controls: 1,
-            autoplay: 0,
+            controls: 0,
+            autoplay: 1,
             disablekb: 1,
             enablejsapi: 1,
             iv_load_policy: 3,
