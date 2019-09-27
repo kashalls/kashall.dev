@@ -72,7 +72,7 @@ function onLoad() {
     const EasterEggChance = Math.floor((Math.random() * 100) + 1);
     console.log('Chance: ' + EasterEggChance);
     const Egg = Math.floor((Math.random() * 4) + 1);
-    if (EasterEggChance == 1) {
+    if (EasterEggChance == 69) {
         console.log('Egg: ' + Egg);
         if (Egg == 1) {
             document.getElementById('first').innerHTML = 'Never';
