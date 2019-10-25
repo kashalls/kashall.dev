@@ -70,9 +70,9 @@ function activateSecret() {
 function onLoad() {
     console.log('OwO What\'s This?');
     const EasterEggChance = Math.floor((Math.random() * 100) + 1);
-    console.log('Chance: ' + EasterEggChance);
-    const Egg = Math.floor((Math.random() * 4) + 1);
+    console.log('Your Chance Of Success: ' + EasterEggChance);
     if (EasterEggChance == 69) {
+        const Egg = Math.floor((Math.random() * 4) + 1);
         console.log('Egg: ' + Egg);
         if (Egg == 1) {
             document.getElementById('first').innerHTML = 'Never';
