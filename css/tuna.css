@@ -1,6 +1,6 @@
 .tuna {
     animation: walk-cycle 1s steps(12) infinite;
-    background: url(http://stash.rachelnabors.com/img/codepen/tuna_sprite.png) 0 0 no-repeat; 
+    background: url(//randomsh.moe/images/tuna_sprite.png) 0 0 no-repeat; 
     height: 200px;
     width: 400px;
     position: absolute;
@@ -25,7 +25,7 @@
   
   .foreground {
     animation: parallax_fg linear 10s infinite both;
-    background:  url(http://stash.rachelnabors.com/24ways2012/foreground_grass.png) 0 100% repeat-x;
+    background:  url(//randomsh.moe/images/foreground_grass.png) 0 100% repeat-x;
     z-index: 3;
   }
   
@@ -36,7 +36,7 @@
   
   .midground {
     animation: parallax_mg linear 20s infinite;
-    background:  url(http://stash.rachelnabors.com/24ways2012/midground_grass.png) 0 100% repeat-x;
+    background:  url(//randomsh.moe/images/midground_grass.png) 0 100% repeat-x;
     z-index: 2;
   }
   
@@ -47,11 +47,11 @@
   
   .background {
     background-image:
-      url(http://stash.rachelnabors.com/24ways2012/background_mountain5.png),
-      url(http://stash.rachelnabors.com/24ways2012/background_mountain4.png),
-      url(http://stash.rachelnabors.com/24ways2012/background_mountain3.png),
-      url(http://stash.rachelnabors.com/24ways2012/background_mountain2.png),
-      url(http://stash.rachelnabors.com/24ways2012/background_mountain1.png);
+      url(//randomsh.moe/images/background_mountain5.png),
+      url(//randomsh.moe/images/background_mountain4.png),
+      url(//randomsh.moe/images/background_mountain3.png),
+      url(//randomsh.moe/images/background_mountain2.png),
+      url(//randomsh.moe/images/background_mountain1.png);
     background-repeat: repeat-x;
     background-position: 0 100%;
     z-index: 1;
