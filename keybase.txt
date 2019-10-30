@@ -1,1 +1,56 @@
-Keybase won't let me reset my account because I've lost access to it, so this is here for now.
+==================================================================
+https://keybase.io/kashall
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://randomsh.moe
+  * I am kashall (https://keybase.io/kashall) on keybase.
+  * I have a public key ASBRWV7kiCOrUC2f0nkGqnM9fkGOIsUcBrJXgxpqbaRlgwo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "012051595ee48823ab502d9fd27906aa733d7e418e22c51c06b257831a6a6da465830a",
+      "host": "keybase.io",
+      "kid": "012051595ee48823ab502d9fd27906aa733d7e418e22c51c06b257831a6a6da465830a",
+      "uid": "69e56c61453d897d6bd6adf227b52619",
+      "username": "kashall"
+    },
+    "merkle_root": {
+      "ctime": 1572477567,
+      "hash": "79252d8359446943f5b51338092c6018d4735c5789257c71cdd5fa9ac8066f50a88e7da9f1cecb719782c6e3c862e8d5cc9a9fc1e03abe028cafb1b2dfdee75c",
+      "hash_meta": "b65b69b4960eae9a38f4ccdeaabc03be5c1d548e4ed5ad4acae4041262f83115",
+      "seqno": 8541388
+    },
+    "service": {
+      "entropy": "nwBdeymprpzgS6UYX8Eb94hv",
+      "hostname": "randomsh.moe",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "4.7.2"
+  },
+  "ctime": 1572477575,
+  "expire_in": 504576000,
+  "prev": "4acff3bd1e26fa6458639a75c9f3c63b3c956db0fbdc71256b4fbf149cecaebc",
+  "seqno": 12,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgUVle5Igjq1Atn9J5BqpzPX5BjiLFHAayV4Maam2kZYMKp3BheWxvYWTESpcCDMQgSs/zvR4m+mRYY5p1yfPGOzyVbbD73HEla0+/FJzsrrzEIIv1qP96e9iL1QdqtQgaKgUVVZrAe4n7NKPU4Kn34zVcAgHCo3NpZ8RAFhtBuXjtodsIl7x95eFxQLvoeQ7s6wsDf2zuFG8nwYMPKQ60BersYIuUSyW+4zMLyjd9XhxxrZ2DzHV6lQD0DKhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIOd9etP7LXqg6uG6y77tnutO/N5d9tEvFFy5IF5hveupo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/kashall
+
+==================================================================
