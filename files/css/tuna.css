@@ -1,6 +1,6 @@
 .tuna {
     animation: walk-cycle 1s steps(12) infinite;
-    background: url(//jordanjones.org/images/tuna_sprite.png) 0 0 no-repeat; 
+    background: url(//jordanjones.org/files/images/tuna_sprite.png) 0 0 no-repeat; 
     height: 200px;
     width: 400px;
     position: absolute;
@@ -25,7 +25,7 @@
   
   .foreground {
     animation: parallax_fg linear 10s infinite both;
-    background:  url(//jordanjones.org/images/foreground_grass.png) 0 100% repeat-x;
+    background:  url(//jordanjones.org/files/images/foreground_grass.png) 0 100% repeat-x;
     z-index: 3;
   }
   
@@ -36,7 +36,7 @@
   
   .midground {
     animation: parallax_mg linear 20s infinite;
-    background:  url(//jordanjones.org/images/midground_grass.png) 0 100% repeat-x;
+    background:  url(//jordanjones.org/files/images/midground_grass.png) 0 100% repeat-x;
     z-index: 2;
   }
   
@@ -47,11 +47,11 @@
   
   .background {
     background-image:
-      url(//jordanjones.org/images/background_mountain5.png),
-      url(//jordanjones.org/images/background_mountain4.png),
-      url(//jordanjones.org/images/background_mountain3.png),
-      url(//jordanjones.org/images/background_mountain2.png),
-      url(//jordanjones.org/images/background_mountain1.png);
+      url(//jordanjones.org/files/images/background_mountain5.png),
+      url(//jordanjones.org/files/images/background_mountain4.png),
+      url(//jordanjones.org/files/images/background_mountain3.png),
+      url(//jordanjones.org/files/images/background_mountain2.png),
+      url(//jordanjones.org/files/images/background_mountain1.png);
     background-repeat: repeat-x;
     background-position: 0 100%;
     z-index: 1;
@@ -64,5 +64,5 @@
   
   body {
       background: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%),
-      #d2d2d2 url(//jordanjones.org/images/background_clouds.png);
+      #d2d2d2 url(//jordanjones.org/files/images/background_clouds.png);
   }
