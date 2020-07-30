@@ -4,7 +4,7 @@ https://keybase.io/kashall
 
 I hereby claim:
 
-  * I am an admin of https://randomsh.moe
+  * I am an admin of https://jordanjones.org
   * I am kashall (https://keybase.io/kashall) on keybase.
   * I have a public key ASBRWV7kiCOrUC2f0nkGqnM9fkGOIsUcBrJXgxpqbaRlgwo
 
@@ -27,7 +27,7 @@ To do so, I am signing this object:
     },
     "service": {
       "entropy": "nwBdeymprpzgS6UYX8Eb94hv",
-      "hostname": "randomsh.moe",
+      "hostname": "jordanjones.org",
       "protocol": "https:"
     },
     "type": "web_service_binding",

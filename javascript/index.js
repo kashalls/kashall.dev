@@ -68,22 +68,21 @@ function activateSecret() {
 }
 
 function onLoad() {
-    console.log('OwO What\'s This?');
     const EasterEggChance = Math.floor((Math.random() * 100) + 1);
-    console.log('Your Chance Of Success: ' + EasterEggChance);
+    console.log(EasterEggChance == 69 ? `${EasterEggChance} is kind of a lucky number around here.` : `${EasterEggChance} is pretty unlucky.`);
     if (EasterEggChance == 69) {
-        const Egg = Math.floor((Math.random() * 4) + 1);
+        const Egg = Math.floor((Math.random() * 3) + 1);
         console.log('Egg: ' + Egg);
         if (Egg == 1) {
-            document.getElementById('first').innerHTML = 'Never';
-            document.getElementById('second').innerHTML = 'Gonna';
-            document.getElementById('third').innerHTML = 'Give';
-            document.getElementById('fourth').innerHTML = '<br>You';
-            document.getElementById('fifth').innerHTML = 'Up';
+            videoId = 'Wl959QnD3lM';
+            if (!secretRan) activateSecret();
 
-            setTimeout(function(){
-                window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-            }, 30000);
+            document.getElementById('first').innerHTML = 'In the';
+            document.getElementById('second').innerHTML = 'future';
+            document.getElementById('third').innerHTML = 'Humor will';
+            document.getElementById('fourth').innerHTML = '<br>be randomly';
+            document.getElementById('fifth').innerHTML = 'generated.';
+
         } else if (Egg == 2) {
             videoId = 'H_QKDidtyow';
             if (!secretRan) activateSecret();
@@ -94,16 +93,7 @@ function onLoad() {
             document.getElementById('fourth').innerHTML = '<br>- Love';
             document.getElementById('fifth').innerHTML = 'Mom';
         } else if (Egg == 3) {
-            videoId = 'wSReSGe200A';
-            if (!secretRan) activateSecret();
-
-            document.getElementById('first').innerHTML = 'Rub';
-            document.getElementById('second').innerHTML = 'Some';
-            document.getElementById('third').innerHTML = 'Bacon';
-            document.getElementById('fourth').innerHTML = '<br>On';
-            document.getElementById('fifth').innerHTML = 'It';
-        } else if (Egg == 4) {
-            videoId = 'hbPqaPz2Nlc';
+            videoId = 'IndDk5xtye0';
             if (!secretRan) activateSecret();
 
             document.getElementById('first').innerHTML = 'Nice';

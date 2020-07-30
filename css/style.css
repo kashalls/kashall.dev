@@ -27,6 +27,10 @@ a {
     text-decoration: none;
 }
 
+a path {
+  fill: white;
+}
+
 .outer {
     display: table;
     position: absolute;

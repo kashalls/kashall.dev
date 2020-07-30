@@ -1,4 +1,4 @@
-# randomsh.moe
+# jordanjones.org
 
 A website built by me for me to do me things.
 
