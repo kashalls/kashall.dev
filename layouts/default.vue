@@ -5,9 +5,9 @@
       <div id="stars2" />
       <div id="stars3" />
     </div>
-    <div class="is-absolute has-z-index-1">
+    <div class="has-z-index-1">
       <NavigationBar />
-      <section class="main-content">
+      <section class="main-content is-absolute">
         <div class="container">
           <Nuxt />
         </div>
