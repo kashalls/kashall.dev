@@ -1,19 +1,20 @@
 <template>
-  <div>
-    <main>
-      <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <!-- Replace with your content -->
-        <div class="px-4 py-6 sm:px-0">
-          <div class="border-4 border-dashed border-gray-200 rounded-lg h-96" />
-        </div>
-        <!-- /End replace -->
+  <section class="section is-align-content-center is-align-items-center m-auto is-justify-content-center is-centered is-large">
+    <div class="columns is-mobile is-flex">
+      <div class="column is-vcentered">
+        <Kashall />
       </div>
-    </main>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script>
+import Kashall from '~/components/Kashall.vue'
+
 export default {
-  layout: "main",
-};
+  name: 'IndexPage',
+  components: {
+    Kashall
+  }
+}
 </script>
