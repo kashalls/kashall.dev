@@ -5,12 +5,14 @@
       <div id="stars2" />
       <div id="stars3" />
     </div>
-    <NavigationBar style="z-index: 1" />
-    <section class="main-content" style="z-index: 1">
-      <div class="container">
-        <Nuxt />
-      </div>
-    </section>
+    <div class="is-absolute has-z-index-1">
+      <NavigationBar />
+      <section class="main-content">
+        <div class="container">
+          <Nuxt />
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 

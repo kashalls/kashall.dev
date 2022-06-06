@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container is-unselectable">
     <h1 class="title mb-0 pb-0 has-text-white">
       jordan jones
     </h1>
@@ -55,13 +55,6 @@ export default {
 
 .subtitle span:nth-child(5) {
     color: #00aba5
-}
-
-.subtitle {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .subtitle span::after {

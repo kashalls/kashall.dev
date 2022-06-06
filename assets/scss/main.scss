@@ -10,3 +10,11 @@ $navbar-background-color: "transparent";
 @import "~bulma/sass/utilities/_all";
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
+
+.is-absolute {
+    position: absolute;
+}
+
+.has-z-index-1 {
+    z-index: 1;
+}
