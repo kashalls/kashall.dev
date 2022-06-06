@@ -7,7 +7,7 @@
     </div>
     <div class="has-z-index-1">
       <NavigationBar />
-      <section class="main-content is-absolute">
+      <section class="main-content">
         <div class="container">
           <Nuxt />
         </div>

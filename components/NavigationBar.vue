@@ -10,7 +10,7 @@
     </template>
 
     <template #end>
-      <b-navbar-dropdown label="Keys" hoverable>
+      <b-navbar-dropdown class="has-text-white" label="Keys" hoverable>
         <b-navbar-item href="https://github.com/kashalls.gpg">
           GPG
         </b-navbar-item>
@@ -23,7 +23,7 @@
       </b-navbar-dropdown>
       <b-navbar-item tag="div">
         <div class="buttons">
-          <a class="button" style="background-color: #7289da;" href="https://jordanjones.org/discord">
+          <a class="button has-text-white" style="background-color: #7289da;" href="https://jordanjones.org/discord">
             <i class="fab fa-discord" /> <span class="pl-1">Discord</span>
           </a>
         </div>
