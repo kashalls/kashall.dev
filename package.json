@@ -29,7 +29,7 @@
     "@fortawesome/free-brands-svg-icons": "6.1.1",
     "@fortawesome/free-regular-svg-icons": "6.1.1",
     "@fortawesome/free-solid-svg-icons": "6.1.1",
-    "@nuxtjs/eslint-config": "8.0.0",
+    "@nuxtjs/eslint-config": "10.0.0",
     "@nuxtjs/eslint-module": "3.1.0",
     "buefy": "0.9.21",
     "bulma": "0.9.4",
