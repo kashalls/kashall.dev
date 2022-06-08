@@ -15,6 +15,7 @@
         more</span>
     </h2>
     <LinkContainer />
+    <p>Need powerful hosting? At a fraction of the cost?<br>I recommend <a href="https://p.hyper.expert/aff.php?aff=99">Hyper Expert</a>!</p>
   </div>
 </template>
 
