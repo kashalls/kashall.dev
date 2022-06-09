@@ -78,5 +78,9 @@ export default {
 
   googleAnalytics: {
     id: 'G-WER4EZ1XXJ'
+  },
+
+  sitemap: {
+    hostname: 'https://jordanjones.org'
   }
 }
