@@ -15,7 +15,16 @@
         more</span>
     </h2>
     <LinkContainer />
-    <p>Need powerful hosting? At a fraction of the cost?<br>I recommend <a href="https://p.hyper.expert/aff.php?aff=99">Hyper Expert</a>!</p>
+    <p>
+      Need powerful hosting? At a fraction of the cost?<br>I recommend
+      <b-tooltip
+        label="This link is an affiliate link. Using this link will put a cookie in your browser saying I referred you."
+        position="is-bottom"
+        multilined
+      >
+        <a href="https://p.hyper.expert/aff.php?aff=99">Hyper Expert</a>
+      </b-tooltip>!
+    </p>
   </div>
 </template>
 
