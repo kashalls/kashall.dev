@@ -10,6 +10,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Thank\'s for stumbling on my home. Please enjoy your stay.' },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'have-i-been-pwned-verification', content: '99bd3678fcdfe09b12245416f5c4f67b' },
       { hid: 'og:title', name: 'og:title', content: 'Jordan Jones (Kashalls)' },
       { hid: 'og:description', name: 'og:description', content: '' },
       { hid: 'og:image', name: 'og:image', content: 'https://avatars0.githubusercontent.com/u/17620516?s=400&u=419440013cbf219ea6289bd51ed5ee50f00621c7&v=4' },
