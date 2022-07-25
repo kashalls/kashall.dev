@@ -16,7 +16,7 @@
     </h2>
     <LinkContainer />
     <p>
-      Need powerful hosting? At a fraction of the cost?<br>I recommend
+      Need powerful hosting at a fraction of the cost?<br>I recommend
       <b-tooltip
         label="This link is an affiliate link. Using this link will put a cookie in your browser saying I referred you."
         position="is-bottom"
