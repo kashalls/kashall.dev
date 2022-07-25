@@ -26,6 +26,9 @@
           <a class="button has-text-white" style="background-color: #7289da;" href="https://jordanjones.org/discord">
             <i class="fab fa-discord" /> <span class="pl-1">Discord</span>
           </a>
+          <a class="button has-text-white has-background-link" href="https://debugmc.info">
+            <i class="fas fa-cubes" /> <span class="pl-1">DebugMC</span>
+          </a>
         </div>
       </b-navbar-item>
     </template>
