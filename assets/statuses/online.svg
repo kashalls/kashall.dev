@@ -1,0 +1,5 @@
+<template>
+    <svg height="40" width="24" class="is-inline-block">
+        <rect width="24" height="24" x="0"  y="0" :fill="StatusMap[status]" :mask="`url(#svg-mask-status-${status})`" />
+    </svg>
+</template

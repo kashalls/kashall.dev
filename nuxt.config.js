@@ -10,7 +10,6 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Thank\'s for stumbling on my home. Please enjoy your stay.' },
       { name: 'format-detection', content: 'telephone=no' },
-      { name: 'have-i-been-pwned-verification', content: '99bd3678fcdfe09b12245416f5c4f67b' },
       { hid: 'og:title', name: 'og:title', content: 'Jordan Jones (Kashalls)' },
       { hid: 'og:description', name: 'og:description', content: '' },
       { hid: 'og:image', name: 'og:image', content: 'https://avatars0.githubusercontent.com/u/17620516?s=400&u=419440013cbf219ea6289bd51ed5ee50f00621c7&v=4' },
@@ -31,7 +30,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/fontawesome.js'
+    '~/plugins/fontawesome.js',
+    { src: '@/plugins/VueLanyard', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,8 +52,6 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    // https://go.nuxtjs.dev/content
-    '@nuxt/content',
     '@nuxtjs/sitemap'
   ],
 
@@ -66,7 +64,7 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      name: 'Jordan Jones',
+      name: 'Kashall',
       lang: 'en',
       icons: [{ src: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' }, { src: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' }]
     }
@@ -84,6 +82,6 @@ export default {
   },
 
   sitemap: {
-    hostname: 'https://jordanjones.org'
+    hostname: 'https://kashalls.dev'
   }
 }

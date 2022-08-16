@@ -9,7 +9,7 @@
       </b-navbar-item>
     </template>
 
-    <template #end>
+    <template #start>
       <b-navbar-dropdown class="has-text-white" label="Keys" hoverable>
         <b-navbar-item href="https://github.com/kashalls.gpg">
           GPG
@@ -21,16 +21,15 @@
           Keybase
         </b-navbar-item>
       </b-navbar-dropdown>
-      <b-navbar-item tag="div">
-        <div class="buttons">
-          <a class="button has-text-white" style="background-color: #7289da;" href="https://jordanjones.org/discord">
-            <i class="fab fa-discord" /> <span class="pl-1">Discord</span>
-          </a>
-          <a class="button has-text-white has-background-link" href="https://debugmc.info">
-            <i class="fas fa-cubes" /> <span class="pl-1">DebugMC</span>
-          </a>
-        </div>
+      <b-navbar-item href="https://jordanjones.org/discord">
+        <i class="fab fa-discord" /> <span class="pl-1">Discord</span>
       </b-navbar-item>
+      <b-navbar-item href="https://debugmc.info">
+        <i class="fas fa-cubes" /> <span class="pl-1">DebugMC</span>
+      </b-navbar-item>
+    </template>
+    <template #end>
+      <b-navbar-item><lanyard-spotify /></b-navbar-item>
     </template>
   </b-navbar>
 </template>
