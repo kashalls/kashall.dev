@@ -144,7 +144,4 @@ export default {
   transform: rotate(0deg);
   box-shadow: 0px 5px 10px 2px black;
 }
-.hero-thingy {
-  padding: 14rem 6rem;
-}
 </style>
