@@ -1,5 +1,11 @@
 {
   "extends": [
     "config:base"
+  ],
+  "packageRules": [
+    {
+      "extends": "monorepo:vue",
+      "groupName": "vue monorepo"
+    }
   ]
 }
