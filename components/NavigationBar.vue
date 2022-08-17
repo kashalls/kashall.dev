@@ -9,7 +9,7 @@
       </b-navbar-item>
     </template>
 
-    <template #start>
+    <template #end>
       <b-navbar-dropdown class="has-text-white" label="Keys" hoverable>
         <b-navbar-item href="https://github.com/kashalls.gpg">
           GPG
@@ -28,6 +28,5 @@
         <i class="fas fa-cubes" /> <span class="pl-1">DebugMC</span>
       </b-navbar-item>
     </template>
-    <template #end />
   </b-navbar>
 </template>
