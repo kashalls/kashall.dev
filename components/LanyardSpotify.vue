@@ -11,7 +11,7 @@
     <template v-else>
       <b-tooltip
         type="is-dark"
-        position="is-bottom"
+        position="is-top"
         animated
         multilined
       >

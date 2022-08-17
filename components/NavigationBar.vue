@@ -28,8 +28,6 @@
         <i class="fas fa-cubes" /> <span class="pl-1">DebugMC</span>
       </b-navbar-item>
     </template>
-    <template #end>
-      <b-navbar-item><lanyard-spotify /></b-navbar-item>
-    </template>
+    <template #end />
   </b-navbar>
 </template>

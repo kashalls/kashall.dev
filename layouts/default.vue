@@ -13,14 +13,16 @@
         </div>
       </section>
     </div>
+    <FooterBar />
   </div>
 </template>
 
 <script>
 import NavigationBar from '~/components/NavigationBar.vue'
+import FooterBar from '~/components/FooterBar.vue'
 export default {
   name: 'DefaultLayout',
-  components: { NavigationBar }
+  components: { NavigationBar, FooterBar }
 }
 </script>
 
