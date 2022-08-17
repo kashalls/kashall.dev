@@ -1,5 +1,5 @@
 <template>
-  <section class="section is-align-content-center is-align-items-center is-justify-content-center is-centered is-large">
+  <section class="section hero-thingy is-align-content-center is-align-items-center is-justify-content-center is-centered">
     <div class="columns is-mobile is-variable is-8 is-flex">
       <div class="column is-3 is-narrow">
         <b-image
@@ -143,5 +143,8 @@ export default {
   object-fit: cover;
   transform: rotate(0deg);
   box-shadow: 0px 5px 10px 2px black;
+}
+.hero-thingy {
+  padding: 14rem 6rem;
 }
 </style>
