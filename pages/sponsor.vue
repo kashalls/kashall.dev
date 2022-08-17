@@ -48,7 +48,7 @@ export default {
   async fetch () {
     this.sponsors = await this.$axios.$get('https://raw.githubusercontent.com/Kashalls/Kashalls/master/sponsors/sponsors.json')
   },
-  head() {
+  head () {
     return {
       title: 'Sponsor ♡',
       meta: this.$prepareMeta
