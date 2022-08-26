@@ -21,6 +21,11 @@
           Keybase
         </b-navbar-item>
       </b-navbar-dropdown>
+      <b-navbar-dropdown class="has-text-white" label="Affilates" hoverable>
+        <b-navbar-item href="https://p.hyper.expert/aff.php?aff=99">
+          Hyper Expert
+        </b-navbar-item>
+      </b-navbar-dropdown>
       <b-navbar-item href="https://jordanjones.org/discord">
         <i class="fab fa-discord" /> <span class="pl-1">Discord</span>
       </b-navbar-item>

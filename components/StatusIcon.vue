@@ -1,7 +1,7 @@
 <template>
   <span class="ml-4 is-flex">
     <template v-if="lanyard">
-      <b-tooltip position="is-right" type="is-dark">
+      <b-tooltip position="is-bottom" type="is-dark">
         <svg height="40" width="24" class="is-inline-block">
           <template v-if="!lanyard.active_on_discord_mobile">
             <rect

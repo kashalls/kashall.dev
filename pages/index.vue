@@ -1,6 +1,6 @@
 <template>
-  <section class="section hero-thingy is-align-content-center is-align-items-center is-justify-content-center is-centered">
-    <div class="columns is-mobile is-variable is-8 is-flex">
+  <section class="section is-align-content-center is-align-items-center is-justify-content-center is-centered">
+    <div class="columns is-mobile is-variable is-8 is-flex-touch is-flex-direction-column">
       <div class="column is-3 is-narrow">
         <b-image
           custom-class="avatar"

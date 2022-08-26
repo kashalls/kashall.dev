@@ -2,7 +2,7 @@
   <div>
     <template v-if="!lanyard || !lanyard.spotify">
       <p class="">
-        <span>Not listening to anything.</span>
+        <span class="is-unselectable">Not listening to anything.</span>
         <span>
           <i class="fab fa-spotify" />
         </span>
