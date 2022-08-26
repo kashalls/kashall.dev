@@ -5,7 +5,7 @@
         <b-image
           custom-class="avatar"
           alt="Jordan Jones"
-          :src="pfp"
+          :src="`https://api.lanyard.rest/` + userId + '.gif'"
           rounded
         />
       </div>
@@ -51,14 +51,8 @@ export default {
       lanyardSocket: null,
       userId: '201077739589992448',
       status: 'offline',
-      pfp: '',
       precisionAgeMs: 0,
       timer: null
-    }
-  },
-  computed: {
-    discordAvatar () {
-      return `https://cdn.discordapp.com/avatars/${this.userId}/`
     }
   },
   watch: {
@@ -68,22 +62,6 @@ export default {
           return
         }
         this.status = val
-      },
-      deep: true
-    },
-    'lanyard.discord_user.avatar': {
-      handler (val) {
-        if (!val) {
-          return
-        }
-        const avatar = `https://cdn.discordapp.com/avatars/${this.userId}/`
-        let image = val.substring(2)
-        if (val.startsWith('a_')) {
-          image = `${image}.gif`
-        } else {
-          image = `${image}.webp`
-        }
-        this.pfp = avatar + image + '?size=2048'
       },
       deep: true
     }
