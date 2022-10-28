@@ -1,5 +1,5 @@
 <template>
-  <b-navbar transparent>
+  <b-navbar transparent wrapper-class="container">
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <b-image
@@ -31,6 +31,9 @@
       </b-navbar-item>
       <b-navbar-item href="https://debugmc.info">
         <i class="fas fa-cubes" /> <span class="pl-1">DebugMC</span>
+        <b-tag rounded class="ml-1" type="is-info" size="is-small">
+          Beta
+        </b-tag>
       </b-navbar-item>
     </template>
   </b-navbar>
