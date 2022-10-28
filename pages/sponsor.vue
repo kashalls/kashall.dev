@@ -50,8 +50,7 @@ export default {
   },
   head () {
     return {
-      title: 'Sponsor ♡',
-      meta: this.$prepareMeta
+      title: 'Sponsor ♡'
     }
   }
 
