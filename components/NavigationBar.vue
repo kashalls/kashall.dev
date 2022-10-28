@@ -29,6 +29,9 @@
       <b-navbar-item href="https://jordanjones.org/discord">
         <i class="fab fa-discord" /> <span class="pl-1">Discord</span>
       </b-navbar-item>
+      <b-navbar-item tag="router-link" :to="{ path: '/eternity' }">
+        <span class="pl-1">Eternity Balance</span>
+      </b-navbar-item>
       <b-navbar-item href="https://debugmc.info">
         <i class="fas fa-cubes" /> <span class="pl-1">DebugMC</span>
         <b-tag rounded class="ml-1" type="is-info" size="is-small">

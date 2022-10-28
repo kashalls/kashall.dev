@@ -1,15 +1,23 @@
 <template>
-  <section class="section is-align-content-center">
+  <section class="section is-large is-align-content-center">
     <div class="columns is-centered">
       <div class="column has-text-centered is-half">
-        <h1 class="title is-1 has-text-white">
-          Kashall
-        </h1>
         <div class="block">
+          <h1 class="title is-1 has-text-white">
+            Kashall
+          </h1>
           <h2 class="title is-3 has-text-link">
             <span class="has-text-info">ᛃ {{ getBalance.toLocaleString('en-US') }}</span> / <span class="has-text-success">ᛃ {{ totalEther.toLocaleString('en-US') }}</span>
           </h2>
         </div>
+      </div>
+    </div>
+    <br>
+    <div class="columns is-centered">
+      <div class="column has-text-centered is-quarter">
+        <p>Percentage Owned: {{ getPercentage }}%</p>
+        <p><i>Last updated on {{ getDate }}</i></p>
+        <p><i>Statistics gathered from <a href="https://eternalrealms.net">play.eternal.gs</a></i></p>
       </div>
     </div>
   </section>
@@ -31,6 +39,13 @@ export default {
   computed: {
     getBalance () {
       return this.user?.balance || 0
+    },
+    getDate () {
+      const date = new Date(this.user?.date) || new Date()
+      return date.toLocaleString()
+    },
+    getPercentage () {
+      return ((this.getBalance / this.totalEther) * 100).toFixed(2)
     }
   },
   mounted () {
