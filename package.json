@@ -20,7 +20,7 @@
     "core-js": "3.25.0",
     "nuxt": "2.15.8",
     "nuxt-buefy": "0.4.23",
-    "vue": "2.7.13",
+    "vue": "3.2.41",
     "vue-server-renderer": "2.7.13",
     "vue-template-compiler": "2.7.13",
     "webpack": "5.74.0"
