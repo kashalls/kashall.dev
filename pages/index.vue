@@ -1,18 +1,10 @@
 <template>
   <section class="section is-align-content-center is-align-items-center is-justify-content-center is-centered">
-    <div class="columns is-mobile is-variable is-8 is-flex-touch is-flex-direction-column">
-      <div class="column is-3 is-narrow">
-        <b-image
-          custom-class="avatar"
-          alt="Jordan Jones"
-          :src="`https://api.lanyard.rest/` + userId + '.gif'"
-          rounded
-        />
-      </div>
+    <div class="columns is-mobile is-variable is-8 is-flex-touch is-flex-direction-row-tablet is-vcentered">
       <div class="column">
         <div class="is-flex is-flex-direction-row is-align-items-center">
           <h1 class="title is-1 has-text-white is-inline-block">
-            Jordan Jones
+            Kashall
           </h1>
           <StatusIcon :status="status" :lanyard="lanyard" />
         </div>
@@ -27,12 +19,17 @@
           I have experience with all kinds of different system administor tasks such as Enterprise Networking Management, Phone Systems, Active Directory.
         </p>
         <p class="has-text-white my-4">
-          I am currently looking for a position in the <span class="has-text-primary">IT Help Desk</span> field. If you're interesting in hiring me,
-          <nuxt-link to="/contact">
-            contact me
-          </nuxt-link>.
+          I am currently looking for a position in the <span class="has-text-primary">IT Help Desk</span> field. If you're interesting in hiring me, <a href="mailto:kashalls@pm.me">email me</a>.
         </p>
         <link-container />
+      </div>
+      <div class="column is-3 is-narrow">
+        <b-image
+          custom-class="avatar"
+          alt="Kashall"
+          :src="`https://api.lanyard.rest/` + userId + '.gif'"
+          rounded
+        />
       </div>
     </div>
     <status-mask />
