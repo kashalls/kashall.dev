@@ -12,7 +12,6 @@
         </div>
       </div>
     </div>
-    <br>
     <div class="columns is-centered">
       <div class="column has-text-centered is-quarter">
         <p>Percentage Owned: {{ getPercentage }}%</p>
