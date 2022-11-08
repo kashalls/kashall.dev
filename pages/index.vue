@@ -22,6 +22,7 @@
           I am currently looking for a position in the <span class="has-text-primary">IT Help Desk</span> field. If you're interesting in hiring me, <a href="mailto:pm@kashall.dev">email me</a>.
         </p>
         <link-container />
+        <presence v-if="!lanyard.loaded" :presence="lanyard" />
       </div>
       <div class="column is-3 is-narrow">
         <b-image
@@ -44,7 +45,7 @@ export default {
   components: { StatusIcon, LinkContainer },
   data () {
     return {
-      lanyard: { discord_status: 'offline' },
+      lanyard: { discord_status: 'offline', loaded: false },
       lanyardSocket: null,
       userId: '201077739589992448',
       status: 'offline',
