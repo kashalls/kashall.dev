@@ -1,39 +1,52 @@
 <template>
-  <div class="link-container unclickable" style="color: white;">
-    <a href="https://jordanjones.org/discord" target="_blank">
-      <div class="link-square unclickable" title="Discord Server">
-        <i class="fab fa-discord fa-2x" />
-      </div>
+  <div class="link-container unclickable">
+    <a href="mailto:pm@kashall.dev" target="_blank">
+      <b-tooltip
+        label="Email Me"
+        position="is-bottom"
+      >
+        <iconify-icon icon="eva:email-outline" width="36" />
+      </b-tooltip>
     </a>
-    <a href="https://steamcommunity.com/id/kashall" target="_blank">
-      <div class="link-square" title="Steam">
-        <i class="fab fa-steam fa-2x" />
-      </div>
+    <a href="https://kashall.dev/gh" target="_blank">
+      <b-tooltip
+        label="Github"
+        position="is-bottom"
+      >
+        <iconify-icon icon="eva:github-outline" width="36" />
+      </b-tooltip>
     </a>
-    <a href="https://github.com/Kashalls" target="_blank">
-      <div class="link-square" title="Github">
-        <i class="fab fa-github fa-2x" />
-      </div>
+    <a href="https://kashall.dev/twitter" target="_blank">
+      <b-tooltip
+        label="Twitter"
+        position="is-bottom"
+      >
+        <iconify-icon icon="eva:twitter-outline" width="36" />
+      </b-tooltip>
     </a>
-    <a href="https://twitter.com/Kashalls" target="_blank">
-      <div class="link-square" title="Twitter">
-        <i class="fab fa-twitter fa-2x" />
-      </div>
+    <a href="https://kashall.dev/steam" target="_blank">
+      <b-tooltip
+        label="Steam"
+        position="is-bottom"
+      >
+        <iconify-icon icon="tabler:brand-steam" width="36" />
+      </b-tooltip>
     </a>
-    <a href="https://instagram.com/kashalls" target="_blank">
-      <div class="link-square" title="Instagram">
-        <i class="fab fa-instagram fa-2x" />
-      </div>
+    <a href="https://kashall.dev/linkedin" target="_blank">
+      <b-tooltip
+        label="Linkedin"
+        position="is-bottom"
+      >
+        <iconify-icon icon="eva:linkedin-outline" width="36" />
+      </b-tooltip>
     </a>
-    <a href="https://reddit.com/u/kashall" target="_blank">
-      <div class="link-square" title="Reddit">
-        <i class="fab fa-reddit fa-2x" />
-      </div>
-    </a>
-    <a href="https://twitch.tv/kashalls" target="_blank">
-      <div class="link-square" title="Twitch">
-        <i class="fab fa-twitch fa-2x" />
-      </div>
+    <a href="https://kashall.dev/sponsor">
+      <b-tooltip
+        label="Sponsor Me"
+        position="is-bottom"
+      >
+        <iconify-icon icon="lucide:dollar-sign" width="36" />
+      </b-tooltip>
     </a>
   </div>
 </template>
@@ -44,7 +57,6 @@
   width: auto;
   display: inline-block;
   position: relative;
-  margin: 0;
   transition: filter 0.2s ease, transform 0.4s ease;
   width: auto;
   display: flex;
@@ -63,5 +75,9 @@
 
 .link-square:hover {
   filter: brightness(.6);
+}
+
+a + a {
+  margin-left: 10px;
 }
 </style>
