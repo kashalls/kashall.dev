@@ -43,6 +43,9 @@ export default {
       if (this.presence.type === 4) {
         return `https://cdn.discordapp.com/emojis/${this.presence.emoji.id}.${this.presence.emoji.animated ? 'gif' : 'webp'}?size=128&quality=lossless`
       } else {
+        if (!this.presence.assets) {
+          return `https://dcdn.dstn.to/app-icons/${this.presence.application_id}`
+        }
         if (this.presence?.assets?.large_image.startsWith('mp:external')) {
           return this.presence.assets.large_image.replace(/mp:external\/([^/]*)\/(http[s])/g, '$2:/')
         }

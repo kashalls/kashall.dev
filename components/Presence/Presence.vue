@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div v-if="presence.activities" class="presence">
+  <div v-if="presence.activities && presence.discord_status !== 'offline'" class="presence">
     <VSCode v-if="!!vscode" :activity="vscode" />
     <Spotify v-else-if="presence.listening_to_spotify" :track="presence.spotify" />
     <PresenceBase v-else-if="amIDoingAnything" :presence="anything" />
