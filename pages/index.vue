@@ -19,7 +19,7 @@
           I have experience with all kinds of different system administor tasks such as Enterprise Networking Management, Phone Systems, Active Directory.
         </p>
         <p class="has-text-white my-4">
-          I am currently looking for a position in the <span class="has-text-primary">IT Help Desk</span> field. If you're interesting in hiring me, <a href="mailto:kashalls@pm.me">email me</a>.
+          I am currently looking for a position in the <span class="has-text-primary">IT Help Desk</span> field. If you're interesting in hiring me, <a href="mailto:pm@kashall.dev">email me</a>.
         </p>
         <link-container />
       </div>
