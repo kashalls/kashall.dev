@@ -20,6 +20,9 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      { src: 'https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js', body: true }
     ]
   },
 
