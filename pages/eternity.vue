@@ -24,6 +24,8 @@
 
 <script>
 const uuid = '3491fc09-13ba-4624-b3cc-da8e87f0230f'
+const subscribe = JSON.stringify({ op: 2, d: { subscribe_to_uuids: [uuid] } })
+const heartbeatMessage = JSON.stringify({ op: 3 })
 
 export default {
   data () {
@@ -54,8 +56,7 @@ export default {
     }
     this.socket = new WebSocket('wss://api.kashall.dev/socket')
     this.socket.addEventListener('open', () => {
-      const message = JSON.stringify({ op: 2, d: { subscribe_to_uuids: [uuid] } })
-      this.socket.send(message)
+      this.socket.send(subscribe)
     })
     this.socket.addEventListener('message', ({ data }) => {
       data = JSON.parse(data)
@@ -64,9 +65,7 @@ export default {
           return
         }
         this.socketHeartbeat = setInterval(() => {
-          this.socket.send(JSON.stringify({
-            op: 3
-          }))
+          this.socket.send(heartbeatMessage)
         }, 30000)
       } else if (data.op === 0) {
         this.user = data.d[uuid]
