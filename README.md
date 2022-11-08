@@ -15,3 +15,8 @@ After almost continuous revisions, I've finally got my personal website to a sta
         <img src="https://cdn.jsdelivr.net/gh/kashalls/kashalls/sponsors/sponsors.svg" />
     </a>
 </p>
+
+### Powered By
+
+- [Lanyard](https://github.com/phineas/lanyard) -- Lanyard (for Discord Presence)
+- [kash-api](https://github.com/kashalls/kash-api) -- Rest / Socket API
