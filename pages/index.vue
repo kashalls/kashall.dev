@@ -28,7 +28,7 @@
         <b-image
           custom-class="avatar"
           alt="Kashall"
-          :src="`https://api.lanyard.rest/` + userId + '.gif'"
+          :src="`https://api.lanyard.rest/` + userId + '.' + getProfileType"
           rounded
         />
       </div>
@@ -51,6 +51,11 @@ export default {
       status: 'offline',
       precisionAgeMs: 0,
       timer: null
+    }
+  },
+  computed: {
+    getProfileType () {
+      return this.lanyard?.discord_user?.avatar.startsWith('a_') ? 'gif' : 'png'
     }
   },
   watch: {
