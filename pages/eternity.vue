@@ -54,12 +54,8 @@ export default {
     }
     this.socket = new WebSocket('wss://api.kashall.dev/socket')
     this.socket.addEventListener('open', () => {
-      this.socket.send(JSON.stringify({
-        op: 2,
-        d: {
-          subscribe_to_uuids: [uuid]
-        }
-      }))
+      const message = JSON.stringify({ op: 2, d: { subscribe_to_uuids: [uuid] } })
+      this.socket.send(message)
     })
     this.socket.addEventListener('message', ({ data }) => {
       data = JSON.parse(data)
