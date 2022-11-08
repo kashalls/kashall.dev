@@ -1,23 +1,23 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="container footer-bar is-flex is-flex-direction-row py-6 is-justify-content-space-between px-auto">
-    <div class="is-flex is-flex-direction-row left-container">
-      <span class="is-clickable" @click="moon"><i class="fa-solid fa-moon" /></span>
-      <span class="mx-4 is-unselectable">•</span>
-      <nuxt-link to="/" class="is-unselectable">
-        kashall.dev
-      </nuxt-link>
-      <span class="mx-4 is-unselectable">•</span>
-      <a class="is-unselectable" href="https://github.com/kashalls/website">
-        View Source
-      </a>
-      <span class="mx-4 is-unselectable">•</span>
-      <span class="copyright has-text-link is-unselectable">&#169; {{ new Date().getFullYear() }}</span>
+  <footer class="footer-bar">
+    <div class="container m-auto is-flex is-flex-direction-row py-6 is-align-content-center is-justify-content-space-between">
+      <div class="is-flex is-flex-direction-row left-container mx-6">
+        <span class="is-clickable" @click="moon"><i class="fa-solid fa-moon" /></span>
+        <span class="mx-4 is-unselectable">•</span>
+        <nuxt-link to="/" class="is-unselectable">
+          kashall.dev
+        </nuxt-link>
+      </div>
+      <div class="is-flex is-flex-direction-row right-container is-hidden-touch mx-6">
+        <a class="is-unselectable" href="https://github.com/kashalls/website">
+          View Source
+        </a>
+        <span class="mx-4 is-unselectable">•</span>
+        <span class="copyright has-text-link is-unselectable">{{ new Date().getFullYear() }}</span>
+      </div>
     </div>
-    <div class="is-flex is-flex-direction-row right-container is-hidden-touch">
-      <lanyard-spotify />
-    </div>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -64,11 +64,13 @@ export default {
   left: 0
 }
 .right-container {
-  right: 0
+  right: 0;
+  float: right;
 }
 .footer-bar {
+  position: absolute;
   z-index: 2;
-  min-width: fit-content;
-  max-height: max-content;
+  bottom: 0;
+  width: 100%;
 }
 </style>
