@@ -34,6 +34,9 @@
       </div>
     </div>
     <hr>
+    <h3 class="title is-3 has-text-centered mt-5">
+      Pinned Repositories
+    </h3>
     <div class="container columns is-flex-direction-row">
       <div class="column is-flex is-flex-direction-column">
         <open-source-projects v-for="project in pinned.slice(0, 3)" :key="project" :project="project" />
