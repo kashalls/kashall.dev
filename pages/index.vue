@@ -34,11 +34,20 @@
       </div>
     </div>
     <hr>
+    <div class="container columns is-flex-direction-row">
+      <div class="column is-flex is-flex-direction-column">
+        <open-source-projects v-for="project in pinned.slice(0, 3)" :key="project" :project="project" />
+      </div>
+      <div class="column is-flex is-flex-direction-column">
+        <open-source-projects v-for="project in pinned.slice(3, 6)" :key="project" :project="project" />
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
 import LinkContainer from '~/components/LinkContainer.vue'
+import OpenSourceProjects from '~/components/OpenSourceProjects.vue'
 import StatusIcon from '~/components/StatusIcon.vue'
 
 let timer = null
@@ -46,7 +55,11 @@ let lanyardSocket = null
 
 export default {
   name: 'IndexPage',
-  components: { StatusIcon, LinkContainer },
+  components: { StatusIcon, LinkContainer, OpenSourceProjects },
+  async asyncData ({ $axios }) {
+    const pinned = await $axios.$get('https://ghapi.dstn.to/kashalls/pinned')
+    return { pinned: pinned.data }
+  },
   data () {
     return {
       lanyard: { discord_status: 'offline', loaded: false },
@@ -114,5 +127,13 @@ export default {
   object-fit: cover;
   transform: rotate(0deg);
   box-shadow: 0px 5px 10px 2px black;
+}
+</style>
+
+<style scoped>
+.container.columns{
+  @media only screen and (max-width: 1080px) {
+    flex-direction: column;
+  }
 }
 </style>
