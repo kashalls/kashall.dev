@@ -9,7 +9,7 @@
           kashall.dev
         </nuxt-link>
       </div>
-      <div class="is-flex is-flex-direction-row right-container is-hidden-touch mx-6">
+      <div class="is-flex is-flex-direction-row right-container mx-6">
         <a class="is-unselectable" href="https://github.com/kashalls/website">
           View Source
         </a>
