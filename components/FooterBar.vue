@@ -3,7 +3,7 @@
   <footer class="footer-bar">
     <div class="container m-auto is-flex is-flex-direction-row py-6 is-align-content-center is-justify-content-space-between">
       <div class="is-flex is-flex-direction-row left-container mx-6">
-        <span class="is-clickable"><i class="fa-solid fa-moon" /></span>
+        <span class="is-clickable"><iconify-icon icon="fa6-regular:moon" /></span>
         <span class="mx-4 is-unselectable">•</span>
         <nuxt-link to="/" class="is-unselectable">
           kashall.dev

@@ -18,10 +18,10 @@
           </h2>
           <div class="is-flex is-flex-wrap-wrap pr-4" style="grid-column-gap: 1rem; column-gap: 1rem;">
             <b-button class="is-flex is-size-6" tag="a" type="is-dark" @click="location = 'https://github.com/sponsors/kashall?utm_source=kashall.dev'">
-              <i class="fa-brands fa-github fa-1x" /> <span> GitHub Sponsors </span>
+              <iconify-icon icon="eva:github-outline" width="36" /> <span> GitHub Sponsors </span>
             </b-button>
             <b-button class="is-flex is-size-6" type="is-danger" tag="a" @click="location = 'https://patreon.com/sponsors/kashall'">
-              <i class="fa-brands fa-patreon" /> <span> Become a Patreon </span>
+              <iconify-icon icon="logos:patreon" width="36" /> <span> Become a Patreon </span>
             </b-button>
           </div>
           <a
@@ -29,7 +29,7 @@
             class="is-flex is-justify-content-between is-align-contents-center"
           >
             <h2 class="subtitle is-3 has-text-white">Sponsors</h2>
-            <i class="fa-brands fa-github" />
+            <iconify-icon icon="eva:github-outline" width="36" />
           </a>
         </div>
       </div>
