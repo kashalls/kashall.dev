@@ -1,22 +1,31 @@
+const title = 'Chilling · Jordan Jones'
+const description = 'Hey there! I\'m Jordan. I am a self-taught web developer in the United States. I mostly tinker around with different technologies and get two things that never should have talked in the first place to have a nice conversation.'
+const image = 'https://avatars0.githubusercontent.com/u/17620516?s=400&u=419440013cbf219ea6289bd51ed5ee50f00621c7&v=4'
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Jordan Jones (Kashalls)',
+    title,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Thank\'s for stumbling on my home. Please enjoy your stay.' },
-      { name: 'format-detection', content: 'telephone=no' },
-      { hid: 'og:title', name: 'og:title', content: 'Jordan Jones (Kashalls)' },
-      { hid: 'og:description', name: 'og:description', content: '' },
-      { hid: 'og:image', name: 'og:image', content: 'https://avatars0.githubusercontent.com/u/17620516?s=400&u=419440013cbf219ea6289bd51ed5ee50f00621c7&v=4' },
-      { hid: 'og:url', name: 'og:url', content: 'https://jordanjones.org/' },
-      { hid: 'og:site_name', name: 'og:site_name', content: 'Jordan Jones (Kashalls)' },
-      { hid: 'twitter:image', name: 'twitter:image', content: 'https://avatars0.githubusercontent.com/u/17620516?s=400&u=419440013cbf219ea6289bd51ed5ee50f00621c7&v=4' },
-      { hid: 'twitter:site', name: 'twitter:site', content: '@kashalls' }
+      { hid: 'description', name: 'description', content: description },
+      // Facebook Meta Tags
+      { hid: 'og:url', property: 'og:url', content: 'https://kashall.dev' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:title', property: 'og:title', content: title },
+      { hid: 'og:description', property: 'og:description', content: description },
+      { hid: 'og:image', property: 'og:image', content: image },
+      // Twitter Meta Tags
+      { hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' },
+      { hid: 'twitter:domain', property: 'twitter:domain', content: 'kashall.dev' },
+      { hid: 'twitter:url', property: 'twitter:url', content: 'https://kashall.dev' },
+      { hid: 'twitter:title', name: 'twitter:title', content: title },
+      { hid: 'twitter:description', name: 'twitter:description', content: description },
+      { hid: 'twitter:image', name: 'twitter:image', content: image }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
