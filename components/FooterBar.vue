@@ -17,6 +17,7 @@
         <span class="copyright has-text-link is-unselectable">{{ new Date().getFullYear() }}</span>
       </div>
     </div>
+    <a rel="me" href="https://mastodon.social/@kashall" />
   </footer>
 </template>
 
