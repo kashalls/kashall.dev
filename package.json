@@ -1,40 +1,17 @@
 {
-  "name": "jordanjones.org",
-  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
-    "lint": "yarn lint:js",
-    "lintfix": "yarn lint:js --fix"
-  },
-  "dependencies": {
-    "@eggsydev/vue-lanyard": "1.1.3",
-    "@nuxtjs/axios": "5.13.6",
-    "@nuxtjs/pwa": "3.3.5",
-    "core-js": "3.30.1",
-    "nuxt": "2.17.1",
-    "nuxt-buefy": "0.4.25",
-    "vue": "2.7.14",
-    "vue-server-renderer": "2.7.14",
-    "vue-template-compiler": "2.7.14",
-    "webpack": "5.76.0"
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.21.3",
-    "@nuxtjs/eslint-config": "12.0.0",
-    "@nuxtjs/eslint-module": "4.1.0",
-    "@nuxtjs/google-analytics": "2.4.0",
-    "@nuxtjs/sitemap": "2.4.0",
-    "buefy": "0.9.23",
-    "bulma": "0.9.4",
-    "eslint": "8.38.0",
-    "eslint-plugin-nuxt": "4.0.0",
-    "eslint-plugin-vue": "9.9.0",
-    "sass": "1.58.3",
-    "sass-loader": "10.4.1"
+    "@nuxtjs/tailwindcss": "^6.2.0",
+    "nuxt": "3.0.0"
+  },
+  "dependencies": {
+    "@leonardssh/use-lanyard": "^1.0.4"
   }
 }

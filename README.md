@@ -1,22 +1,42 @@
-## Kashall's website
+# Nuxt 3 Minimal Starter
 
-<p align="center">
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-</p>
+## Setup
 
-> Built with Nuxt 2, this is a fully static website hosted with Cloudflare Pages.
+Make sure to install the dependencies:
 
-After almost continuous revisions, I've finally got my personal website to a state where I am proud of it. It's been a long journey since I first got invested in Vue and honestly I am not ready to migrate to Vue 3. As it is still pretty new, and the fact that renovate says its only a 30% migration rate, I don't feel comfort moving until Nuxt 3 comes out of RC.
+```bash
+# yarn
+yarn install
 
-### 💖 Sponsors
+# npm
+npm install
 
-<p align="center">
-    <a href="https://github.com/sponsors/kashalls">
-        <img src="https://cdn.jsdelivr.net/gh/kashalls/kashalls/sponsors/sponsors.svg" />
-    </a>
-</p>
+# pnpm
+pnpm install --shamefully-hoist
+```
 
-### Powered By
+## Development Server
 
-- [Lanyard](https://github.com/phineas/lanyard) -- Lanyard (for Discord Presence)
-- [kash-api](https://github.com/kashalls/kash-api) -- Rest / Socket API
+Start the development server on http://localhost:3000
+
+```bash
+npm run dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+npm run build
+```
+
+Locally preview production build:
+
+```bash
+npm run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
