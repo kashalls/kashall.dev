@@ -4,16 +4,16 @@
     <div class="spotify-container">
       <div class="spotify-info">
         <div class="song-info pl-3">
-          <h5 class="title is-6 spotify-text is-spaced has-text-white">
+          <h5 class="title is-6 spotify-text is-spaced text-white">
             {{ track.song && track.song.length > 29 ? `${track.song.substring(0, 30)}...` : track.song }}
           </h5>
 
-          <h6 class="subtitle is-6 spotify-text has-text-white">
+          <h6 class="subtitle is-6 spotify-text text-white">
             {{ track.artist }}
           </h6>
         </div>
         <div class="song-link pr-3">
-          <a class="has-text-white" :href="`https://open.spotify.com/track/` + track.track_id">Listen On Spotify<iconify-icon icon="la:spotify" inline="true" /></a>
+          <a class="has-text-white" :href="`https://open.spotify.com/track/` + track.track_id">Listen On Spotify<Icon name="la:spotify" inline="true" /></a>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@
         label="Email Me"
         position="is-bottom"
       >
-        <iconify-icon icon="eva:email-outline" width="36" />
+        <Icon name="eva:email-outline" width="36" />
       </b-tooltip>
     </a>
     <a href="https://kashall.dev/gh" target="_blank">
@@ -13,7 +13,7 @@
         label="Github"
         position="is-bottom"
       >
-        <iconify-icon icon="eva:github-outline" width="36" />
+        <Icon name="eva:github-outline" width="36" />
       </b-tooltip>
     </a>
     <a href="https://kashall.dev/twitter" target="_blank">
@@ -21,7 +21,7 @@
         label="Twitter"
         position="is-bottom"
       >
-        <iconify-icon icon="eva:twitter-outline" width="36" />
+        <Icon name="eva:twitter-outline" width="36" />
       </b-tooltip>
     </a>
     <a href="https://kashall.dev/steam" target="_blank">
@@ -29,7 +29,7 @@
         label="Steam"
         position="is-bottom"
       >
-        <iconify-icon icon="tabler:brand-steam" width="36" />
+        <Icon name="tabler:brand-steam" width="36" />
       </b-tooltip>
     </a>
     <a href="https://kashall.dev/linkedin" target="_blank">
@@ -37,7 +37,7 @@
         label="Linkedin"
         position="is-bottom"
       >
-        <iconify-icon icon="eva:linkedin-outline" width="36" />
+        <Icon name="eva:linkedin-outline" width="36" />
       </b-tooltip>
     </a>
     <a href="https://kashall.dev/sponsor">
@@ -45,7 +45,7 @@
         label="Sponsor Me"
         position="is-bottom"
       >
-        <iconify-icon icon="lucide:dollar-sign" width="36" />
+        <Icon name="lucide:dollar-sign" width="36" />
       </b-tooltip>
     </a>
   </div>
