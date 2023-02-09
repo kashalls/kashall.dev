@@ -56,11 +56,9 @@
                 <p />
               </div>
               <div class="font-mono text-sm">
-                <ClientOnly>
-                  <VueCommand :commands="commands" title="Kashall's Terminal" hide-bar="true" :help-text="helpText"
-                    :help-timeout="helpTimeout" :show-help="showHelp" />
-                  <Turnstile ref="turnstile" v-model="TurnstileToken" />
-                </ClientOnly>
+                <VueCommand :commands="commands" title="Kashall's Terminal" hide-bar="true" :help-text="helpText"
+                  :help-timeout="helpTimeout" :show-help="showHelp" />
+                <Turnstile ref="turnstile" v-model="TurnstileToken" />
               </div>
             </div>
           </div>
@@ -83,22 +81,22 @@
 </template>
 
 <script setup>
-import VueCommand, { createStdout, listFormatter } from "vue-command";
+import VueCommand from "vue-command";
 import { useLanyard } from "@leonardssh/use-lanyard";
 import "vue-command/dist/vue-command.css";
 const { public: { PINNED_REPOSITORIES_URL, DISCORD_USER_ID, PRINT_SERVER } } = useRuntimeConfig()
 const { data: pinned } = await useFetch(PINNED_REPOSITORIES_URL)
-
+const { createStdout, listFormatter } = VueCommand;
 const lanyard = ref()
-if (process.client) {
-  useLanyard({
-    userId: DISCORD_USER_ID,
-    socket: true,
-    onPresenceUpdate(presence) {
-      lanyard.value = presence
-    }
-  })
-}
+
+useLanyard({
+  userId: DISCORD_USER_ID,
+  socket: true,
+  onPresenceUpdate(presence) {
+    lanyard.value = presence
+  }
+})
+
 const prompt = 'kashall@senko ~ $'
 const showHelp = true
 const helpText = 'Type "help" for help'
