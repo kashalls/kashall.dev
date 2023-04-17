@@ -2944,17 +2944,10 @@ browserslist@^4.16.6, browserslist@^4.21.5:
     node-releases "^2.0.8"
     update-browserslist-db "^1.0.10"
 
-buefy@0.9.23:
+buefy@0.9.23, buefy@^0.9.23:
   version "0.9.23"
   resolved "https://registry.yarnpkg.com/buefy/-/buefy-0.9.23.tgz#47819ed44781adcfb805e370f84988f37291d5fe"
   integrity sha512-zkmTOUDlh7xx0ID8cSw3Wtm97nkTGU992TcIBBTC41rjKHjJTyQn9fYr8oqvVaCTLNVJmdPnnjDCuYZtHoDEog==
-  dependencies:
-    bulma "0.9.4"
-
-buefy@^0.9.22:
-  version "0.9.22"
-  resolved "https://registry.npmjs.org/buefy/-/buefy-0.9.22.tgz"
-  integrity sha512-rA9Bf7+2lZupL1PlQU60o7cc0Og4MRz9it5LZlKOIwPENM1uEOjH48EFnNFniLyxIcz6vln0EicS96GsVCFx1Q==
   dependencies:
     bulma "0.9.4"
 
@@ -6546,12 +6539,12 @@ nth-check@^2.0.1:
   dependencies:
     boolbase "^1.0.0"
 
-nuxt-buefy@0.4.24:
-  version "0.4.24"
-  resolved "https://registry.npmjs.org/nuxt-buefy/-/nuxt-buefy-0.4.24.tgz"
-  integrity sha512-H+lwMEHj3Qbhz16PycAVAYXCbm0tRnP139g6A9uzcEYA1/KVui0CZrzJp3nX+6woJ1AAe8WoLjsb8FXJ2wEsmA==
+nuxt-buefy@0.4.25:
+  version "0.4.25"
+  resolved "https://registry.yarnpkg.com/nuxt-buefy/-/nuxt-buefy-0.4.25.tgz#568cbfe54769a3ef9699d20182a2b43d1393dead"
+  integrity sha512-ITOgw7ktveRXhTNB9xzIgyUHWz3g3D6iLJ8Uhst5QgXb/Pcd/GbLwAjS4uVwZSm3y8gkAu+4jG0aAbAsE/PIQg==
   dependencies:
-    buefy "^0.9.22"
+    buefy "^0.9.23"
 
 nuxt@2.16.3:
   version "2.16.3"
