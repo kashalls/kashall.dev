@@ -29,7 +29,7 @@
     "@nuxtjs/eslint-module": "3.1.0",
     "@nuxtjs/google-analytics": "2.4.0",
     "@nuxtjs/sitemap": "2.4.0",
-    "buefy": "0.9.22",
+    "buefy": "0.9.23",
     "bulma": "0.9.4",
     "eslint": "8.34.0",
     "eslint-plugin-nuxt": "4.0.0",
