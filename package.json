@@ -33,7 +33,7 @@
     "bulma": "0.9.4",
     "eslint": "8.38.0",
     "eslint-plugin-nuxt": "4.0.0",
-    "eslint-plugin-vue": "9.9.0",
+    "eslint-plugin-vue": "9.17.0",
     "sass": "1.58.3",
     "sass-loader": "10.4.1"
   }
