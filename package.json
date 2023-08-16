@@ -35,6 +35,6 @@
     "eslint-plugin-nuxt": "4.0.0",
     "eslint-plugin-vue": "9.9.0",
     "sass": "1.58.3",
-    "sass-loader": "10.4.1"
+    "sass-loader": "13.3.2"
   }
 }
