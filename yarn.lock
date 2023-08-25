@@ -1080,7 +1080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.6.5, @nuxt/kit@npm:^3.1.1, @nuxt/kit@npm:^3.2.0, @nuxt/kit@npm:^3.5.3, @nuxt/kit@npm:^3.6.1, @nuxt/kit@npm:^3.6.5":
+"@nuxt/kit@npm:3.6.5, @nuxt/kit@npm:^3.1.1, @nuxt/kit@npm:^3.2.0, @nuxt/kit@npm:^3.5.3, @nuxt/kit@npm:^3.6.5":
   version: 3.6.5
   resolution: "@nuxt/kit@npm:3.6.5"
   dependencies:
@@ -5649,13 +5649,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-icon@npm:0.4.2":
-  version: 0.4.2
-  resolution: "nuxt-icon@npm:0.4.2"
+"nuxt-icon@npm:0.5.0":
+  version: 0.5.0
+  resolution: "nuxt-icon@npm:0.5.0"
   dependencies:
     "@iconify/vue": ^4.1.1
-    "@nuxt/kit": ^3.6.1
-  checksum: 7de3cca60e181889539f6a90801c9e7d558bd8e445d693b1157a920434c01c99fd48b272c63ec8fd78b3d94b5e01c9425acfd44fdcc13c10e85401c4b8cee6f9
+    "@nuxt/kit": ^3.6.5
+  checksum: 6eb3adee43c9aee5bc1b3023c013271ba11ae13aa6d3fd828365a0437e654508ea9fcf47ef7d8607e16e0550bec7711b06a4d38f4d4d289daaa2cd8f94bf5bec
   languageName: node
   linkType: hard
 
@@ -6848,7 +6848,7 @@ __metadata:
     "@nuxtjs/turnstile": ^0.1.3
     "@vueuse/nuxt": ^9.12.0
     nuxt: ^3.6.5
-    nuxt-icon: 0.4.2
+    nuxt-icon: 0.5.0
     sass: ^1.58.0
     tailwindcss: ^3.2.6
   languageName: unknown
