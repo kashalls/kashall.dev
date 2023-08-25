@@ -7987,9 +7987,9 @@ __metadata:
   linkType: hard
 
 "vscode-languageserver-textdocument@npm:^1.0.1":
-  version: 1.0.8
-  resolution: "vscode-languageserver-textdocument@npm:1.0.8"
-  checksum: d6b685456ceca2736793d7fc1924d78a8483997c96c6ec4900d90e64115730da6c0c03e3fbc2c5d031a4592f2acd9cca2ca58a651b696c4f40b8690a48538c06
+  version: 1.0.10
+  resolution: "vscode-languageserver-textdocument@npm:1.0.10"
+  checksum: 605ff0662535088567a145b48d28f0c41844d28269fa0b3fca3a1e179dd14baf7181150b274bf3840ef2a043ed8474a9227aaf169a6fae574516349a1b371a18
   languageName: node
   linkType: hard
 
@@ -8027,7 +8027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-demi@latest, vue-demi@npm:*":
+"vue-demi@npm:*, vue-demi@npm:latest":
   version: 0.14.5
   resolution: "vue-demi@npm:0.14.5"
   peerDependencies:
