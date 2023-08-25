@@ -87,7 +87,6 @@ export default {
     box-shadow: 2px 2px 20px 0px #00000086;
     align-items: center;
     display: flex;
-    margin-top: 25px;
     flex-direction: column;
     text-align: left;
 }

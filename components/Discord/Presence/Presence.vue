@@ -1,8 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div v-if="presence.activities && presence.discord_status !== 'offline'" class="presence">
+  <div
+    v-if="presence.activities && presence.discord_status !== 'offline'"
+    class="flex flex-row w-full justify-around gap-5">
     <Spotify v-if="presence.listening_to_spotify" :track="presence.spotify" />
-    <VSCode v-else-if="!!vscode" :activity="vscode" />
+    <VSCode v-if="!!vscode" :activity="vscode" />
     <PresenceBase v-else-if="amIDoingAnything" :presence="anything" />
   </div>
 </template>
@@ -54,38 +56,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.presence-presence {
-    border-radius: 10px;
-    width: 100%;
-    height: 85px;
-    background-color: #34344F;
-    box-shadow: 2px 2px 20px 0px #00000086;
-    align-items: center;
-    display: flex;
-    margin-top: 25px;
-    flex-direction: column;
-    text-align: left;
-}
-
-.presence-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-.presence-info {
-    display: flex;
-    flex-direction: column;
-    max-height: 80px;
-}
-
-.presence-text {
-    color: var(--text,#000000);
-    margin-left: 10px;
-    margin-top: 1px;
-    margin-bottom: 3px;
-    padding-right: 20px;
-}
-</style>
