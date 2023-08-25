@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="w-full min-h-screen flex items-center flex-col overflow-x-hidden bg-gradient-to-tr from-[#141119] to-[#0e0c12]">
     <NavigationBar />
-    <section class="main-content">
-      <div class="container">
-        <Nuxt />
-      </div>
-    </section>
+    <div class="flex flex-col items-center justify-center w-full box-border">
+      <main class="w-full box-border pb-10 mt-[65px]">
+        <slot />
+      </main>
+    </div>
     <FooterBar />
   </div>
 </template>

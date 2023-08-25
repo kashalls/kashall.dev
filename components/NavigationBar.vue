@@ -1,39 +1,42 @@
 <template>
-  <b-navbar transparent wrapper-class="container">
-    <template #brand>
-      <b-navbar-item tag="router-link" :to="{ path: '/' }">
-        <b-image :src="require('@/assets/img/jordanjones-colored.svg')" alt="Logo" />
-      </b-navbar-item>
-    </template>
+  <div class="fixed z-50 top-0 w-full" :class="y > 40 ? 'shadow-md' : ''">
+    <div class="-bottom-5 w-full h-6 absolute backdrop-blur-lg mask-opacity-fade opacity-90"></div>
+    <div class="flex items-center flex-col transition-all transform-gpu border-b-[1.5px] backdrop-blur-2xl border-b-[#2a4cbe] bg-[#0d0b11] bg-opacity-50">
+      <div class="w-full flex flex-row max-w-[98rem] py-4 mx-auto px-6 lg:px-16 xl:px-20 container">
+        <NuxtLink to="/">
+          <span
+            class="align-bottom inline self-center text-xl font-extrabold whitespace-nowrap dark:text-white w-12 cursor-pointer hover:opacity-80">
+            kashall
+            <StatusIcon :status="lanyard?.discord_status" :lanyard="lanyard" />
+          </span>
 
-    <template #end>
-      <b-navbar-dropdown class="has-text-white" label="Keys" hoverable>
-        <b-navbar-item href="https://github.com/kashalls.gpg">
-          <span><iconify-icon icon="icon-park-solid:certificate" /> GPG</span>
-        </b-navbar-item>
-        <b-navbar-item href="https://github.com/kashalls.keys">
-          <span><iconify-icon icon="mdi:ssh" /> SSH</span>
-        </b-navbar-item>
-        <b-navbar-item href="https://jordanjones.org/keybase.txt">
-          <span><iconify-icon icon="fa6-brands:keybase" /> Keybase</span>
-        </b-navbar-item>
-      </b-navbar-dropdown>
-      <b-navbar-dropdown class="has-text-white" label="Affilates" hoverable>
-        <b-navbar-item href="https://p.hyper.expert/aff.php?aff=99">
-          <span><iconify-icon icon="ant-design:cloud-filled" />  Hyper Expert</span>
-        </b-navbar-item>
-      </b-navbar-dropdown>
-      <b-navbar-dropdown class="has-text-white" label="Projects" hoverable>
-        <b-navbar-item tag="router-link" :to="{ path: '/eternity' }">
-          <span><iconify-icon icon="fa-solid:money-check-alt" /> Eternity</span>
-        </b-navbar-item>
-        <b-navbar-item href="https://debugmc.info">
-          <span><iconify-icon icon="mdi:minecraft" /> DebugMC</span>
-          <b-tag rounded class="ml-1" type="is-info" size="is-small">
-            Beta
-          </b-tag>
-        </b-navbar-item>
-      </b-navbar-dropdown>
-    </template>
-  </b-navbar>
+        </NuxtLink>
+        <div class="h-auto flex items-center justify-center space-x-5 ml-auto">
+          <NuxtLink to="/">
+            <div class="h-auto flex space-x-2 text-sm sm:text-md leading-1 group"><span
+                class="text-zinc-300 group-hover:text-white leading-6">Home</span></div>
+          </NuxtLink>
+          <NuxtLink to="https://github.com/kashalls/home-cluster">
+            <div class="h-auto flex space-x-2 text-sm sm:text-md leading-1 group">
+              <span class="text-zinc-300 group-hover:text-white leading-6">
+                Homelab 
+                <Icon name="pixelarticons:external-link" />
+              </span>
+            </div>
+          </NuxtLink>
+          <NuxtLink to="https://github.com/kashalls">
+            <div class="h-auto flex space-x-2 text-sm sm:text-md leading-1 group"><span
+                class="text-zinc-300 group-hover:text-white leading-6">
+                Github
+                <Icon name="pixelarticons:external-link" />
+              </span></div>
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
+<script setup>
+const lanyard = leonLanyard()
+</script>
