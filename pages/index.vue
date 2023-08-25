@@ -40,6 +40,16 @@ import { useLanyard } from "@leonardssh/use-lanyard";
 const { public: { DISCORD_USER_ID } } = useRuntimeConfig()
 const lanyard = ref()
 
+useHead({
+  title:  'Kash\'s Place',
+  link: [
+    {
+      rel: 'icon',
+      type: ''
+    }
+  ]
+})
+
 useLanyard({
   userId: DISCORD_USER_ID,
   socket: true,
