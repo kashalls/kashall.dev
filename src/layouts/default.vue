@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="h-full flex flex-col sm:pb-0 pb-24 p-4 sm:p-12 container mx-auto">
-      <NavigationBar />
       <slot />
     </div>
   </div>

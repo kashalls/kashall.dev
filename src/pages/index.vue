@@ -1,6 +1,6 @@
 <template>
   <Profile />
-  <h1 class="flex justify-center dark:text-white text-4xl mt-4">Socials</h1>
+  <!-- <h1 class="flex justify-center dark:text-white text-4xl mt-4">Socials</h1> -->
   <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 py-6 gap-4 sm:gap-8 xl:gap-12 justify-center">
     <SocialCard v-for="social in socials" :key="social.name" :social="social" />
   </div>
