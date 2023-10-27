@@ -9,7 +9,7 @@ export default defineNuxtConfig({
         head: {
             title: 'Jordan Jones',
             link: [
-                { rel: 'icon', type: 'image/png', href: '/favicon.ico' },
+                { rel: 'icon', type: 'image/png', href: '/logo.png' },
                 { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter&display=swap' }
             ],
             meta: [
