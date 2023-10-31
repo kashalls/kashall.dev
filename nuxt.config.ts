@@ -12,6 +12,9 @@ export default defineNuxtConfig({
                 { rel: 'icon', type: 'image/png', href: '/logo.png' },
                 { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter&display=swap' }
             ],
+            script: [
+                { src: 'https://analytics.ok8.sh/js/script.js', defer: true }
+            ],
             meta: [
                 {
                     hid: "description",
