@@ -9,7 +9,7 @@
 <script setup>
 useHead({
   bodyAttrs: {
-    class: 'bg-gradient-to-tr from-[#141119] to-[#0e0c12] min-h-screen select-none'
+    class: 'bg-gradient-to-tr from-[#0e0c12] to-[#0e0f0f] min-h-screen select-none'
   }
 })
 </script>

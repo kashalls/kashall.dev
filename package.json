@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --ws",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -11,17 +11,30 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@nuxtjs/turnstile": "^0.6.3",
-    "nuxt": "^3.7.3",
+    "@types/pg": "^8.11.0",
+    "@types/ws": "^8.5.10",
+    "drizzle-kit": "^0.20.14",
+    "nuxt": "^3.10.2",
     "nuxt-icon": "0.5.0",
     "tailwindcss": "^3.2.6"
   },
   "dependencies": {
     "@leonardssh/use-lanyard": "^1.0.4",
+    "@nuxt/content": "^2.12.0",
     "@nuxt/image": "rc",
+    "@pinia/nuxt": "^0.5.1",
     "@vueuse/motion": "^2.0.0",
     "@vueuse/nuxt": "^9.12.0",
+    "crossws": "^0.1.1",
+    "drizzle-orm": "^0.29.3",
+    "nuxt3-socket.io": "^0.3.0",
+    "pg": "^8.11.3",
+    "pinia": "^2.1.7",
     "postcss-custom-properties": "^13.3.2",
-    "sass": "^1.58.0"
+    "sass": "^1.58.0",
+    "socket.io-client": "^4.7.4",
+    "ws": "^8.16.0",
+    "zod": "^3.22.4"
   },
-  "packageManager": "yarn@3.6.3"
+  "packageManager": "yarn@4.0.2"
 }

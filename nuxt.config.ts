@@ -1,82 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const image = "https://jordanjones.org/logo.png"
-const description =
-    "Versatile IT Professional Excelling in System Deployments, Network Operations, and Device Provisioning."
+import app from './src/config/app'
 
 export default defineNuxtConfig({
     srcDir: 'src/',
-    app: {
-        head: {
-            title: 'Jordan Jones',
-            link: [
-                { rel: 'icon', type: 'image/png', href: '/logo.png' },
-                { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter&display=swap' }
-            ],
-            script: [
-                { src: 'https://analytics.ok8.sh/js/script.js', defer: true }
-            ],
-            meta: [
-                {
-                    hid: "description",
-                    name: "description",
-                    content: description,
-                },
-                /* Twitter */
-                {
-                    hid: "twitter:card",
-                    name: "twitter:card",
-                    content: "summary",
-                },
-                {
-                    hid: "twitter:site",
-                    name: "twitter:site",
-                    content: "@jordpjones",
-                },
-                {
-                    hid: "twitter:creator",
-                    name: "twitter:creator",
-                    content: "@jordpjones",
-                },
-                {
-                    hid: "twitter:title",
-                    name: "twitter:title",
-                    content: "Jordan Jones",
-                },
-                {
-                    hid: "twitter:description",
-                    name: "twitter:description",
-                    content: description,
-                },
-                {
-                    hid: "twitter:image",
-                    name: "twitter:image",
-                    content: image,
-                },
-                /* Open-Graph */
-                {
-                    hid: "og:type",
-                    name: "og:type",
-                    content: "website",
-                },
-                {
-                    hid: "og:site_name",
-                    name: "og:site_name",
-                    content: "jordanjones.org",
-                },
-                {
-                    hid: "og:description",
-                    name: "og:description",
-                    content: description,
-                },
-                {
-                    hid: "og:image",
-                    name: "og:image",
-                    content: image,
-                }
-            ]
-        }
-    },
+    app,
     runtimeConfig: {
+        place: {
+            height: 128,
+            width: 128
+        },
         turnstile: {
             addValidateEndpoint: true
         },
@@ -86,10 +18,16 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-        '@nuxt/image',
+        '@pinia/nuxt',
         '@nuxtjs/tailwindcss',
-        '@nuxtjs/turnstile',
+        '@nuxt/image',
         'nuxt-icon',
-        '@vueuse/motion/nuxt'
+        '@nuxtjs/turnstile',
+        '@vueuse/motion/nuxt',
+        '@nuxt/content',
+        'nuxt3-socket.io'
     ],
+    socket: {
+        addPlugin: false
+    }
 })
