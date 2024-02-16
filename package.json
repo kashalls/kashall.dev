@@ -24,7 +24,7 @@
     "@nuxt/image": "rc",
     "@pinia/nuxt": "^0.5.1",
     "@vueuse/motion": "^2.0.0",
-    "@vueuse/nuxt": "^9.12.0",
+    "@vueuse/nuxt": "^10.0.0",
     "crossws": "^0.1.1",
     "drizzle-orm": "^0.29.3",
     "nuxt3-socket.io": "^0.3.0",
