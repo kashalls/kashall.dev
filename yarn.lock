@@ -2601,8 +2601,8 @@ __metadata:
   linkType: hard
 
 "@vueuse/motion@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@vueuse/motion@npm:2.0.0"
+  version: 2.1.0
+  resolution: "@vueuse/motion@npm:2.1.0"
   dependencies:
     "@nuxt/kit": "npm:^3.5.1"
     "@vueuse/core": "npm:^10.1.2"
@@ -2616,7 +2616,7 @@ __metadata:
   dependenciesMeta:
     "@nuxt/kit":
       optional: true
-  checksum: 10/e84ef05518bff20539e0f66ae470062558a7c5b3b2d8733a01efcae709d26eab42a5d8b5268684d1acafe720dca52fee8c35760b7156060929f0ba8cee3dc784
+  checksum: 10/bb0a6e1a2ee79e6a8c1c46321dd99a87c00073914547e6c61746c138d2dee0d605ed138d1665ce4f75444f029fe9e3993144a37843479709b15a73cbc4d80a78
   languageName: node
   linkType: hard
 
