@@ -26,7 +26,7 @@
     "@vueuse/motion": "^2.0.0",
     "@vueuse/nuxt": "^10.0.0",
     "bufferutil": "^4.0.8",
-    "crossws": "^0.1.1",
+    "crossws": "^0.2.0",
     "drizzle-orm": "^0.29.3",
     "nuxt3-socket.io": "^0.3.0",
     "pg": "^8.11.3",
