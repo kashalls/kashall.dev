@@ -2,7 +2,7 @@
     <div class="flex flex-col p-7 border border-gray-950 rounded-xl bg-gray-900 shadow-2xl">
             <div class="flex flex-col items-center sm:items-start sm:flex-row flex-grow">
                 <img class="rounded-lg h-24 mr-5 w-24 flex justify-center sm:justify-start"
-                    src="https://media.licdn.com/dms/image/C5603AQGPgqQ1nQ2m7Q/profile-displayphoto-shrink_800_800/0/1664234533844?e=1701302400&v=beta&t=eHVVq4Fj1tC-8wZw3FViMsuxFBfSX814NqLclYpRVAg">
+                    src="https://avatars.githubusercontent.com/u/17620516?v=4">
                 <div class="font-semibold text-gray-400 items-center">
                     <h1 class="mb-1 text-3xl text-gray-50 font-bold text-center sm:text-left">Hi, I'm Jordan!</h1>
                     <p class="text-center sm:text-left">🧙‍♂️ Freelance Software and Datarack Engineer</p>
