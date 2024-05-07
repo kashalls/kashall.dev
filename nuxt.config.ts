@@ -2,13 +2,13 @@
 import app from './src/config/app'
 
 export default defineNuxtConfig({
+    devtools: { enabled: true },
+    nitro: {
+        preset: "cloudflare-pages"
+    },
     srcDir: 'src/',
     app,
     runtimeConfig: {
-        place: {
-            height: 128,
-            width: 128
-        },
         turnstile: {
             addValidateEndpoint: true
         },
@@ -18,6 +18,7 @@ export default defineNuxtConfig({
         }
     },
     modules: [
+        'nitro-cloudflare-dev',
         '@pinia/nuxt',
         '@nuxtjs/tailwindcss',
         '@nuxt/image',
@@ -25,9 +26,6 @@ export default defineNuxtConfig({
         '@nuxtjs/turnstile',
         '@vueuse/motion/nuxt',
         '@nuxt/content',
-        'nuxt3-socket.io'
-    ],
-    socket: {
-        addPlugin: false
-    }
+        'nuxt-resend'
+    ]
 })

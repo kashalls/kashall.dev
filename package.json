@@ -2,21 +2,24 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --ws",
-    "start": "nuxt start",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "preview": "npm run build && wrangler pages dev",
+    "postinstall": "nuxt prepare",
+    "deploy": "npm run build && wrangler pages deploy",
+    "cf-typegen": "wrangler types"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240502.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@nuxtjs/turnstile": "^0.6.3",
-    "@types/pg": "^8.11.0",
-    "@types/ws": "^8.5.10",
-    "drizzle-kit": "^0.20.14",
+    "nitro-cloudflare-dev": "^0.1.4",
     "nuxt": "^3.10.2",
-    "nuxt-icon": "0.5.0",
-    "tailwindcss": "^3.2.6"
+    "nuxt-icon": "^0.6.10",
+    "nuxt-resend": "^0.0.2",
+    "tailwindcss": "^3.2.6",
+    "vue": "^3.4.27",
+    "wrangler": "^3.53.1"
   },
   "dependencies": {
     "@leonardssh/use-lanyard": "^1.0.4",
@@ -25,17 +28,9 @@
     "@pinia/nuxt": "^0.5.1",
     "@vueuse/motion": "^2.0.0",
     "@vueuse/nuxt": "^10.0.0",
-    "bufferutil": "^4.0.8",
-    "crossws": "^0.1.1",
-    "drizzle-orm": "^0.29.3",
-    "nuxt3-socket.io": "^0.3.0",
-    "pg": "^8.11.3",
     "pinia": "^2.1.7",
-    "postcss-custom-properties": "^13.3.2",
     "sass": "^1.58.0",
-    "socket.io-client": "^4.7.4",
-    "utf-8-validate": "^6.0.3",
-    "ws": "^8.16.0",
+    "vue-router": "^4.3.2",
     "zod": "^3.22.4"
   },
   "packageManager": "yarn@4.1.0"
