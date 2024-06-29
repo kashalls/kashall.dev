@@ -3,9 +3,6 @@ import app from './src/config/app'
 
 export default defineNuxtConfig({
     devtools: { enabled: true },
-    nitro: {
-        preset: "cloudflare-pages"
-    },
     srcDir: 'src/',
     app,
     runtimeConfig: {
@@ -18,14 +15,13 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-        'nitro-cloudflare-dev',
         '@pinia/nuxt',
         '@nuxtjs/tailwindcss',
         '@nuxt/image',
-        'nuxt-icon',
         '@nuxtjs/turnstile',
         '@vueuse/motion/nuxt',
-        '@nuxt/content',
-        'nuxt-resend'
+        'nuxt-resend',
+        "@nuxt/ui",
+        "@nuxt/icon"
     ]
 })
