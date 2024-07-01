@@ -1,14 +1,14 @@
 <template>
   <section class="flex flex-col justify-center h-full select-none">
     <div class="text-center">
-      <h2 class="text-cool-200 font-bold xl:text-8xl text-center font-[Caveat]">
+      <h2 class="text-cool-200 font-bold text-5xl xl:text-8xl text-center font-[Caveat]">
         Hi, I'm
       </h2>
-      <h1 class="text-primary font-extrabold xl:text-9xl text-center font-[Caveat]">
+      <h1 class="text-primary font-extrabold text-6xl xl:text-9xl text-center font-[Caveat]">
         Jordan Jones
       </h1>
 
-      <p class="pt-4">
+      <p class="pt-4 text-3xl font-extralight">
         I am a Freelance Software, Networking and Systems Engineer.
       </p>
     </div>

@@ -3,26 +3,26 @@ useLenis()
 </script>
 
 <template>
-  <div class="h-dvh relative overflow-hidden p-2 dark:bg-black bg-slate-950 text-">
+  <div class="h-dvh relative overflow-hidden p-2 dark:bg-black bg-slate-950">
     <div class="background fixed top-0 left-0 right-0 h-screen" />
     <div
-      class="grid md:size-full relative h-full rounded-lg overflow-hidden border border-gray-900 transition-all duration-500 shadow-2xl grid-rows-[2.5rem_1fr_2.5rem] grid-columns-[2.5rem_1fr]">
+      class="grid md:size-full relative h-full rounded-lg overflow-hidden border border-gray-900 transition-all duration-500 shadow-2xl grid-rows-[2.5rem_1fr_2.5rem] grid-columns-[2.5rem_1fr] [grid-template-areas:'header_header_header''content_content_content''bottom_bottom_bottom'] [grid-template-columns:0rem_1fr_0rem]">
       <LayoutHeader />
 
-      <div class="h-auto overflow-x-hidden overflow-y-scroll scroll lenis lenis-smooth p-4" id="lenis-frame">
+      <div class="h-auto overflow-x-hidden overflow-y-scroll scroll lenis lenis-smooth p-4 [grid-area:content]" id="lenis-frame">
         <slot />
       </div>
 
       <div
-        class="grid grid-cols-1 col-span-2 items-center gap-4 px-1 md:col-span-1 md:grid-cols-2 lg:grid-cols-[1fr_1.5fr_1fr] xl:grid-cols-[1fr_2fr_1fr] bg-gradient-to-tr from-[#0e0c12]/25 to-[#0e0f0f]/25 border-t border-gray-900">
-        <div class="col-start-1">
+        class="col-span-2 grid h-full w-full grid-cols-1 lg:col-span-2 items-center gap-4 px-1 md:col-span-1 md:grid-cols-2 lg:grid-cols-[1fr_1.5fr_1fr] xl:grid-cols-[1fr_2fr_1fr] bg-gradient-to-tr from-[#0e0c12]/25 to-[#0e0f0f]/25 border-t border-gray-900 [grid-area:bottom]">
+        <div class="col-start-1 hidden justify-self-start md:block">
           <LayoutColormode />
           <LayoutBreadcrumb />
         </div>
-        <div class="col-start-2">
+        <div class="col-start-2 hidden justify-self-center lg:block">
           <LayoutActivity />
         </div>
-        <div class="flex h-full items-center justify-self-end">
+        <div class="items-center justify-self-end md:col-start-2 lg:col-start-3">
           <LayoutSocial />
         </div>
       </div>
