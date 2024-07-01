@@ -2,7 +2,6 @@
     <div>
         <div class="flex flex-col p-7 border border-gray-950 rounded-xl bg-gray-900 shadow-2xl">
             <div class="flex flex-col items-center sm:items-start sm:flex-row flex-grow">
-                <img class="rounded-lg h-24 mr-5 w-24 flex justify-center sm:justify-start" :src="lanyard_avatar">
                 <div class="font-semibold text-gray-400 items-center">
                     <h1 class="mb-1 text-3xl text-gray-50 font-bold text-center sm:text-left">Hi, I'm Jordan!</h1>
                     <p class="text-center sm:text-left">🧙‍♂️ Freelance Software and Datarack Engineer</p>
@@ -101,7 +100,7 @@ function formatTime(millis) {
 
 if (process.browser) {
     useLanyard({
-        userId: DISCORD_USER_ID,
+        userId: '201077739589992448',
         socket: true,
         onPresenceUpdate(presence) {
             lanyard.value = presence

@@ -5,23 +5,20 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     srcDir: 'src/',
     app,
-    runtimeConfig: {
-        turnstile: {
-            addValidateEndpoint: true
-        },
-        public: {
-            DISCORD_USER_ID: '201077739589992448',
-            PINNED_REPOSITORIES_URL: 'https://ghapi.dstn.to/kashalls/pinned',
-        }
-    },
     modules: [
-        '@pinia/nuxt',
-        '@nuxtjs/tailwindcss',
+        "@nuxt/ui",
         '@nuxt/image',
-        '@nuxtjs/turnstile',
         '@vueuse/motion/nuxt',
         'nuxt-resend',
-        "@nuxt/ui",
-        "@nuxt/icon"
-    ]
+        '@pinia/nuxt',
+        "@nuxt/fonts"
+    ],
+    ui: {
+        icons: ['ph'],
+    },
+    fonts: {
+        families: [
+            { name: 'Caveat', provider: 'google' }
+        ]
+    }
 })
