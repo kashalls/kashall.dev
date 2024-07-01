@@ -21,7 +21,6 @@
     "@leonardssh/use-lanyard": "^1.0.4",
     "@nuxt/image": "^1.7.0",
     "@pinia/nuxt": "^0.5.1",
-    "@studio-freight/lenis": "^1.0.42",
     "@vueuse/motion": "^2.2.3",
     "@vueuse/nuxt": "^10.11.0",
     "gsap": "^3.12.5",

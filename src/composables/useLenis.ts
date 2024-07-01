@@ -1,5 +1,5 @@
-import Lenis from '@studio-freight/lenis';
-import gsap from 'gsap';
+import Lenis from 'lenis';
+import gsap, { wrap } from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
 export const useLenis = () => {
@@ -8,8 +8,11 @@ export const useLenis = () => {
     onMounted(() => {
         if (lenis.value) return;
 
+        const wrapper = document.querySelector('#lenis-frame')
+        if (!wrapper) return;
+
         lenis.value = new Lenis({ 
-            wrapper: document.querySelector('#lenis-frame'),
+            wrapper,
             lerp: 0.09,
             wheelMultiplier: 0.5,
             touchMultiplier: 0

@@ -70,8 +70,7 @@ const timing = computed(() => {
                         class="font-semibold">{{ LanyardStatus?.spotify?.artist }}</span>
                 </template>
                 <template v-else-if="LanyardStatus?.activities">
-                    <span>{{ firstActivity && firstActivity?.details  ? `${firstActivity.details} on` : 'Playing ' }} {{
-                        firstActivity?.name }}</span>
+                    <span>{{ firstActivity && firstActivity?.details  ? `${firstActivity.details} on` : `${ firstActivity ? 'Playing ' : '' }` }} {{ firstActivity?.name }}</span>
                 </template>
             </p>
 
