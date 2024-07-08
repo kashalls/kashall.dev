@@ -5,5 +5,5 @@
     "editor.quickSuggestions": {
         "strings": true
     },
-    "discord.enabled": false
+    "tailwindCSS.experimental.configFile": "tailwind.config.ts"
 }

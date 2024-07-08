@@ -9,7 +9,8 @@ useLenis()
       class="grid md:size-full relative h-full rounded-lg overflow-hidden border border-gray-900 transition-all duration-500 shadow-2xl grid-rows-[2.5rem_1fr_2.5rem] grid-columns-[2.5rem_1fr] [grid-template-areas:'header_header_header''content_content_content''bottom_bottom_bottom'] [grid-template-columns:0rem_1fr_0rem]">
       <LayoutHeader />
 
-      <div class="h-auto overflow-x-hidden overflow-y-scroll scroll lenis lenis-smooth p-4 [grid-area:content]" id="lenis-frame">
+      <div class="h-auto overflow-x-hidden overflow-y-scroll scroll lenis lenis-smooth p-1 [grid-area:content]"
+        id="lenis-frame">
         <slot />
       </div>
 
@@ -18,9 +19,6 @@ useLenis()
         <div class="col-start-1 hidden justify-self-start md:block">
           <LayoutColormode />
           <LayoutBreadcrumb />
-        </div>
-        <div class="col-start-2 hidden justify-self-center lg:block">
-          <LayoutActivity />
         </div>
         <div class="items-center justify-self-end md:col-start-2 lg:col-start-3">
           <LayoutSocial />

@@ -28,7 +28,7 @@ export function formatFancyTime(millis: number): string {
         result += minutes + 'm ';
     }
 
-    result += seconds + 's';
+    result += seconds + ' seconds';
     return result.trim();
 }
 

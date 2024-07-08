@@ -13,12 +13,25 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         "@nuxt/fonts"
     ],
+    runtimeConfig: {
+        public: {
+            userId: '201077739589992448'
+        }
+    },
     ui: {
         icons: ['ph'],
     },
+    colorMode: {
+        preference: 'dark',
+    },
     fonts: {
+        assets: {
+            prefix: 'public/_fonts/',
+        },
         families: [
-            { name: 'Caveat', provider: 'google' }
+            { name: 'Caveat', provider: 'google' },
+            { name: 'PP Neue Machina Plain', provider: 'local' },
+            { name: 'PP Neue Machina Inktrap', provider: 'local' }
         ]
     }
 })
