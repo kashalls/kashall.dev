@@ -22,7 +22,7 @@
     "@nuxt/image": "^1.7.0",
     "@pinia/nuxt": "^0.5.1",
     "@vueuse/motion": "^2.2.3",
-    "@vueuse/nuxt": "^10.11.0",
+    "@vueuse/nuxt": "^14.0.0",
     "clsx": "^2.1.1",
     "gsap": "^3.12.5",
     "lenis": "^1.1.6",
