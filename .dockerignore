@@ -1,0 +1,16 @@
+# Keep the build context (and thus image cache) small.
+.git
+.github
+node_modules
+.nuxt
+.nitro
+.output
+dist
+.cache
+.data
+*.log
+.env
+.env.*
+.DS_Store
+README.md
+codeql-analysis.yml
