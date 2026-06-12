@@ -24,7 +24,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 # GitHub (verified)
+        uses: actions/checkout@v6 # GitHub (verified)
 
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v3 # Docker (verified)
