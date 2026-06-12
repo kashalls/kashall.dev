@@ -1,0 +1,4 @@
+[install]
+# Emit a binary bun.lockb so Cloudflare Pages detects bun (it does not pick up
+# the text-format bun.lock and otherwise falls back to npm).
+saveTextLockfile = false
