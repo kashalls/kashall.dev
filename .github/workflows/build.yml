@@ -47,7 +47,7 @@ jobs:
             type=ref,event=branch
 
       - name: Build & push
-        uses: docker/build-push-action@v6 # Docker (verified)
+        uses: docker/build-push-action@v7 # Docker (verified)
         with:
           context: .
           platforms: linux/amd64
