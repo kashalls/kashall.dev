@@ -1,8 +1,8 @@
 import type { LanyardResponse } from '~/types/lanyard'
 
 const enum Constants {
-    apiBase = 'https://api.ok8.sh/discord/api',
-    webSocketBase = 'wss://api.ok8.sh/discord/api/socket',
+    apiBase = 'https://api.ok8.sh/discord/',
+    webSocketBase = 'wss://api.ok8.sh/discord/socket',
 }
 
 export default defineNuxtPlugin(() => {
