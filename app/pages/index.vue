@@ -2,8 +2,7 @@
   <section class="flex flex-col justify-center select-none pt-4 md:pt-0">
     <div class="flex flex-col gap-12 pb-[40dvh]" ref="bounds">
       <div class="container flex justify-center mx-auto w-full">
-        <div
-          class="relative flex w-full flex-col gap-4 md:w-10/12 xl:aspect-[6/4] xl:w-11/12 xl:[--d-width:21rem]"
+        <div class="relative flex w-full flex-col gap-4 md:w-10/12 xl:aspect-[6/4] xl:w-11/12 xl:[--d-width:21rem]"
           ref="panels">
           <!-- Intro -->
           <div
@@ -12,13 +11,15 @@
             <UiPanel title="Hello There" icon="i-ph-hand-waving">
               <div
                 class="p-1 *:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
-                <p>Hi, I'm <span class="text-primary">Jordan</span>, a freelance <span class="text-blue-500">Software
-                    Engineer</span>.</p>
-                <p>I specialize in <span class="text-pink-500">writing integrations</span> that make <span
-                    class="text-orange-400">existing software more extensible</span>.</p>
+                <p>Hi, I'm <span class="text-primary">Jordan</span>, a <span class="text-blue-500">Platform
+                    Engineer</span> with a <span class="text-purple-400">software engineering background</span>.</p>
+                <p>I design and maintain <span class="text-pink-500">Kubernetes infrastructure</span> and write <span
+                    class="text-orange-400">tooling that makes platforms more extensible</span>.</p>
                 <p>On the side, I provide <span class="text-green-400">Residential &amp; Business IT Services</span>,
-                  <span class="text-red-400">Full-stack Web Development</span> &amp; <span class="text-yellow-300">Managed
-                    Infrastructure Services</span>.</p>
+                  <span class="text-red-400">Full-stack Web Development</span> &amp; <span
+                    class="text-yellow-300">Managed
+                    Infrastructure Services</span>.
+                </p>
               </div>
             </UiPanel>
           </div>
@@ -90,7 +91,7 @@
 
           <!-- Location -->
           <div
-            class="w-full max-w-md mx-auto transition-all ease-out xl:absolute xl:max-w-none xl:mx-0 xl:w-(--d-width) xl:left-[5%] xl:top-[23rem]"
+            class="w-full max-w-md mx-auto transition-all ease-out xl:absolute xl:max-w-none xl:mx-0 xl:w-(--d-width) xl:left-[5%] xl:top-[26.5rem]"
             data-window-id="base-of-operations">
             <UiPanel title="Base Of Operations" icon="i-ph-map-pin">
               <div
@@ -120,18 +121,9 @@
             </UiPanel>
           </div>
 
-          <!-- NAS -->
-          <div
-            class="w-full max-w-md mx-auto transition-all ease-out xl:absolute xl:max-w-none xl:mx-0 xl:w-(--d-width) xl:left-[56%] xl:top-[44rem]"
-            data-window-id="nas">
-            <UiPanel title="NAS" icon="i-ph-hard-drives">
-              <HomelabNas />
-            </UiPanel>
-          </div>
-
           <!-- Certifications -->
           <div
-            class="w-full max-w-md mx-auto transition-all ease-out xl:absolute xl:max-w-none xl:mx-0 xl:w-(--d-width) xl:left-[5%] xl:top-[34.5rem]"
+            class="w-full max-w-md mx-auto transition-all ease-out xl:absolute xl:max-w-none xl:mx-0 xl:w-(--d-width) xl:left-[5%] xl:top-[38.5rem]"
             data-window-id="certifications">
             <UiPanel title="Certifications" icon="i-ph-certificate">
               <div
