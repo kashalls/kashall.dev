@@ -188,5 +188,5 @@ export function activityImage(activity?: { application_id?: string | null; asset
 		if (asset.startsWith('spotify:')) return `https://i.scdn.co/image/${asset.replace('spotify:', '')}`
 		if (activity.application_id) return `${CDN}/app-assets/${activity.application_id}/${asset}.png`
 	}
-	return activity.application_id ? `https://dcdn.dstn.to/app-icons/${activity.application_id}` : ''
+	return activity.application_id ? `https://api.ok8.sh/juno/app-icons/${activity.application_id}` : ''
 }

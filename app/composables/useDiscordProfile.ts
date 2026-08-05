@@ -33,7 +33,7 @@ export const useDiscordProfile = () => {
     onMounted(async () => {
         if (profile.value || !import.meta.browser) return
         try {
-            profile.value = await $fetch<DiscordProfile>(`https://dcdn.dstn.to/profile/${userId}`)
+            profile.value = await $fetch<DiscordProfile>(`https://api.ok8.sh/juno/profile`)
         } catch {
             // Non-fatal: the card falls back to a gradient banner and Lanyard data.
         }

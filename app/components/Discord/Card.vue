@@ -6,9 +6,9 @@ const { timestamp } = useTimestamp()
 const user = computed(() => lanyard.value?.discord_user)
 
 // Banner, bio, pronouns and connections come from the profile proxy (Lanyard omits them).
-const banner = computed(() => bannerUrl(user.value?.id ?? profile.value?.user.id, profile.value?.user.banner, 600))
-const bannerColor = computed(() => profile.value?.user.banner_color ?? '#5865f2')
-const bio = computed(() => parseDiscordText(profile.value?.user_profile?.bio ?? profile.value?.user.bio))
+const banner = computed(() => bannerUrl(user.value?.id ?? profile.value?.user?.id, profile.value?.user?.banner, 600))
+const bannerColor = computed(() => profile.value?.user?.banner_color ?? '#5865f2')
+const bio = computed(() => parseDiscordText(profile.value?.user_profile?.bio ?? profile.value?.user?.bio))
 const pronouns = computed(() => profile.value?.user_profile?.pronouns)
 const connections = computed(() => mapConnections(profile.value?.connected_accounts))
 const loaded = computed(() => !!user.value)
