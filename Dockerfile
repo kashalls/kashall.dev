@@ -2,7 +2,7 @@
 
 # ---- Build stage ---------------------------------------------------------
 # Pin bun to the version that wrote bun.lockb so the frozen install matches.
-FROM oven/bun:1.3.14-slim AS build
+FROM oven/bun:1.4.0-slim AS build
 WORKDIR /app
 
 # Install dependencies first (cached layer). --ignore-scripts skips the
