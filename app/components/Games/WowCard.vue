@@ -33,21 +33,40 @@ const classColor = computed(() => classColors[c.value.class])
 const flavor = computed(() => flavors[c.value.flavor] ?? c.value.flavor)
 const fmt = (n: number) => new Intl.NumberFormat('en').format(Math.round(n))
 const lastLogin = useTimeAgo(() => c.value.last_login)
+
+// The Armory's own per-class backdrop. Not part of the API, so it's a URL
+// pattern on Blizzard's render CDN (e.g. armory_bg_class_death_knight.jpg).
+// Official logos from Blizzard's CDN. Retail's is the current expansion, so
+// it needs bumping when a new one launches. Its 600x800 canvas holds the
+// emblem at x 156-444, y 519-744, so it's cropped with background sizing.
+const MIDNIGHT_LOGO = 'https://blz-contentstack-images.akamaized.net/v3/assets/blta8f9a8e092360c6c/blt412ed61d1a5c7af1/689f9e92e08c838e86c4c8e9/12.0_Logo_enUS.png'
+const CLASSIC_LOGO = 'https://blz-contentstack-images.akamaized.net/v3/assets/blt9c12f249ac15c7ec/blt8b3f311b12c5b391/6a9222612437ed42f9d486c2/wow-classic.png'
+
+const classBackground = computed(() =>
+    `https://render.worldofwarcraft.com/profile-backgrounds/v2/armory_bg_class_${c.value.class.toLowerCase().replace(/ /g, '_')}.jpg`)
 </script>
 
 <template>
-    <GamesBanner :background="c.media.main" :figure="c.media.main ? undefined : c.media.main_raw"
+    <GamesBanner :background="c.media.main ?? classBackground"
         :accent="classColor">
+        <template #logo>
+            <div v-if="c.flavor === 'retail'" role="img" aria-label="World of Warcraft: Midnight"
+                class="h-20 w-26 bg-no-repeat md:h-28 md:w-36"
+                :style="{ backgroundImage: `url(${MIDNIGHT_LOGO})`, backgroundSize: '208%', backgroundPosition: '50% 90%' }" />
+            <img v-else :src="CLASSIC_LOGO" alt="World of Warcraft Classic" class="w-28 md:w-36" />
+        </template>
+
         <template #identity>
-            <div v-if="c.media.avatar" class="relative shrink-0">
-                <img :src="c.media.avatar" :alt="c.name" class="h-16 w-16 rounded-full border-2 bg-black object-cover"
-                    :style="{ borderColor: classColor }" />
-                <img v-if="c.spec_icon" :src="c.spec_icon" :alt="c.spec" :title="c.spec"
-                    class="absolute -bottom-1 -right-1 h-7 w-7 rounded border bg-black"
-                    :style="{ borderColor: classColor }" />
-            </div>
+            <UChip :show="!!c.spec_icon" position="bottom-right" inset :style="{ '--class-color': classColor }"
+                :ui="{ base: 'size-7 rounded bg-black p-0 ring-0 border border-(--class-color) overflow-hidden' }">
+                <UAvatar :src="c.media.avatar" :alt="c.name"
+                    class="size-16 border-2 border-(--class-color) bg-black" />
+                <template #content>
+                    <img :src="c.spec_icon" :alt="c.spec" :title="c.spec" class="size-full" />
+                </template>
+            </UChip>
             <div class="min-w-0">
-                <UBadge :label="flavor" color="neutral" variant="subtle" size="sm" class="mb-1" />
+                <UBadge v-if="c.flavor !== 'retail'" :label="flavor" color="neutral" variant="subtle" size="sm" class="mb-1" />
                 <h2 class="truncate font-wow text-3xl font-bold" :style="{ color: classColor }">{{ c.name }}</h2>
                 <p class="truncate text-sm text-neutral-200">
                     Level {{ c.level }} {{ c.race }} {{ c.spec }} {{ c.class }}
