@@ -53,6 +53,8 @@ const triggerClass = 'text-muted hover:text-highlighted data-[state=open]:text-h
 
 <template>
     <nav class="hidden items-center sm:flex">
+        <UButton to="/games" label="Games" color="neutral" variant="ghost" size="xs" :class="triggerClass" />
+
         <UDropdownMenu :items="linksItems" :content="{ align: 'start' }" :ui="{ content: 'w-48' }">
             <UButton label="Links" color="neutral" variant="ghost" size="xs" :class="triggerClass" />
         </UDropdownMenu>
