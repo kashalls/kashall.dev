@@ -36,7 +36,8 @@ const lastLogin = useTimeAgo(() => c.value.last_login)
 </script>
 
 <template>
-    <GamesBanner :background="c.media.main ?? c.media.inset" :accent="classColor">
+    <GamesBanner :background="c.media.main" :figure="c.media.main ? undefined : c.media.main_raw"
+        :accent="classColor">
         <template #identity>
             <img v-if="c.media.avatar" :src="c.media.avatar" :alt="c.name"
                 class="h-16 w-16 shrink-0 rounded-full border-2 bg-black object-cover"

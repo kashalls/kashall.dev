@@ -12,7 +12,7 @@ export interface WowCharacter {
     achievement_points?: number
     last_login: number
     mythic_rating?: { rating: number; color: string }
-    media: { avatar?: string; inset?: string; main?: string }
+    media: { avatar?: string; inset?: string; main?: string; main_raw?: string }
 }
 
 export interface OverwatchPlayer {
