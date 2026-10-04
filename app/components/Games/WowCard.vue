@@ -39,9 +39,13 @@ const lastLogin = useTimeAgo(() => c.value.last_login)
     <GamesBanner :background="c.media.main" :figure="c.media.main ? undefined : c.media.main_raw"
         :accent="classColor">
         <template #identity>
-            <img v-if="c.media.avatar" :src="c.media.avatar" :alt="c.name"
-                class="h-16 w-16 shrink-0 rounded-full border-2 bg-black object-cover"
-                :style="{ borderColor: classColor }" />
+            <div v-if="c.media.avatar" class="relative shrink-0">
+                <img :src="c.media.avatar" :alt="c.name" class="h-16 w-16 rounded-full border-2 bg-black object-cover"
+                    :style="{ borderColor: classColor }" />
+                <img v-if="c.spec_icon" :src="c.spec_icon" :alt="c.spec" :title="c.spec"
+                    class="absolute -bottom-1 -right-1 h-7 w-7 rounded border bg-black"
+                    :style="{ borderColor: classColor }" />
+            </div>
             <div class="min-w-0">
                 <UBadge :label="flavor" color="neutral" variant="subtle" size="sm" class="mb-1" />
                 <h2 class="truncate font-wow text-3xl font-bold" :style="{ color: classColor }">{{ c.name }}</h2>

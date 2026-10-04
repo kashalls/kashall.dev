@@ -19,8 +19,11 @@ const owValue = 'font-overwatch text-3xl font-semibold italic leading-none'
                 <UBadge label="Overwatch" color="neutral" variant="subtle" size="sm" class="mb-1" />
                 <h2 class="truncate font-overwatch text-4xl font-semibold uppercase italic leading-none text-white">{{ p.username }}</h2>
                 <p v-if="p.title" class="truncate text-sm text-neutral-200">{{ p.title }}</p>
-                <p class="truncate text-xs text-neutral-400">
-                    <template v-if="p.endorsement">Endorsement {{ p.endorsement }}</template>
+                <p class="flex items-center gap-1.5 truncate text-xs text-neutral-400">
+                    <img v-if="p.endorsement_frame" :src="p.endorsement_frame"
+                        :alt="`Endorsement level ${p.endorsement}`" :title="`Endorsement level ${p.endorsement}`"
+                        class="h-6 w-6" />
+                    <template v-else-if="p.endorsement">Endorsement {{ p.endorsement }}</template>
                     <template v-if="p.endorsement && p.season"> · </template>
                     <template v-if="p.season">Season {{ p.season }}</template>
                 </p>
@@ -33,8 +36,9 @@ const owValue = 'font-overwatch text-3xl font-semibold italic leading-none'
                     <div v-for="r in p.ranks" :key="r.role"
                         class="flex items-center gap-2 rounded border border-white/10 bg-black/40 px-2 py-1 backdrop-blur">
                         <img :src="r.role_icon" :alt="r.role" class="h-4 w-4" />
-                        <img :src="r.rank_icon" :alt="r.division" class="h-7 w-7" />
-                        <span class="font-overwatch text-xl uppercase italic leading-none text-white">{{ cap(r.division) }} {{ r.tier }}</span>
+                        <img :src="r.rank_icon" :alt="r.division" :title="`${cap(r.division)} ${r.tier}`" class="h-7 w-7" />
+                        <img v-if="r.tier_icon" :src="r.tier_icon" :alt="`Tier ${r.tier}`" class="h-6 w-auto" />
+                        <span v-else class="font-overwatch text-xl uppercase italic leading-none text-white">{{ cap(r.division) }} {{ r.tier }}</span>
                     </div>
                 </div>
                 <div v-if="p.stats" class="grid grid-cols-3 gap-2">
