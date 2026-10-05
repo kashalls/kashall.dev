@@ -23,8 +23,8 @@ export interface DiscordProfile {
 }
 
 /**
- * Fetches the full Discord profile (banner, bio, pronouns, connections) from the
- * dstn proxy. Lanyard does not expose these fields, so we pull them separately.
+ * Fetches the Discord profile (banner and colours) from juno. Lanyard does not
+ * expose these fields, so we pull them separately.
  */
 export const useDiscordProfile = () => {
     const profile = useState<DiscordProfile | null>('discord-profile', () => null)

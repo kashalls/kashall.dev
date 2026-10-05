@@ -8,6 +8,7 @@ export default defineNuxtConfig({
 
   modules: [
       "@nuxt/ui",
+      '@nuxt/content',
       '@nuxt/image',
       'nuxt-resend',
       '@nuxtjs/turnstile',
@@ -64,6 +65,14 @@ export default defineNuxtConfig({
       siteKey: process.env.NUXT_TURNSTILE_SITE_KEY,
   },
 
+  content: {
+      experimental: {
+          // Node's built-in node:sqlite (Node >= 22.5), so the distroless
+          // runtime image doesn't need a native better-sqlite3 build.
+          sqliteConnector: 'native',
+      },
+  },
+
   css: ['~/assets/css/main.css'],
 
   colorMode: {
@@ -74,7 +83,9 @@ export default defineNuxtConfig({
       // Prerender the static routes so their OG images are generated at build
       // (required by ogImage.zeroRuntime). Dynamic client data still hydrates.
       prerender: {
-          routes: ['/', '/gateway', '/games'],
+          routes: ['/', '/gateway', '/blog'],
+          // Follow links from /blog so every post (and its OG image) prerenders.
+          crawlLinks: true,
       },
       // Persist the cache to disk in dev so it survives restarts (fewer GitHub calls).
       devStorage: {
@@ -90,7 +101,7 @@ export default defineNuxtConfig({
 
   fonts: {
       assets: {
-          prefix: 'public/_fonts/',
+          prefix: '/_webfonts/',
       },
       families: [
           { name: 'Caveat', provider: 'google' },

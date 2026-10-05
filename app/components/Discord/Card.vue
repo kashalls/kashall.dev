@@ -6,7 +6,7 @@ const { timestamp } = useTimestamp()
 const user = computed(() => lanyard.value?.discord_user)
 
 // Banner, bio, pronouns and connections come from the profile proxy (Lanyard omits them).
-const banner = computed(() => bannerUrl(user.value?.id ?? profile.value?.user?.id, profile.value?.user?.banner, 600))
+const banner = computed(() => bannerUrl(user.value?.id ?? profile.value?.user?.id, profile.value?.user?.banner, 1024))
 const bannerColor = computed(() => profile.value?.user?.banner_color ?? '#5865f2')
 const bio = computed(() => parseDiscordText(profile.value?.user_profile?.bio ?? profile.value?.user?.bio))
 const pronouns = computed(() => profile.value?.user_profile?.pronouns)
@@ -71,8 +71,8 @@ function hideOnError(e: Event) {
 <template>
     <div class="w-full text-slate-200">
         <!-- Banner -->
-        <div class="relative h-24 w-full overflow-hidden" :style="{ backgroundColor: bannerColor }">
-            <NuxtImg v-if="banner" :src="banner" alt="banner" width="600" height="240"
+        <div class="relative aspect-[3/1] max-h-40 w-full overflow-hidden" :style="{ backgroundColor: bannerColor }">
+            <NuxtImg v-if="banner" :src="banner" alt="banner" width="1024" height="410"
                 class="h-full w-full object-cover" loading="lazy" draggable="false" @error="hideOnError" />
             <div v-else class="absolute inset-0 opacity-40 [background:radial-gradient(circle_at_20%_120%,#ffffff,transparent_55%)]" />
         </div>

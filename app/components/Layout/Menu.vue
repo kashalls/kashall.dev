@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
-const { registry, open, close } = useWindows()
 const { openContact } = useContact()
 const { reduced, toggle: toggleMotion } = useMotionPreference()
 
@@ -15,17 +14,6 @@ const linksItems = computed(() => [
     socials.map(s => ({ label: s.label, icon: s.icon, to: s.to, target: '_blank' })),
     [{ label: 'Email me', icon: 'i-ph-envelope-simple', onSelect: () => openContact() }],
 ])
-
-const windowItems = computed(() => {
-    const windows = Object.values(registry.value)
-    if (!windows.length) return [[{ label: 'No windows yet', icon: 'i-ph-app-window', disabled: true }]]
-    return [windows.map(w => ({
-        label: w.title,
-        icon: w.icon || 'i-ph-app-window',
-        trailingIcon: w.closed ? undefined : 'i-ph-check',
-        onSelect: (e: Event) => { e.preventDefault(); w.closed ? open(w.id) : close(w.id) },
-    }))]
-})
 
 const themes = [
     { label: 'Dark', icon: 'i-ph-moon', value: 'dark' },
@@ -53,14 +41,10 @@ const triggerClass = 'text-muted hover:text-highlighted data-[state=open]:text-h
 
 <template>
     <nav class="hidden items-center sm:flex">
-        <UButton to="/games" label="Games" color="neutral" variant="ghost" size="xs" :class="triggerClass" />
+        <UButton to="/blog" label="Blog" color="neutral" variant="ghost" size="xs" :class="triggerClass" />
 
         <UDropdownMenu :items="linksItems" :content="{ align: 'start' }" :ui="{ content: 'w-48' }">
             <UButton label="Links" color="neutral" variant="ghost" size="xs" :class="triggerClass" />
-        </UDropdownMenu>
-
-        <UDropdownMenu :items="windowItems" :content="{ align: 'start' }" :ui="{ content: 'w-52' }">
-            <UButton label="Windows" color="neutral" variant="ghost" size="xs" :class="triggerClass" />
         </UDropdownMenu>
 
         <UDropdownMenu :items="settingsItems" :content="{ align: 'start' }" :ui="{ content: 'w-44' }">

@@ -1,23 +1,23 @@
 <script setup lang="ts">
-// Shared wide card shell for /games, laid out like the Battle.net launcher:
-// identity plus stats in a column on the left with "View More" under them,
-// and the game logo floating on the art at the right.
-defineProps<{ background?: string; accent?: string }>()
+// Shared wide game card: a UiPanel (so it matches the other front page cards)
+// whose body is laid out like the Battle.net launcher, with identity plus
+// stats on the left, "View More" under them, and the game logo on the art at
+// the right.
+defineProps<{ title: string; icon: string; background?: string }>()
 const open = ref(false)
 </script>
 
 <template>
-    <article
-        class="relative overflow-hidden rounded-lg border border-gray-900 bg-[#0e0c12] font-stat transition-[border-color,box-shadow] duration-300 hover:border-primary-800/50 hover:shadow-lg hover:shadow-primary-950/40">
+    <UiPanel :title="title" :icon="icon" :padded="false" class="font-stat">
         <!-- Art is scoped to this section so opening the drawer below doesn't
              rescale or re-crop it. -->
-        <div class="relative">
+        <div class="relative flex flex-1 flex-col">
             <img v-if="background" :src="background" alt="" loading="lazy"
                 class="absolute inset-0 h-full w-full object-cover object-[center_25%] opacity-60" />
             <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/20 to-black/70" />
 
             <div
-                class="relative flex flex-col gap-5 p-5 md:min-h-52 md:flex-row-reverse md:items-center md:justify-between">
+                class="relative flex flex-1 flex-col gap-5 p-5 md:min-h-52 md:flex-row-reverse md:items-center md:justify-between">
                 <div class="flex shrink-0 justify-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] md:w-36 md:justify-end md:self-start">
                     <slot name="logo" />
                 </div>
@@ -46,7 +46,5 @@ const open = ref(false)
                 </div>
             </template>
         </UCollapsible>
-
-        <div v-if="accent" class="absolute inset-y-0 left-0 w-1" :style="{ backgroundColor: accent }" />
-    </article>
+    </UiPanel>
 </template>
