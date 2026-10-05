@@ -12,12 +12,6 @@ useHead({
         content: 'This hostname is resolving to a gateway endpoint with no configured service.',
     }],
 })
-
-defineOgImage('Default', {
-    title: 'No Service Configured',
-    description: 'This hostname resolves to a gateway endpoint with no service behind it.',
-    badge: 'Gateway',
-})
 </script>
 
 <template>

@@ -93,6 +93,8 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   routeRules: {
+      // Renders the requesting hostname, so it must be rendered per request.
+      '/gateway': { prerender: false },
       // Local fonts aren't content-hashed, so cache them without `immutable`.
       '/fonts/**': { headers: { 'cache-control': 'public, max-age=2592000' } },
   },
@@ -105,7 +107,7 @@ export default defineNuxtConfig({
       // Prerender the static routes so their OG images are generated at build
       // (required by ogImage.zeroRuntime). Dynamic client data still hydrates.
       prerender: {
-          routes: ['/', '/gateway', '/blog'],
+          routes: ['/', '/blog'],
           // Follow links from /blog so every post (and its OG image) prerenders.
           crawlLinks: true,
       },
