@@ -95,7 +95,7 @@ function hideOnError(e: Event) {
                         </foreignObject>
                         <circle cx="61" cy="61" r="8" :fill="statusColor(status)" />
                     </svg>
-                    <img v-if="decoration" :src="decoration"
+                    <NuxtImg v-if="decoration" :src="decoration"
                         class="pointer-events-none absolute left-1/2 top-1/2 h-[102px] w-[102px] max-w-none -translate-x-1/2 -translate-y-1/2"
                         @error="hideOnError" />
                 </div>
@@ -103,7 +103,7 @@ function hideOnError(e: Event) {
 
             <!-- Badges (top-right of body) -->
             <div class="flex h-12 items-center justify-end gap-1">
-                <img v-for="badge in badges" :key="badge.label" :src="badge.src" :alt="badge.label" :title="badge.label"
+                <NuxtImg v-for="badge in badges" :key="badge.label" :src="badge.src" :alt="badge.label" :title="badge.label"
                     class="h-[22px] w-[22px]" draggable="false" @error="hideOnError" />
             </div>
         </div>
@@ -115,7 +115,7 @@ function hideOnError(e: Event) {
                 <div v-else class="h-5 w-28 animate-pulse rounded bg-zinc-700" />
                 <span v-if="guildTag"
                     class="flex items-center gap-1 rounded bg-zinc-800 px-1.5 py-0.5 text-xs font-semibold text-slate-200">
-                    <img v-if="guildBadge" :src="guildBadge" class="h-3.5 w-3.5" draggable="false" @error="hideOnError" />
+                    <NuxtImg v-if="guildBadge" :src="guildBadge" class="h-3.5 w-3.5" draggable="false" @error="hideOnError" />
                     {{ guildTag }}
                 </span>
             </div>
@@ -126,7 +126,7 @@ function hideOnError(e: Event) {
         <div class="px-4 pb-4 pt-2 text-sm">
             <!-- Custom status -->
             <div v-if="customStatus?.state" class="flex items-center gap-1.5 pb-2.5">
-                <img v-if="customEmoji" :src="customEmoji" class="h-5 w-5" draggable="false" @error="hideOnError" />
+                <NuxtImg v-if="customEmoji" :src="customEmoji" class="h-5 w-5" draggable="false" @error="hideOnError" />
                 <span>{{ customStatus.state }}</span>
             </div>
 
@@ -151,7 +151,7 @@ function hideOnError(e: Event) {
                         <template v-if="item.kind === 'spotify'">
                             <NuxtLink external :to="`https://open.spotify.com/track/${item.spotify.track_id}`"
                                 class="shrink-0">
-                                <img :src="item.spotify.album_art_url" class="h-14 w-14 rounded" loading="lazy" draggable="false" />
+                                <NuxtImg :src="item.spotify.album_art_url" class="h-14 w-14 rounded" loading="lazy" draggable="false" />
                             </NuxtLink>
                             <div class="min-w-0 flex-1">
                                 <p class="flex items-center gap-1 text-[0.7rem] font-semibold uppercase tracking-wide text-green-400">
@@ -171,7 +171,7 @@ function hideOnError(e: Event) {
 
                         <!-- Game / rich presence -->
                         <template v-else>
-                            <img :src="activityImage(item.activity)" :alt="item.activity.name"
+                            <NuxtImg :src="activityImage(item.activity)" :alt="item.activity.name"
                                 class="h-14 w-14 shrink-0 rounded object-cover" loading="lazy" draggable="false" @error="hideOnError" />
                             <div class="min-w-0 flex-1">
                                 <p class="text-[0.7rem] font-semibold uppercase tracking-wide text-primary-400">
@@ -193,7 +193,7 @@ function hideOnError(e: Event) {
                 <div class="flex flex-col gap-0.5 text-slate-300">
                     <p v-for="(line, i) in bio" :key="i" class="flex flex-wrap items-center gap-x-1 leading-6">
                         <template v-for="(token, j) in line" :key="j">
-                            <img v-if="token.type === 'emoji'" :src="token.src" :alt="token.name"
+                            <NuxtImg v-if="token.type === 'emoji'" :src="token.src" :alt="token.name"
                                 class="inline-block h-5 w-5 align-text-bottom" draggable="false" @error="hideOnError" />
                             <ULink v-else-if="token.type === 'link'" :to="token.href" external
                                 inactive-class="text-primary-400 hover:underline">{{ token.value }}</ULink>

@@ -17,7 +17,7 @@ withDefaults(defineProps<{
         <div style="display:flex;align-items:center;font-size:26px;color:#a855f7;letter-spacing:2px;text-transform:uppercase;">
             {{ badge }}
         </div>
-        <div style="display:flex;font-size:84px;font-weight:800;line-height:1.05;margin-top:24px;max-width:920px;">
+        <div style="display:flex;font-size:84px;font-weight:700;line-height:1.05;margin-top:24px;max-width:920px;">
             {{ title }}
         </div>
         <div style="display:flex;font-size:36px;color:#cbd5e1;margin-top:24px;max-width:900px;">
