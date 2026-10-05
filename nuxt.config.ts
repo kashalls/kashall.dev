@@ -3,7 +3,6 @@ import app from './app/config/app'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  future: { compatibilityVersion: 4 },
   app,
 
   modules: [
@@ -56,8 +55,8 @@ export default defineNuxtConfig({
       },
   },
 
-  // Pre-render OG images at build (zeroRuntime) instead of rendering them on the
-  // edge — the runtime renderer (satori + native resvg) can't run on CF Workers.
+  // Every page with an OG image is prerendered, so render them at build and keep
+  // satori/resvg out of the server bundle.
   ogImage: {
       zeroRuntime: true,
   },
@@ -70,16 +69,12 @@ export default defineNuxtConfig({
       resend: { apiKey: '' },
       contactTo: 'noc@ok8.sh',
       contactFrom: 'Portfolio <onboarding@resend.dev>',
+      // Turnstile keys are added by @nuxtjs/turnstile; set them at runtime with
+      // NUXT_PUBLIC_TURNSTILE_SITE_KEY and NUXT_TURNSTILE_SECRET_KEY.
       public: {
           userId: '201077739589992448',
           github: 'kashalls'
       }
-  },
-
-  // Cloudflare Turnstile. In dev this auto-uses the always-pass test keys; for
-  // production set turnstile.siteKey here and NUXT_TURNSTILE_SECRET_KEY in env.
-  turnstile: {
-      siteKey: process.env.NUXT_TURNSTILE_SITE_KEY,
   },
 
   content: {
@@ -91,6 +86,8 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
+
+  sourcemap: { server: false },
 
   routeRules: {
       // Renders the requesting hostname, so it must be rendered per request.
@@ -115,12 +112,6 @@ export default defineNuxtConfig({
       devStorage: {
           cache: { driver: 'fs', base: './.cache' },
       },
-      // For durable caching across serverless cold starts in production, point the
-      // `cache` mount at a persistent store. On Cloudflare Pages, bind a KV
-      // namespace named CACHE and uncomment:
-      // storage: {
-      //     cache: { driver: 'cloudflareKVBinding', binding: 'CACHE' },
-      // },
   },
 
   fonts: {
