@@ -74,7 +74,7 @@ export default defineNuxtConfig({
       // Prerender the static routes so their OG images are generated at build
       // (required by ogImage.zeroRuntime). Dynamic client data still hydrates.
       prerender: {
-          routes: ['/', '/gateway'],
+          routes: ['/', '/gateway', '/games'],
       },
       // Persist the cache to disk in dev so it survives restarts (fewer GitHub calls).
       devStorage: {
@@ -94,6 +94,9 @@ export default defineNuxtConfig({
       },
       families: [
           { name: 'Caveat', provider: 'google' },
+          { name: 'Inter', provider: 'google' },
+          { name: 'Cinzel', provider: 'google' },
+          { name: 'Teko', provider: 'google' },
           { name: 'PP Neue Machina Plain', provider: 'local' },
           // global so @nuxt/fonts emits it for OG image (satori) font extraction.
           { name: 'PP Neue Machina Inktrap', provider: 'local', global: true }

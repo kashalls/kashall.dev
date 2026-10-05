@@ -9,6 +9,11 @@
   /* `font-body` utility -> PP Neue Machina Plain (used on window/dialog titles). */
   --font-body: "PP Neue Machina Plain", ui-sans-serif, system-ui, sans-serif;
 
+  /* /games cards: a neutral face for stats, plus per-game display faces. */
+  --font-stat: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-wow: "Cinzel", ui-serif, Georgia, serif;
+  --font-overwatch: "Teko", ui-sans-serif, system-ui, sans-serif;
+
   /* Custom "Nuxt green" palette (overrides Tailwind's default green). */
   --color-green-50: #effdf5;
   --color-green-100: #d9fbe8;
