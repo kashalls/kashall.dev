@@ -13,7 +13,7 @@ const owValue = 'font-overwatch text-3xl font-semibold italic leading-none'
 <template>
     <GamesBanner title="Overwatch" icon="i-ph-crosshair" :background="p.namecard">
         <template #logo>
-            <img src="https://blz-contentstack-images.akamaized.net/v3/assets/blt2477dcaf4ebd440c/blt12c582d9d58631b9/69d573c3c714e07b0dc39b07/overwatch_logo.png"
+            <NuxtImg src="https://blz-contentstack-images.akamaized.net/v3/assets/blt2477dcaf4ebd440c/blt12c582d9d58631b9/69d573c3c714e07b0dc39b07/overwatch_logo.png"
                 alt="Overwatch" class="w-40 md:w-36" />
         </template>
 
@@ -26,7 +26,7 @@ const owValue = 'font-overwatch text-3xl font-semibold italic leading-none'
                     <UTooltip v-if="p.endorsement_frame" :text="`Endorsement level ${p.endorsement}`" arrow>
                         <Transition appear enter-from-class="scale-0 -rotate-90 opacity-0"
                             enter-active-class="transition duration-700 ease-out">
-                            <img :src="p.endorsement_frame" :alt="`Endorsement level ${p.endorsement}`"
+                            <NuxtImg :src="p.endorsement_frame" :alt="`Endorsement level ${p.endorsement}`"
                                 class="h-6 w-6 cursor-help transition-transform duration-300 hover:rotate-12 hover:scale-125" />
                         </Transition>
                     </UTooltip>
@@ -43,10 +43,10 @@ const owValue = 'font-overwatch text-3xl font-semibold italic leading-none'
                     <UBadge v-for="r in p.ranks" :key="r.role" color="neutral" variant="outline" size="lg"
                         class="gap-2 rounded border-white/10 bg-black/40 px-2 py-1 ring-white/10 backdrop-blur">
                         <template #leading>
-                            <img :src="r.role_icon" :alt="r.role" class="h-4 w-4" />
+                            <NuxtImg :src="r.role_icon" :alt="r.role" class="h-4 w-4" />
                         </template>
-                        <img :src="r.rank_icon" :alt="r.division" :title="`${cap(r.division)} ${r.tier}`" class="h-7 w-7" />
-                        <img v-if="r.tier_icon" :src="r.tier_icon" :alt="`Tier ${r.tier}`" class="h-6 w-auto" />
+                        <NuxtImg :src="r.rank_icon" :alt="r.division" :title="`${cap(r.division)} ${r.tier}`" class="h-7 w-7" />
+                        <NuxtImg v-if="r.tier_icon" :src="r.tier_icon" :alt="`Tier ${r.tier}`" class="h-6 w-auto" />
                         <span v-else class="font-overwatch text-xl uppercase italic leading-none text-white">{{ cap(r.division) }} {{ r.tier }}</span>
                     </UBadge>
                 </div>

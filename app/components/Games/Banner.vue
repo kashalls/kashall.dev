@@ -12,7 +12,7 @@ const open = ref(false)
         <!-- Art is scoped to this section so opening the drawer below doesn't
              rescale or re-crop it. -->
         <div class="relative flex flex-1 flex-col">
-            <img v-if="background" :src="background" alt="" loading="lazy"
+            <NuxtImg v-if="background" :src="background" alt="" loading="lazy"
                 class="absolute inset-0 h-full w-full object-cover object-[center_25%] opacity-60" />
             <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/20 to-black/70" />
 

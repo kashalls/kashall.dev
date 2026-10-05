@@ -26,8 +26,7 @@ export default defineNuxtConfig({
 
   // Allow optimising remote avatars/banners through <NuxtImg>.
   image: {
-      // Passthrough provider: the Discord/Spotify images are already sized by
-      // their CDNs, and this avoids bundling `sharp` (which can't run on CF Workers).
+      // Passthrough provider: the remote images are already sized by their CDNs.
       provider: 'none',
       domains: [
           'cdn.discordapp.com',

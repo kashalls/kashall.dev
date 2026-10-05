@@ -53,7 +53,7 @@ const classBackground = computed(() =>
             <div v-if="c.flavor === 'retail'" role="img" aria-label="World of Warcraft: Midnight"
                 class="h-20 w-26 bg-no-repeat md:h-28 md:w-36"
                 :style="{ backgroundImage: `url(${MIDNIGHT_LOGO})`, backgroundSize: '208%', backgroundPosition: '50% 90%' }" />
-            <img v-else :src="CLASSIC_LOGO" alt="World of Warcraft Classic" class="w-28 md:w-36" />
+            <NuxtImg v-else :src="CLASSIC_LOGO" alt="World of Warcraft Classic" class="w-28 md:w-36" />
         </template>
 
         <template #identity>
@@ -62,7 +62,7 @@ const classBackground = computed(() =>
                 <UAvatar :src="c.media.avatar" :alt="c.name"
                     class="size-16 border-2 border-(--class-color) bg-black" />
                 <template #content>
-                    <img :src="c.spec_icon" :alt="c.spec" :title="c.spec" class="size-full" />
+                    <NuxtImg :src="c.spec_icon" :alt="c.spec" :title="c.spec" class="size-full" />
                 </template>
             </UChip>
             <div class="min-w-0">
