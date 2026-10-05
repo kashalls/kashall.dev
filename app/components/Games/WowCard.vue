@@ -47,8 +47,8 @@ const classBackground = computed(() =>
 </script>
 
 <template>
-    <GamesBanner :background="c.media.main ?? classBackground"
-        :accent="classColor">
+    <GamesBanner :title="c.flavor === 'retail' ? 'World of Warcraft' : 'World of Warcraft Classic'"
+        icon="i-ph-sword" :background="c.media.main ?? classBackground">
         <template #logo>
             <div v-if="c.flavor === 'retail'" role="img" aria-label="World of Warcraft: Midnight"
                 class="h-20 w-26 bg-no-repeat md:h-28 md:w-36"

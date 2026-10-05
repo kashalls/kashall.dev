@@ -9,7 +9,7 @@
   /* `font-body` utility -> PP Neue Machina Plain (used on window/dialog titles). */
   --font-body: "PP Neue Machina Plain", ui-sans-serif, system-ui, sans-serif;
 
-  /* /games cards: a neutral face for stats, plus per-game display faces. */
+  /* Game cards: a neutral face for stats, plus per-game display faces. */
   --font-stat: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-wow: "Cinzel", ui-serif, Georgia, serif;
   --font-overwatch: "Teko", ui-sans-serif, system-ui, sans-serif;
@@ -26,4 +26,26 @@
   --color-green-800: #016538;
   --color-green-900: #0a5331;
   --color-green-950: #052e16;
+}
+
+/* Proximity border glow: useProximityGlow sets --glow-x/--glow-y to the
+   cursor's position relative to each card, so the ring lights up on whichever
+   edges are near the cursor. The mask keeps the gradient to a thin border. */
+.glow-card {
+  position: relative;
+}
+
+.glow-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  padding: 1.5px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(320px circle at var(--glow-x, -9999px) var(--glow-y, -9999px),
+      var(--ui-primary), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }

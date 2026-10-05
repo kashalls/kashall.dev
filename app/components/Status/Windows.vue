@@ -11,7 +11,7 @@ defineProps<{
         <div class="flex w-full max-w-3xl flex-col gap-4 lg:flex-row lg:items-start">
             <!-- Status code "image" -->
             <div class="w-full lg:w-2/5">
-                <UiPanel :title="String(code)" icon="i-ph-warning-octagon" :dock="false" :padded="false">
+                <UiPanel :title="String(code)" icon="i-ph-warning-octagon" :padded="false">
                     <div
                         class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-gradient-to-br from-primary-900/30 via-black to-black">
                         <div
@@ -26,7 +26,7 @@ defineProps<{
 
             <!-- Related content -->
             <div class="w-full lg:flex-1">
-                <UiPanel :title="title" icon="i-ph-info" :dock="false">
+                <UiPanel :title="title" icon="i-ph-info">
                     <div class="flex h-full flex-col gap-4 p-1">
                         <p class="text-slate-300">{{ description }}</p>
                         <slot name="extra" />

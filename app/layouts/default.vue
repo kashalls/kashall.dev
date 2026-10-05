@@ -1,5 +1,7 @@
 <script setup>
-useLenis()
+useProximityGlow()
+
+const route = useRoute()
 
 const { reduced } = useMotionPreference()
 if (import.meta.client) {
@@ -14,8 +16,7 @@ if (import.meta.client) {
       class="grid md:size-full relative h-full rounded-lg overflow-hidden border border-gray-900 transition-all duration-500 shadow-2xl grid-rows-[2.5rem_1fr_2.5rem] grid-columns-[2.5rem_1fr] [grid-template-areas:'header_header_header''content_content_content''bottom_bottom_bottom'] [grid-template-columns:0rem_1fr_0rem]">
       <LayoutHeader />
 
-      <div class="h-auto overflow-x-hidden overflow-y-scroll scroll lenis lenis-smooth p-1 [grid-area:content]"
-        id="lenis-frame">
+      <div class="h-auto overflow-x-hidden overflow-y-scroll scroll p-1 [grid-area:content]" id="content-frame">
         <slot />
       </div>
 
@@ -23,11 +24,10 @@ if (import.meta.client) {
         class="col-span-2 grid h-full w-full grid-cols-1 lg:col-span-2 items-center gap-4 px-1 md:col-span-1 md:grid-cols-2 lg:grid-cols-[1fr_1.5fr_1fr] xl:grid-cols-[1fr_2fr_1fr] bg-gradient-to-tr from-[#0e0c12]/25 to-[#0e0f0f]/25 border-t border-gray-900 [grid-area:bottom]">
         <div class="col-start-1 hidden items-center justify-self-start md:flex">
           <LayoutColormode />
-          <LayoutResetLayout />
           <LayoutBreadcrumb />
         </div>
-        <div class="col-start-2 hidden justify-self-center lg:flex">
-          <LayoutDock />
+        <div v-if="route.path === '/'" class="col-start-2 hidden justify-self-center lg:flex">
+          <LayoutSectionNav />
         </div>
         <div class="items-center justify-self-end md:col-start-2 lg:col-start-3">
           <LayoutSocial />
@@ -50,28 +50,7 @@ html.reduce-motion *::after {
   scroll-behavior: auto !important;
 }
 
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
-}
-
-.lenis#lenis-frame {
+#content-frame {
   scrollbar-width: thin;
   scrollbar-color: oklch(var(--color-primary-DEFAULT)) transparent;
 }

@@ -11,7 +11,7 @@ const owValue = 'font-overwatch text-3xl font-semibold italic leading-none'
 </script>
 
 <template>
-    <GamesBanner :background="p.namecard" accent="#f99e1a">
+    <GamesBanner title="Overwatch" icon="i-ph-crosshair" :background="p.namecard">
         <template #logo>
             <img src="https://blz-contentstack-images.akamaized.net/v3/assets/blt2477dcaf4ebd440c/blt12c582d9d58631b9/69d573c3c714e07b0dc39b07/overwatch_logo.png"
                 alt="Overwatch" class="w-40 md:w-36" />
