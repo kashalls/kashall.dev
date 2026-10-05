@@ -5,13 +5,13 @@ const url = useRequestURL()
 const host = computed(() => url.host)
 const { openContact } = useContact()
 
-useHead({
+useSeoMeta({
     title: 'Gateway — No Service Configured',
-    meta: [{
-        name: 'description',
-        content: 'This hostname is resolving to a gateway endpoint with no configured service.',
-    }],
+    description: 'This hostname is resolving to a gateway endpoint with no configured service.',
+    ogDescription: 'This hostname is resolving to a gateway endpoint with no configured service.',
 })
+// Served for any unconfigured hostname, so keep it out of search indexes.
+useRobotsRule(false)
 </script>
 
 <template>

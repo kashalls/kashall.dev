@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   // Canonical site (used by sitemap, robots, OG images). Override with
   // NUXT_PUBLIC_SITE_URL in production.
   site: {
-      url: 'https://kashall.dev',
+      url: 'https://ok8.sh',
       name: 'Jordan Jones',
   },
 

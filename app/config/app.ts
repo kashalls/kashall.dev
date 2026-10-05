@@ -1,8 +1,7 @@
-const image = "https://jordanjones.org/logo.png"
 const description =
-    "Versatile IT Professional Excelling in System Deployments, Network Operations, and Device Provisioning."
+    "Freelance Software Engineer — integrations, full-stack & infrastructure."
 
-
+// og:image and twitter:card come from defineOgImage on each page.
 export default {
     head: {
         title: 'Jordan Jones',
@@ -10,63 +9,12 @@ export default {
             { rel: 'icon', type: 'image/png', href: '/logo.png' }
         ],
         meta: [
-            {
-                hid: "description",
-                name: "description",
-                content: description,
-            },
-            /* Twitter */
-            {
-                hid: "twitter:card",
-                name: "twitter:card",
-                content: "summary",
-            },
-            {
-                hid: "twitter:site",
-                name: "twitter:site",
-                content: "@jordpjones",
-            },
-            {
-                hid: "twitter:creator",
-                name: "twitter:creator",
-                content: "@jordpjones",
-            },
-            {
-                hid: "twitter:title",
-                name: "twitter:title",
-                content: "Jordan Jones",
-            },
-            {
-                hid: "twitter:description",
-                name: "twitter:description",
-                content: description,
-            },
-            {
-                hid: "twitter:image",
-                name: "twitter:image",
-                content: image,
-            },
-            /* Open-Graph */
-            {
-                hid: "og:type",
-                name: "og:type",
-                content: "website",
-            },
-            {
-                hid: "og:site_name",
-                name: "og:site_name",
-                content: "jordanjones.org",
-            },
-            {
-                hid: "og:description",
-                name: "og:description",
-                content: description,
-            },
-            {
-                hid: "og:image",
-                name: "og:image",
-                content: image,
-            }
+            { name: "description", content: description },
+            { name: "twitter:site", content: "@jordpjones" },
+            { name: "twitter:creator", content: "@jordpjones" },
+            { property: "og:type", content: "website" },
+            { property: "og:site_name", content: "Jordan Jones" },
+            { property: "og:description", content: description },
         ]
     }
 }
