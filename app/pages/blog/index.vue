@@ -7,7 +7,11 @@ const { data: posts } = await useAsyncData('blog-index', () =>
         .all(),
 )
 
-useHead({ title: 'Blog — Jordan Jones' })
+useSeoMeta({
+    title: 'Blog — Jordan Jones',
+    description: 'Notes on Kubernetes, homelabs, and whatever I\'m building.',
+    ogDescription: 'Notes on Kubernetes, homelabs, and whatever I\'m building.',
+})
 defineOgImage('Default', {
     title: 'Blog',
     description: 'Notes on Kubernetes, homelabs, and whatever I\'m building.',

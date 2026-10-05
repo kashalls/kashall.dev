@@ -1,6 +1,6 @@
 ## Jordan's Site
 
-> My personal website, live at [kashall.dev](https://kashall.dev). Built with Nuxt 4 and Nuxt UI, shipped as a container image.
+> My personal website, live at [ok8.sh](https://ok8.sh). Built with Nuxt 4 and Nuxt UI, shipped as a container image.
 
 After almost continuous revisions, I've finally got my personal website to a state where I am proud of it. It's been a long journey since I first got invested in Vue, and it has grown alongside me from Nuxt 3 to Nuxt 4.
 

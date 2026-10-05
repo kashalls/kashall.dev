@@ -6,7 +6,7 @@ withDefaults(defineProps<{
 }>(), {
     title: 'Jordan Jones',
     description: 'Freelance Software Engineer',
-    badge: 'kashall.dev',
+    badge: 'ok8.sh',
 })
 </script>
 

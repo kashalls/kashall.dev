@@ -13,7 +13,14 @@ const { data: surround } = await useAsyncData(`blog-surround-${route.path}`, () 
     queryCollectionItemSurroundings('blog', route.path, { fields: ['description'] }).where('draft', '=', false),
 )
 
-useHead({ title: `${post.value.title} — Jordan Jones` })
+useSeoMeta({
+    title: `${post.value.title} — Jordan Jones`,
+    description: post.value.description,
+    ogDescription: post.value.description,
+    ogType: 'article',
+    articlePublishedTime: new Date(post.value.date).toISOString(),
+    articleTag: post.value.tags,
+})
 defineOgImage('Default', {
     title: post.value.title,
     description: post.value.description,
