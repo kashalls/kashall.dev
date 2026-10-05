@@ -39,6 +39,23 @@ export default defineNuxtConfig({
       ],
   },
 
+  // Ship only the icons the site uses, in the client bundle. The server bundle
+  // would otherwise include every installed @iconify-json/* collection in full.
+  // Icon names must stay literal strings for the scan to find them.
+  icon: {
+      serverBundle: false,
+      // Not `false`: the runtime derives known collection names from this, and
+      // without them hyphenated prefixes (`i-simple-icons-*`) fail to resolve.
+      // The browser only hits the Iconify API for an icon the scan missed.
+      fallbackToApi: 'client-only',
+      clientBundle: {
+          scan: {
+              // Default excludes .ts, where some icon names are defined (utils/).
+              globInclude: ['app/**/*.{vue,ts}', 'content/**/*.md'],
+          },
+      },
+  },
+
   // Pre-render OG images at build (zeroRuntime) instead of rendering them on the
   // edge — the runtime renderer (satori + native resvg) can't run on CF Workers.
   ogImage: {

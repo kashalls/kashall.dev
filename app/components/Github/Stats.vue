@@ -7,7 +7,9 @@ const BgIssue = defineAsyncComponent(() => import('./BgIssue.vue'))
 const BgComment = defineAsyncComponent(() => import('./BgComment.vue'))
 const BgReaction = defineAsyncComponent(() => import('./BgReaction.vue'))
 
-const { data: stats, pending } = useFetch('/api/github', { lazy: true })
+// Client-only so the prerendered page doesn't bake in stats from build time.
+const { data: stats, status } = useFetch('/api/github', { server: false, lazy: true })
+const pending = computed(() => status.value === 'idle' || status.value === 'pending')
 
 const items = [
     { key: 'pullRequests', label: 'Pull Requests', bg: BgPullRequest, border: 'border-violet-400/50', text: 'text-violet-300' },
