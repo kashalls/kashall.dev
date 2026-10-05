@@ -104,7 +104,6 @@ export default defineNuxtConfig({
           prefix: '/_webfonts/',
       },
       families: [
-          { name: 'Caveat', provider: 'google' },
           { name: 'Inter', provider: 'google' },
           { name: 'Cinzel', provider: 'google' },
           { name: 'Teko', provider: 'google' },

@@ -22,13 +22,10 @@
   },
   "dependencies": {
     "@iconify-json/ph": "^1.2.2",
-    "@leonardssh/use-lanyard": "^1.0.4",
     "@nuxt/content": "^3.16.1",
     "@nuxt/image": "^2.1.0",
     "@resvg/resvg-js": "^2.6.2",
-    "@takumi-rs/core": "^2.14.0",
     "@vueuse/core": "^15.0.0",
-    "clsx": "^2.1.1",
     "satori": "^0.35.0"
   }
 }
