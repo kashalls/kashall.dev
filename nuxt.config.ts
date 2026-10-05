@@ -61,7 +61,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-      // Optional GitHub token (set NUXT_GITHUB_TOKEN) for higher API rate limits.
+      // GitHub token (set NUXT_GITHUB_TOKEN); required by the GraphQL API behind /api/github.
       githubToken: '',
       // Resend (set NUXT_RESEND_API_KEY). `onboarding@resend.dev` works without a
       // verified domain and delivers to your Resend account email.
