@@ -92,6 +92,11 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  routeRules: {
+      // Local fonts aren't content-hashed, so cache them without `immutable`.
+      '/fonts/**': { headers: { 'cache-control': 'public, max-age=2592000' } },
+  },
+
   colorMode: {
       preference: 'dark',
   },
