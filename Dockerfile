@@ -6,7 +6,7 @@ FROM oven/bun:1.4.2-slim AS build
 # Nuxt Content's build uses node:sqlite, which Bun doesn't implement. With node
 # on PATH, `bun run build` runs the nuxt CLI (a node shebang) under Node 22,
 # matching the runtime image.
-COPY --from=node:22-slim /usr/local/bin/node /usr/local/bin/node
+COPY --from=node:24-slim /usr/local/bin/node /usr/local/bin/node
 WORKDIR /app
 
 # Install dependencies first (cached layer). --ignore-scripts skips the
