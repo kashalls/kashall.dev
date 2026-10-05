@@ -28,7 +28,6 @@ export interface DiscordProfile {
  */
 export const useDiscordProfile = () => {
     const profile = useState<DiscordProfile | null>('discord-profile', () => null)
-    const { public: { userId } } = useRuntimeConfig()
 
     onMounted(async () => {
         if (profile.value || !import.meta.browser) return

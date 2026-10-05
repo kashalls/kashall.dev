@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---- Build stage ---------------------------------------------------------
-# Pin bun to the version that wrote bun.lockb so the frozen install matches.
+# Pin bun to the version that wrote bun.lock so the frozen install matches.
 FROM oven/bun:1.4.2-slim AS build
 # Nuxt Content's build uses node:sqlite, which Bun doesn't implement. With node
 # on PATH, `bun run build` runs the nuxt CLI (a node shebang) under Node 26,
@@ -15,7 +15,7 @@ WORKDIR /app
 # Install dependencies first (cached layer). --ignore-scripts skips the
 # `nuxt prepare` postinstall, which would run before the source is copied;
 # `bun run build` runs prepare itself.
-COPY package.json bun.lockb bunfig.toml ./
+COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile --ignore-scripts
 
 # Build the Nuxt app targeting a standalone Node server (.output/server).

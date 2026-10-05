@@ -24,7 +24,6 @@ if (import.meta.client) {
         class="col-span-2 grid h-full w-full grid-cols-1 lg:col-span-2 items-center gap-4 px-1 md:col-span-1 md:grid-cols-2 lg:grid-cols-[1fr_1.5fr_1fr] xl:grid-cols-[1fr_2fr_1fr] bg-gradient-to-tr from-[#0e0c12]/25 to-[#0e0f0f]/25 border-t border-gray-900 [grid-area:bottom]">
         <div class="col-start-1 hidden items-center justify-self-start md:flex">
           <LayoutColormode />
-          <LayoutBreadcrumb />
         </div>
         <div v-if="route.path === '/'" class="col-start-2 hidden justify-self-center lg:flex">
           <LayoutSectionNav />
