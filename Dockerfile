@@ -4,9 +4,12 @@
 # Pin bun to the version that wrote bun.lockb so the frozen install matches.
 FROM oven/bun:1.4.2-slim AS build
 # Nuxt Content's build uses node:sqlite, which Bun doesn't implement. With node
-# on PATH, `bun run build` runs the nuxt CLI (a node shebang) under Node 22,
-# matching the runtime image.
-COPY --from=node:22-slim /usr/local/bin/node /usr/local/bin/node
+# on PATH, `bun run build` runs the nuxt CLI (a node shebang) under Node 26,
+# matching the runtime image. Node 26 links libatomic, which bun's image lacks.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libatomic1 \
+ && rm -rf /var/lib/apt/lists/*
+COPY --from=node:26-slim /usr/local/bin/node /usr/local/bin/node
 WORKDIR /app
 
 # Install dependencies first (cached layer). --ignore-scripts skips the
@@ -23,7 +26,7 @@ RUN bun run build
 # ---- Runtime stage -------------------------------------------------------
 # Distroless: no shell/package manager, glibc-based, runs as non-root `nonroot`.
 # Nitro bundles its own minimal node_modules into .output, so that's all we ship.
-FROM gcr.io/distroless/nodejs22-debian12 AS runtime
+FROM gcr.io/distroless/nodejs26-debian13 AS runtime
 WORKDIR /app
 ENV NODE_ENV=production \
     NITRO_HOST=0.0.0.0 \
