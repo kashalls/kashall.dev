@@ -1,16 +1,15 @@
 /**
- * Profile stats, contribution calendar and language mix in a single GraphQL
- * request (1 rate-limit point), so it can be cached briefly and stay fresh.
+ * Profile stats, contribution calendar and language mix from one GraphQL
+ * request (1 rate-limit point) plus two REST commit searches (GraphQL search
+ * can't query commits), so it can be cached briefly and stay fresh.
  * GitHub's GraphQL API requires a token (NUXT_GITHUB_TOKEN).
  */
 const HEATMAP_WEEKS = 18
 
 const QUERY = /* GraphQL */ `
-query ($login: String!, $prs: String!, $issues: String!, $prsMonth: String!, $issuesMonth: String!) {
+query ($login: String!, $prs: String!, $prsMonth: String!) {
   prs: search(query: $prs, type: ISSUE) { issueCount }
-  issues: search(query: $issues, type: ISSUE) { issueCount }
   prsMonth: search(query: $prsMonth, type: ISSUE) { issueCount }
-  issuesMonth: search(query: $issuesMonth, type: ISSUE) { issueCount }
   user(login: $login) {
     contributionsCollection {
       contributionCalendar {
@@ -31,9 +30,7 @@ interface Day { date: string; contributionCount: number; contributionLevel: stri
 interface Response {
     data?: {
         prs: { issueCount: number }
-        issues: { issueCount: number }
         prsMonth: { issueCount: number }
-        issuesMonth: { issueCount: number }
         user: {
             contributionsCollection: { contributionCalendar: { weeks: { contributionDays: Day[] }[] } }
             repositories: {
@@ -53,26 +50,36 @@ export default defineCachedEventHandler(async (event) => {
     const username = config.public.github
     const monthStart = new Date().toISOString().slice(0, 8) + '01'
 
+    const headers = {
+        'User-Agent': 'kashall.dev',
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${config.githubToken}`,
+    }
+    const commitCount = async (q: string) =>
+        (await $fetch<{ total_count: number }>('https://api.github.com/search/commits', {
+            query: { q, per_page: 1 },
+            headers,
+        })).total_count
+
     // Let GitHub errors (e.g. rate limiting) throw: a thrown handler is NOT
     // cached, so we never persist an empty response. SWR keeps serving the
     // last good value until a fetch succeeds again.
-    const res = await $fetch<Response>('https://api.github.com/graphql', {
-        method: 'POST',
-        headers: {
-            'User-Agent': 'kashall.dev',
-            Authorization: `Bearer ${config.githubToken}`,
-        },
-        body: {
-            query: QUERY,
-            variables: {
-                login: username,
-                prs: `type:pr author:${username}`,
-                issues: `type:issue author:${username}`,
-                prsMonth: `type:pr author:${username} created:>=${monthStart}`,
-                issuesMonth: `type:issue author:${username} created:>=${monthStart}`,
+    const [res, commits, commitsThisMonth] = await Promise.all([
+        $fetch<Response>('https://api.github.com/graphql', {
+            method: 'POST',
+            headers,
+            body: {
+                query: QUERY,
+                variables: {
+                    login: username,
+                    prs: `type:pr author:${username}`,
+                    prsMonth: `type:pr author:${username} created:>=${monthStart}`,
+                },
             },
-        },
-    })
+        }),
+        commitCount(`author:${username}`),
+        commitCount(`author:${username} author-date:>=${monthStart}`),
+    ])
     if (!res.data) throw createError({ statusCode: 502, message: res.errors?.[0]?.message ?? 'GitHub API error' })
 
     const { user } = res.data
@@ -103,8 +110,8 @@ export default defineCachedEventHandler(async (event) => {
         username,
         pullRequests: res.data.prs.issueCount,
         pullRequestsThisMonth: res.data.prsMonth.issueCount,
-        issues: res.data.issues.issueCount,
-        issuesThisMonth: res.data.issuesMonth.issueCount,
+        commits,
+        commitsThisMonth,
         streak,
         weeks: user.contributionsCollection.contributionCalendar.weeks.slice(-HEATMAP_WEEKS).map(w =>
             w.contributionDays.map(d => ({ date: d.date, count: d.contributionCount, level: LEVELS[d.contributionLevel] ?? 0 })),
