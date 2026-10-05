@@ -18,6 +18,7 @@
     "nuxt-resend": "^0.0.2"
   },
   "dependencies": {
+    "@iconify-json/lucide": "^1.2.139",
     "@iconify-json/ph": "^1.2.2",
     "@nuxt/content": "^3.16.1",
     "@nuxt/image": "^2.1.0",
