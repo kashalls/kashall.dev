@@ -101,7 +101,7 @@ export default defineNuxtConfig({
 
   fonts: {
       assets: {
-          prefix: '/_fonts/',
+          prefix: '/_webfonts/',
       },
       families: [
           { name: 'Caveat', provider: 'google' },
