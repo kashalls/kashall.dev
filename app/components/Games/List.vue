@@ -8,18 +8,16 @@ const API = 'https://api.ok8.sh'
 const { data: wow, pending: wowPending } = useFetch<{ characters: WowCharacter[] }>(`${API}/wow/characters`, { server: false, lazy: true })
 const { data: ow, pending: owPending } = useFetch<{ players: OverwatchPlayer[] }>(`${API}/overwatch/players`, { server: false, lazy: true })
 
-const pending = computed(() => wowPending.value || owPending.value)
-const empty = computed(() => !pending.value && !wow.value?.characters.length && !ow.value?.players.length)
+const empty = computed(() => !wowPending.value && !owPending.value && !wow.value?.characters.length && !ow.value?.players.length)
 </script>
 
 <template>
     <div class="grid gap-4 2xl:grid-cols-2">
         <ClientOnly>
-            <template v-if="pending">
-                <USkeleton v-for="i in 2" :key="i" class="h-52 rounded-lg bg-white/5" />
-            </template>
-
+            <USkeleton v-if="wowPending" class="h-52 rounded-lg bg-white/5" />
             <GamesWowCard v-for="c in wow?.characters" :key="`${c.flavor}-${c.realm}-${c.name}`" :character="c" />
+
+            <USkeleton v-if="owPending" class="h-52 rounded-lg bg-white/5" />
             <GamesOverwatchCard v-for="p in ow?.players" :key="p.battletag" :player="p" />
 
             <UEmpty v-if="empty" icon="i-ph-game-controller" title="Nothing to show right now"
