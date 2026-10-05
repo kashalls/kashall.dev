@@ -10,8 +10,6 @@ export default {
         ],
         meta: [
             { name: "description", content: description },
-            { name: "twitter:site", content: "@jordpjones" },
-            { name: "twitter:creator", content: "@jordpjones" },
             { property: "og:type", content: "website" },
             { property: "og:site_name", content: "Jordan Jones" },
             { property: "og:description", content: description },

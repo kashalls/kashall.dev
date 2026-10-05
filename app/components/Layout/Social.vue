@@ -6,9 +6,6 @@ const socials = [{
     icon: 'i-ph-discord-logo-fill',
     to: 'https://discordapp.com/users/201077739589992448'
 }, {
-    icon: 'i-ph-twitter-logo-fill',
-    to: 'https://twitter.com/jordpjones'
-}, {
     icon: 'i-ph-linkedin-logo-fill',
     to: 'https://www.linkedin.com/in/jordpjones/'
 }]

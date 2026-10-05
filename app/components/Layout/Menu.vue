@@ -6,7 +6,6 @@ const { reduced, toggle: toggleMotion } = useMotionPreference()
 const socials = [
     { label: 'GitHub', icon: 'i-ph-github-logo', to: 'https://github.com/kashalls' },
     { label: 'LinkedIn', icon: 'i-ph-linkedin-logo', to: 'https://www.linkedin.com/in/jordpjones/' },
-    { label: 'Twitter / X', icon: 'i-ph-twitter-logo', to: 'https://twitter.com/jordpjones' },
     { label: 'Discord', icon: 'i-ph-discord-logo', to: 'https://discordapp.com/users/201077739589992448' },
 ]
 
