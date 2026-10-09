@@ -24,6 +24,6 @@
     "@nuxt/image": "^2.1.0",
     "@resvg/resvg-js": "^2.6.2",
     "@vueuse/core": "^15.0.0",
-    "satori": "^0.35.0"
+    "satori": "^0.47.0"
   }
 }
