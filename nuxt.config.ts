@@ -77,6 +77,9 @@ export default defineNuxtConfig({
   },
 
   content: {
+      // Restored from the bundled dump at startup. The default (./contents.sqlite,
+      // relative to cwd) is unwritable under a read-only root filesystem.
+      database: { type: 'sqlite', filename: '/tmp/contents.sqlite' },
       experimental: {
           // Node's built-in node:sqlite (Node >= 22.5), so the distroless
           // runtime image doesn't need a native better-sqlite3 build.
