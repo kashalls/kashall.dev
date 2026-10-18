@@ -21,13 +21,15 @@ useSeoMeta({
     articlePublishedTime: new Date(post.value.date).toISOString(),
     articleTag: post.value.tags,
 })
-defineOgImage('Default', {
+const date = computed(() => postDate(post.value!.date).toLocaleDateString('en-US', { dateStyle: 'long' }))
+
+defineOgImage('BlogPost', {
     title: post.value.title,
     description: post.value.description,
-    badge: 'Blog',
+    date: date.value,
+    tags: post.value.tags,
 })
 
-const date = computed(() => postDate(post.value!.date).toLocaleDateString('en-US', { dateStyle: 'long' }))
 const toc = computed(() => post.value?.body?.toc?.links ?? [])
 </script>
 

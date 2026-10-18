@@ -122,7 +122,7 @@ export default defineNuxtConfig({
       // Prerender the static routes so their OG images are generated at build
       // (required by ogImage.zeroRuntime). Dynamic client data still hydrates.
       prerender: {
-          routes: ['/', '/blog'],
+          routes: ['/', '/blog', '/feed.xml'],
           // Follow links from /blog so every post (and its OG image) prerenders.
           crawlLinks: true,
       },

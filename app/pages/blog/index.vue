@@ -26,7 +26,12 @@ defineOgImage('Default', {
             </template>
 
             <UPageHeader title="Blog" description="Notes on Kubernetes, homelabs, and whatever I'm building."
-                :ui="{ root: 'pt-0' }" />
+                :ui="{ root: 'pt-0' }">
+                <template #links>
+                    <UButton to="/feed.xml" external target="_blank" icon="i-ph-rss" label="RSS" color="neutral"
+                        variant="outline" size="sm" />
+                </template>
+            </UPageHeader>
 
             <UPageBody>
                 <ul v-if="posts?.length" class="flex flex-col divide-y divide-default">
