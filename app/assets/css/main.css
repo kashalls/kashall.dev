@@ -14,6 +14,10 @@
   --font-wow: "Cinzel", ui-serif, Georgia, serif;
   --font-overwatch: "Teko", ui-sans-serif, system-ui, sans-serif;
 
+  /* Blog post OG card: Plus Jakarta Sans titles, JetBrains Mono for the rest. */
+  --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-jetbrains: "JetBrains Mono", ui-monospace, monospace;
+
   /* Custom "Nuxt green" palette (overrides Tailwind's default green). */
   --color-green-50: #effdf5;
   --color-green-100: #d9fbe8;
