@@ -21,6 +21,9 @@ RUN bun install --frozen-lockfile --ignore-scripts
 # Build the Nuxt app targeting a standalone Node server (.output/server).
 COPY . .
 ENV NITRO_PRESET=node-server
+# Shown in the site footer and the curl card; .git isn't in the build context.
+ARG GIT_SHA GIT_REF
+ENV GIT_SHA=$GIT_SHA GIT_REF=$GIT_REF
 RUN bun run build
 
 # ---- Runtime stage -------------------------------------------------------
