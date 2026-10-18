@@ -25,7 +25,7 @@ defineProps<{
             </div>
 
             <!-- Related content -->
-            <div class="w-full lg:flex-1">
+            <div class="flex w-full flex-col gap-4 lg:flex-1">
                 <UiPanel :title="title" icon="i-ph-info">
                     <div class="flex h-full flex-col gap-4 p-1">
                         <p class="text-slate-300">{{ description }}</p>
@@ -37,6 +37,7 @@ defineProps<{
                         </div>
                     </div>
                 </UiPanel>
+                <slot name="below" />
             </div>
         </div>
     </section>
