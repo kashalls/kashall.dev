@@ -8,6 +8,16 @@
         "monorepo:vue"
       ],
       "groupName": "vue monorepo"
+    },
+    {
+      "description": "Nuxt modules pin each other's versions (sitemap v9 needs robots v7 and Nuxt 4.6), so update them together",
+      "matchPackageNames": [
+        "nuxt",
+        "/^@nuxt//",
+        "/^@nuxtjs//",
+        "/^nuxt-/"
+      ],
+      "groupName": "nuxt"
     }
   ]
 }

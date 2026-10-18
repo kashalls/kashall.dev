@@ -8,6 +8,9 @@ on:
       - main
     paths-ignore:
       - "**.md"
+  pull_request:
+    paths-ignore:
+      - "**.md"
   release:
     types:
       - published
@@ -34,9 +37,11 @@ jobs:
         type=ref,event=branch
       output: image
       platforms: linux/amd64,linux/arm64
-      push: true
+      # Pull requests only build, so broken dependency bumps fail before merge.
+      push: ${{ github.event_name != 'pull_request' }}
       sbom: true
-      sign: true
+      # auto signs whenever the image is pushed; `true` errors without a push.
+      sign: auto
     secrets:
       registry-auths: |
         - registry: ghcr.io
