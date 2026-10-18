@@ -1,19 +1,6 @@
-<script setup lang="ts">
-const socials = [{
-    icon: 'i-ph-github-logo-fill',
-    to: 'https://github.com/kashalls'
-}, {
-    icon: 'i-ph-discord-logo-fill',
-    to: 'https://discordapp.com/users/201077739589992448'
-}, {
-    icon: 'i-ph-linkedin-logo-fill',
-    to: 'https://www.linkedin.com/in/jordpjones/'
-}]
-</script>
-
 <template>
     <div class="">
-        <UButton v-for="social in socials" :key="social.to" :icon="social.icon" :to="social.to" size="xs" color="primary"
+        <UButton v-for="social in socials" :key="social.to" :icon="social.iconFill" :to="social.to" :aria-label="social.label" size="xs" color="primary"
             variant="ghost" />
     </div>
 
