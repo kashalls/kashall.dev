@@ -140,6 +140,10 @@ export default defineNuxtConfig({
           { name: 'Inter', provider: 'google' },
           { name: 'Cinzel', provider: 'google' },
           { name: 'Teko', provider: 'google' },
+          // Opt-in readable font (useReadableFont). Only referenced from a custom
+          // property, so it must be global to get an @font-face; browsers only
+          // download it once the class is on.
+          { name: 'OpenDyslexic', provider: 'fontsource', weights: [400, 700], global: true },
           { name: 'PP Neue Machina Plain', provider: 'local' },
           // global so @nuxt/fonts emits it for OG image (satori) font extraction.
           { name: 'PP Neue Machina Inktrap', provider: 'local', global: true },
