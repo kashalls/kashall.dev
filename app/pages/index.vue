@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full flex-col gap-8 p-2 md:p-4">
+  <div class="mx-auto flex w-full max-w-[96rem] flex-col gap-8 p-2 md:p-4">
     <section v-for="section in homeSections" :id="section.id" :key="section.id" class="flex scroll-mt-4 flex-col gap-3">
       <h2 class="flex items-center gap-2 px-1 text-xs font-semibold uppercase tracking-widest text-neutral-500">
         <UIcon :name="section.icon" class="h-4 w-4" />
@@ -131,7 +131,9 @@
       </div>
 
       <div v-else-if="section.id === 'live'" class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <UiPanel title="Discord" icon="i-ph-discord-logo" :padded="false">
+        <!-- From md up the tall Discord card spans two rows, with GitHub and Homelab
+             beside it; Status follows (full width on md, beside Discord on xl). -->
+        <UiPanel title="Discord" icon="i-ph-discord-logo" :padded="false" class="md:row-span-2">
           <DiscordCard />
         </UiPanel>
 
@@ -143,7 +145,7 @@
           <HomelabStats />
         </UiPanel>
 
-        <UiPanel title="Status" icon="i-ph-heartbeat" class="md:col-span-2 xl:col-span-3">
+        <UiPanel title="Status" icon="i-ph-heartbeat" class="md:col-span-2">
           <HomelabUptime />
         </UiPanel>
       </div>
