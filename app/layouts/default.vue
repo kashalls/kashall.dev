@@ -21,7 +21,9 @@ useHead({
 
 <template>
   <div class="h-dvh relative overflow-hidden p-2 dark:bg-black bg-slate-950">
-    <div class="background fixed top-0 left-0 right-0 h-screen" />
+    <slot name="background">
+      <div class="background fixed top-0 left-0 right-0 h-screen" />
+    </slot>
     <div
       class="grid md:size-full relative h-full rounded-lg overflow-hidden border border-gray-900 transition-all duration-500 shadow-2xl grid-rows-[2.5rem_1fr_2.5rem] grid-columns-[2.5rem_1fr] [grid-template-areas:'header_header_header''content_content_content''bottom_bottom_bottom'] [grid-template-columns:0rem_1fr_0rem]">
       <LayoutHeader />
