@@ -11,7 +11,9 @@ const owValue = 'font-overwatch text-3xl font-semibold italic leading-none'
 </script>
 
 <template>
-    <GamesBanner title="Overwatch" icon="i-ph-crosshair" :background="p.namecard">
+    <!-- Namecards are 5:1 strips with the art on the right and plain background on
+         the left, so keep the right edge when the card is narrower than that. -->
+    <GamesBanner title="Overwatch" icon="i-ph-crosshair" :background="p.namecard" background-position="object-right">
         <template #logo>
             <NuxtImg src="https://blz-contentstack-images.akamaized.net/v3/assets/blt2477dcaf4ebd440c/blt12c582d9d58631b9/69d573c3c714e07b0dc39b07/overwatch_logo.png"
                 alt="Overwatch" class="w-40 md:w-36" />

@@ -55,8 +55,8 @@ const fmt = (n?: number) =>
                     <span class="font-semibold text-white">{{ stats.streak }}-day</span> streak
                 </p>
             </div>
-            <div v-if="pending" class="mt-2 aspect-[18/7] w-full animate-pulse rounded bg-white/5" />
-            <div v-else class="relative mt-2 grid grid-flow-col grid-cols-18 grid-rows-7 gap-[3px]"
+            <div v-if="pending" class="mt-2 aspect-[18/7] w-full max-w-72 animate-pulse rounded bg-white/5" />
+            <div v-else class="relative mt-2 grid max-w-72 grid-flow-col grid-cols-18 grid-rows-7 gap-[3px]"
                 @pointerover="onCellOver" @pointerleave="hovered = null">
                 <template v-for="(week, w) in stats?.weeks" :key="w">
                     <div v-for="(day, d) in week" :key="day.date" :data-week="w" :data-day="d"

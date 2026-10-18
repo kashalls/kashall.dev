@@ -3,7 +3,11 @@
 // whose body is laid out like the Battle.net launcher, with identity plus
 // stats on the left, "View More" under them, and the game logo on the art at
 // the right.
-defineProps<{ title: string; icon: string; background?: string }>()
+// backgroundPosition: an object-position class for the art; it's cropped to
+// fill the card, so this picks which part survives on narrow cards.
+withDefaults(defineProps<{ title: string; icon: string; background?: string; backgroundPosition?: string }>(), {
+    backgroundPosition: 'object-[center_25%]',
+})
 const open = ref(false)
 </script>
 
@@ -13,7 +17,7 @@ const open = ref(false)
              rescale or re-crop it. -->
         <div class="relative flex flex-1 flex-col">
             <NuxtImg v-if="background" :src="background" alt="" loading="lazy"
-                class="absolute inset-0 h-full w-full object-cover object-[center_25%] opacity-60" />
+                :class="backgroundPosition" class="absolute inset-0 h-full w-full object-cover opacity-60" />
             <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/20 to-black/70" />
 
             <div
