@@ -27,7 +27,7 @@ const reload = () => { if (import.meta.client) window.location.reload() }
     <UApp>
         <NuxtLayout name="default">
             <template #background>
-                <LayoutParticleBackground :dispersed="calm" @struggling="onStruggling" />
+                <LazyLayoutParticleBackground :dispersed="calm" @struggling="onStruggling" />
             </template>
             <StatusWindows :code="meta.code" :title="meta.title" :description="meta.description">
                 <template #below>
