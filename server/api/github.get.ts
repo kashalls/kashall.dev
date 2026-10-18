@@ -4,7 +4,8 @@
  * can't query commits), so it can be cached briefly and stay fresh.
  * GitHub's GraphQL API requires a token (NUXT_GITHUB_TOKEN).
  */
-const HEATMAP_WEEKS = 18
+// The card shows as many of these as fit its width.
+const HEATMAP_WEEKS = 53
 
 const QUERY = /* GraphQL */ `
 query ($login: String!, $prs: String!, $prsMonth: String!) {
