@@ -1,6 +1,10 @@
 /**
  * Atom feed of published blog posts. Prerendered at build (see nitro.prerender).
  */
+// Imported explicitly: typed routes pull this file into the app's type check,
+// where the auto-imported queryCollection is the client version.
+import { queryCollection } from '@nuxt/content/server'
+
 const escape = (value: string) => value
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')

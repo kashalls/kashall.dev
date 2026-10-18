@@ -179,7 +179,7 @@ const topics = computed(() => [
   { label: 'Overwatch', tags: ['overwatch'] },
 ].map(topic => ({
   ...topic,
-  count: posts.value?.filter(post => post.tags.some(tag => topic.tags.includes(tag))).length ?? 0,
+  count: posts.value?.filter(post => (post.tags ?? []).some(tag => topic.tags.includes(tag))).length ?? 0,
 })))
 
 

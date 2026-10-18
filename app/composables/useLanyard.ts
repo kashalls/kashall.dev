@@ -4,18 +4,14 @@ export const useLanyard = () => {
     const lanyard = useState<LanyardData>('lanyard')
     const socket = ref<WebSocket>()
 
-    const { public: { userId } } = useRuntimeConfig()
-
     onMounted(async () => {
         if (!import.meta.browser) return;
         
         const { $lanyard } = useNuxtApp()
-        socket.value = await $lanyard({
-            userId,
-            socket: true
-        })
+        const ws = await $lanyard({ socket: true })
+        socket.value = ws
 
-        socket.value.addEventListener('message', ({ data }) => {
+        ws.addEventListener('message', ({ data }) => {
             const { d } = JSON.parse(data)
             if (!d.heartbeat_interval) {
                 lanyard.value = d
