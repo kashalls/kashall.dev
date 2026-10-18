@@ -60,7 +60,7 @@ export default defineNuxtConfig({
       clientBundle: {
           scan: {
               // Default excludes .ts, where some icon names are defined (utils/).
-              globInclude: ['app/**/*.{vue,ts}', 'content/**/*.md'],
+              globInclude: ['app/**/*.{vue,ts}', 'shared/**/*.ts', 'content/**/*.md'],
           },
       },
   },

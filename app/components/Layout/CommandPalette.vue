@@ -103,9 +103,7 @@ const groups = computed<CommandPaletteGroup[]>(() => [
         label: 'Links',
         items: [
             { label: 'Email me', icon: 'i-ph-envelope-simple', onSelect: () => openContact() },
-            { label: 'GitHub', icon: 'i-ph-github-logo', to: 'https://github.com/kashalls', target: '_blank' },
-            { label: 'LinkedIn', icon: 'i-ph-linkedin-logo', to: 'https://www.linkedin.com/in/jordpjones/', target: '_blank' },
-            { label: 'Discord', icon: 'i-ph-discord-logo', to: 'https://discordapp.com/users/201077739589992448', target: '_blank' },
+            ...socials.map(social => ({ label: social.label, icon: social.icon, to: social.to, target: '_blank' })),
         ],
     },
     {

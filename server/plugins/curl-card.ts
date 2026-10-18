@@ -10,9 +10,7 @@ const dim = (s: string) => `\x1b[2m${s}\x1b[0m`
 const links = [
     ['web', 'https://ok8.sh'],
     ['blog', 'https://ok8.sh/blog'],
-    ['github', 'https://github.com/kashalls'],
-    ['linkedin', 'https://www.linkedin.com/in/jordpjones/'],
-    ['discord', 'https://discordapp.com/users/201077739589992448'],
+    ...socials.map(social => [social.label.toLowerCase(), social.to]),
 ]
 
 function card(build: { sha: string, ref: string, time: string }) {
