@@ -40,6 +40,12 @@ jobs:
         GIT_REF=${{ github.ref_name }}
       output: image
       platforms: linux/amd64,linux/arm64
+      # The builder still defaults to 24.04; its own prepare/finalize jobs stay
+      # on 24.04 until docker/github-builder moves them.
+      runner: |
+        default=ubuntu-26.04
+        linux/arm=ubuntu-26.04-arm
+        linux/arm64=ubuntu-26.04-arm
       # Pull requests only build, so broken dependency bumps fail before merge.
       push: ${{ github.event_name != 'pull_request' }}
       sbom: true
