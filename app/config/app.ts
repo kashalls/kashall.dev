@@ -1,3 +1,5 @@
+import type { NuxtConfig } from 'nuxt/schema'
+
 const description =
     "Freelance Software Engineer — integrations, full-stack & infrastructure."
 
@@ -15,4 +17,4 @@ export default {
             { property: "og:description", content: description },
         ]
     }
-}
+} satisfies NuxtConfig['app']

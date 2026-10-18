@@ -4,6 +4,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "typecheck": "nuxt typecheck",
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
@@ -13,9 +14,12 @@
     "@nuxtjs/robots": "^7.0.0",
     "@nuxtjs/sitemap": "^9.0.0",
     "@nuxtjs/turnstile": "^1.1.3",
+    "@types/node": "^26",
     "nuxt": "^4.6.2",
     "nuxt-og-image": "^7.0.0",
-    "nuxt-resend": "^0.0.2"
+    "nuxt-resend": "^0.0.2",
+    "typescript": "^6.0.3",
+    "vue-tsc": "3.3.11"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.139",

@@ -63,8 +63,9 @@ function spotifyProgress(s: any) {
     }
 }
 
-function hideOnError(e: Event) {
-    (e.target as HTMLElement).style.display = 'none'
+// NuxtImg's error event can also carry a string, which has no element to hide.
+function hideOnError(e: string | Event) {
+    if (typeof e !== 'string') (e.target as HTMLElement).style.display = 'none'
 }
 </script>
 

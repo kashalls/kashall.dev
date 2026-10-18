@@ -147,7 +147,7 @@ export default defineNuxtConfig({
           { name: 'PP Neue Machina Plain', provider: 'local' },
           // global so @nuxt/fonts emits it for OG image (satori) font extraction.
           { name: 'PP Neue Machina Inktrap', provider: 'local', global: true },
-          // Blog post OG card (OgImage/BlogPost); global for the same reason.
+          // Blog post OG card (OgImage/Post); global for the same reason.
           { name: 'Plus Jakarta Sans', provider: 'google', weights: [800], global: true },
           { name: 'JetBrains Mono', provider: 'google', weights: [400], global: true },
       ]

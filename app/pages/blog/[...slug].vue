@@ -23,13 +23,14 @@ useSeoMeta({
 })
 const date = computed(() => postDate(post.value!.date).toLocaleDateString('en-US', { dateStyle: 'long' }))
 
-defineOgImage('BlogPost', {
+defineOgImage('Post', {
     title: post.value.title,
     description: post.value.description,
     date: date.value,
     tags: post.value.tags,
 })
 
+const tags = computed(() => post.value?.tags ?? [])
 const toc = computed(() => post.value?.body?.toc?.links ?? [])
 </script>
 
@@ -40,14 +41,14 @@ const toc = computed(() => post.value?.body?.toc?.links ?? [])
                 <BlogSidebar />
             </template>
 
-            <UPageHeader :headline="post.tags[0] && tagLabel(post.tags[0])" :title="post.title"
+            <UPageHeader :headline="tags[0] && tagLabel(tags[0])" :title="post.title"
                 :description="post.description" :ui="{ root: 'pt-0' }">
                 <div class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
                     <span class="flex items-center gap-1.5">
                         <UIcon name="i-ph-calendar-blank" class="size-4" />
                         {{ date }}
                     </span>
-                    <span v-for="tag in post.tags.slice(1)" :key="tag" class="flex items-center gap-1">
+                    <span v-for="tag in tags.slice(1)" :key="tag" class="flex items-center gap-1">
                         <UIcon name="i-ph-hash" class="size-4" />{{ tagLabel(tag) }}
                     </span>
                 </div>

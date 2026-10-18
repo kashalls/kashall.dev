@@ -49,7 +49,7 @@ export function guildTagBadgeUrl(user?: DiscordUserLike): string | null {
 	return `${CDN}/clan-badges/${pg.identity_guild_id}/${pg.badge}.png?size=24`
 }
 
-export const STATUS: Record<string, { color: string; label: string }> = {
+export const STATUS: Record<'online' | 'idle' | 'dnd' | 'offline', { color: string; label: string }> = {
 	online: { color: '#23a55a', label: 'Online' },
 	idle: { color: '#f0b232', label: 'Idle' },
 	dnd: { color: '#f23f43', label: 'Do Not Disturb' },
@@ -57,7 +57,7 @@ export const STATUS: Record<string, { color: string; label: string }> = {
 }
 
 export function statusColor(status?: string): string {
-	return STATUS[status ?? 'offline']?.color ?? STATUS.offline.color
+	return STATUS[status as keyof typeof STATUS]?.color ?? STATUS.offline.color
 }
 
 interface BadgeFlag {
@@ -157,7 +157,7 @@ export function parseDiscordText(text?: string): DiscordTextToken[][] {
 		urlRe.lastIndex = 0
 		while ((m = urlRe.exec(str)) !== null) {
 			if (m.index > last) tokens.push({ type: 'text', value: str.slice(last, m.index) })
-			tokens.push({ type: 'link', value: m[1].replace(/^https?:\/\//, ''), href: m[1] })
+			tokens.push({ type: 'link', value: m[1]!.replace(/^https?:\/\//, ''), href: m[1]! })
 			last = m.index + m[0].length
 		}
 		if (last < str.length) tokens.push({ type: 'text', value: str.slice(last) })
@@ -171,7 +171,7 @@ export function parseDiscordText(text?: string): DiscordTextToken[][] {
 		emojiRe.lastIndex = 0
 		while ((m = emojiRe.exec(line)) !== null) {
 			if (m.index > last) tokens.push(...tokenizeText(line.slice(last, m.index)))
-			tokens.push({ type: 'emoji', name: m[2], src: `${CDN}/emojis/${m[3]}.${m[1] ? 'gif' : 'png'}?size=24&quality=lossless` })
+			tokens.push({ type: 'emoji', name: m[2]!, src: `${CDN}/emojis/${m[3]}.${m[1] ? 'gif' : 'png'}?size=24&quality=lossless` })
 			last = m.index + m[0].length
 		}
 		if (last < line.length) tokens.push(...tokenizeText(line.slice(last)))

@@ -1,3 +1,5 @@
+import type { DiscordUserLike } from '~/utils/discord'
+
 interface Kv {
     [key: string]: string;
 }
@@ -46,6 +48,9 @@ interface Activity {
 
 interface DiscordUser {
     username: string;
+    global_name?: string | null;
+    display_name?: string | null;
+    primary_guild?: DiscordUserLike['primary_guild'];
     public_flags?: number;
     id: string;
     discriminator: string;

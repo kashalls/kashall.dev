@@ -37,7 +37,7 @@ defineOgImage('Default', {
                 <ul v-if="posts?.length" class="flex flex-col divide-y divide-default">
                     <li v-for="post in posts" :key="post.path" class="py-5 first:pt-0">
                         <NuxtLink :to="post.path" class="group flex flex-col gap-1.5">
-                            <span v-if="post.tags[0]" class="text-sm font-semibold text-primary">{{ tagLabel(post.tags[0]) }}</span>
+                            <span v-if="post.tags?.[0]" class="text-sm font-semibold text-primary">{{ tagLabel(post.tags[0]) }}</span>
                             <p class="text-lg font-semibold text-highlighted group-hover:text-primary">{{ post.title }}</p>
                             <p v-if="post.description" class="text-muted">{{ post.description }}</p>
                             <span class="text-sm text-muted">{{ postDate(post.date).toLocaleDateString('en-US', { dateStyle: 'medium' }) }}</span>

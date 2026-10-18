@@ -14,7 +14,8 @@ const { data: posts } = await useAsyncData('blog-sidebar-posts', () =>
 const navigation = computed<ContentNavigationItem[]>(() => {
     const groups = new Map<string, ContentNavigationItem[]>()
     for (const post of posts.value ?? []) {
-        for (const tag of post.tags.length ? post.tags : ['untagged']) {
+        const tags = post.tags ?? []
+        for (const tag of tags.length ? tags : ['untagged']) {
             if (!groups.has(tag)) groups.set(tag, [])
             groups.get(tag)!.push({ title: post.title, path: post.path, icon: 'i-ph-file-text' })
         }
