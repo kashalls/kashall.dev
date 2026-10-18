@@ -2,7 +2,7 @@
 
 # ---- Build stage ---------------------------------------------------------
 # Pin bun to the version that wrote bun.lock so the frozen install matches.
-FROM oven/bun:1.4.2-slim AS build
+FROM oven/bun:1.4.3-slim AS build
 # Nuxt Content's build uses node:sqlite, which Bun doesn't implement. With node
 # on PATH, `bun run build` runs the nuxt CLI (a node shebang) under Node 26,
 # matching the runtime image. Node 26 links libatomic, which bun's image lacks.
