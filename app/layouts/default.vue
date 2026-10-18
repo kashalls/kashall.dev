@@ -4,9 +4,19 @@ useProximityGlow()
 const route = useRoute()
 
 const { reduced } = useMotionPreference()
+const { enabled: readableFont } = useReadableFont()
 if (import.meta.client) {
   watchEffect(() => document.documentElement.classList.toggle('reduce-motion', reduced.value))
+  watchEffect(() => document.documentElement.classList.toggle('readable-font', readableFont.value))
 }
+
+// Pages are prerendered, so apply the saved font before first paint instead of
+// swapping fonts once the app hydrates.
+useHead({
+  script: [{
+    innerHTML: `try{if(localStorage.getItem('${READABLE_FONT_KEY}')==='true')document.documentElement.classList.add('readable-font')}catch(e){}`,
+  }],
+})
 </script>
 
 <template>
@@ -48,6 +58,12 @@ html.reduce-motion *::after {
   animation-iteration-count: 1 !important;
   transition-duration: 0.001ms !important;
   scroll-behavior: auto !important;
+}
+
+html.readable-font {
+  --font-sans: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
+  --font-stat: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
 }
 
 #content-frame {

@@ -7,6 +7,7 @@ const colorMode = useColorMode()
 const toast = useToast()
 const { openContact } = useContact()
 const { reduced, toggle: toggleMotion } = useMotionPreference()
+const { enabled: readableFont, toggle: toggleReadableFont } = useReadableFont()
 const { shortSha, ref: gitRef, commitUrl } = useBuildInfo()
 
 defineShortcuts({
@@ -115,6 +116,7 @@ const groups = computed<CommandPaletteGroup[]>(() => [
             { label: 'Light theme', icon: 'i-ph-sun', onSelect: () => { colorMode.preference = 'light' } },
             { label: 'System theme', icon: 'i-ph-desktop', onSelect: () => { colorMode.preference = 'system' } },
             { label: reduced.value ? 'Allow motion' : 'Reduce motion', icon: 'i-ph-person-simple-walk', onSelect: toggleMotion },
+            { label: readableFont.value ? 'Turn off OpenDyslexic font' : 'Use OpenDyslexic font', suffix: 'dyslexia', icon: 'i-ph-text-aa', onSelect: toggleReadableFont },
         ],
     },
     {

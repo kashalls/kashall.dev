@@ -2,6 +2,7 @@
 const colorMode = useColorMode()
 const { openContact } = useContact()
 const { reduced, toggle: toggleMotion } = useMotionPreference()
+const { enabled: readableFont, toggle: toggleReadableFont } = useReadableFont()
 
 const socials = [
     { label: 'GitHub', icon: 'i-ph-github-logo', to: 'https://github.com/kashalls' },
@@ -32,6 +33,11 @@ const settingsItems = computed(() => [
         icon: 'i-ph-person-simple-walk',
         trailingIcon: reduced.value ? 'i-ph-check' : undefined,
         onSelect: (e: Event) => { e.preventDefault(); toggleMotion() },
+    }, {
+        label: 'OpenDyslexic font',
+        icon: 'i-ph-text-aa',
+        trailingIcon: readableFont.value ? 'i-ph-check' : undefined,
+        onSelect: (e: Event) => { e.preventDefault(); toggleReadableFont() },
     }],
 ])
 
@@ -46,7 +52,7 @@ const triggerClass = 'text-muted hover:text-highlighted data-[state=open]:text-h
             <UButton label="Links" color="neutral" variant="ghost" size="xs" :class="triggerClass" />
         </UDropdownMenu>
 
-        <UDropdownMenu :items="settingsItems" :content="{ align: 'start' }" :ui="{ content: 'w-44' }">
+        <UDropdownMenu :items="settingsItems" :content="{ align: 'start' }" :ui="{ content: 'w-52' }">
             <UButton label="Settings" color="neutral" variant="ghost" size="xs" :class="triggerClass" />
         </UDropdownMenu>
     </nav>
