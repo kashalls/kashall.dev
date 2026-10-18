@@ -1,5 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { execSync } from 'node:child_process'
 import app from './app/config/app'
+
+// The container build passes GIT_SHA/GIT_REF as build args (it has no .git);
+// local builds read them from the checkout.
+const git = (args: string) => {
+    try {
+        return execSync(`git ${args}`, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()
+    } catch {
+        return ''
+    }
+}
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -72,7 +83,12 @@ export default defineNuxtConfig({
       // NUXT_PUBLIC_TURNSTILE_SITE_KEY and NUXT_TURNSTILE_SECRET_KEY.
       public: {
           userId: '201077739589992448',
-          github: 'kashalls'
+          github: 'kashalls',
+          build: {
+              sha: process.env.GIT_SHA || git('rev-parse HEAD'),
+              ref: process.env.GIT_REF || git('rev-parse --abbrev-ref HEAD'),
+              time: new Date().toISOString(),
+          },
       }
   },
 

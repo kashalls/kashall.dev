@@ -6,6 +6,7 @@
                 <Logo class="h-5 w-5" />
             </UButton>
             <LayoutMenu />
+            <LayoutCommandPalette />
         </div>
 
         <div class="flex gap-2 text-dimmed col-start-3 justify-self-end">
