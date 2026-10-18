@@ -13,7 +13,7 @@
     "@nuxtjs/robots": "^7.0.0",
     "@nuxtjs/sitemap": "^9.0.0",
     "@nuxtjs/turnstile": "^1.1.3",
-    "nuxt": "^4.5.2",
+    "nuxt": "^4.6.2",
     "nuxt-og-image": "^7.0.0",
     "nuxt-resend": "^0.0.2"
   },
