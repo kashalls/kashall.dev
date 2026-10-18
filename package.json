@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@iconify-json/simple-icons": "^1.2.98",
-    "@nuxt/fonts": "^0.14.0",
+    "@nuxt/fonts": "^1.0.0",
     "@nuxt/ui": "^4.11.3",
     "@nuxtjs/robots": "^6.2.4",
     "@nuxtjs/sitemap": "^8.6.1",
