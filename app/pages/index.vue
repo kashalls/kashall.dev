@@ -142,6 +142,10 @@
         <UiPanel title="Homelab" icon="i-simple-icons-kubernetes">
           <HomelabStats />
         </UiPanel>
+
+        <UiPanel title="Status" icon="i-ph-heartbeat" class="md:col-span-2 xl:col-span-3">
+          <HomelabUptime />
+        </UiPanel>
       </div>
 
       <GamesList v-else-if="section.id === 'games'" />
