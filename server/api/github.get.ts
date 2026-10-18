@@ -41,11 +41,20 @@ interface Response {
     errors?: { message: string }[]
 }
 
+// Failed fetches aren't cached, so without this every page view during a
+// GitHub outage or with a bad token would call GitHub again.
+const RETRY_AFTER_MS = 60_000
+let lastFailure = 0
+
 const LEVELS: Record<string, number> = {
     NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4,
 }
 
 export default defineCachedEventHandler(async (event) => {
+    if (Date.now() - lastFailure < RETRY_AFTER_MS) {
+        throw createError({ statusCode: 503, message: 'GitHub request failed recently; retrying shortly' })
+    }
+
     const config = useRuntimeConfig(event)
     const username = config.public.github
     const monthStart = new Date().toISOString().slice(0, 8) + '01'
@@ -79,8 +88,14 @@ export default defineCachedEventHandler(async (event) => {
         }),
         commitCount(`author:${username}`),
         commitCount(`author:${username} author-date:>=${monthStart}`),
-    ])
-    if (!res.data) throw createError({ statusCode: 502, message: res.errors?.[0]?.message ?? 'GitHub API error' })
+    ]).catch((error) => {
+        lastFailure = Date.now()
+        throw error
+    })
+    if (!res.data) {
+        lastFailure = Date.now()
+        throw createError({ statusCode: 502, message: res.errors?.[0]?.message ?? 'GitHub API error' })
+    }
 
     const { user } = res.data
     const days = user.contributionsCollection.contributionCalendar.weeks.flatMap(w => w.contributionDays)
@@ -122,7 +137,7 @@ export default defineCachedEventHandler(async (event) => {
 }, {
     name: 'github-stats',
     getKey: () => 'stats',
-    maxAge: 60,
+    maxAge: 10 * 60,
     staleMaxAge: 60 * 60, // keep serving the last good value through GitHub outages
     swr: true,
 })
