@@ -1,14 +1,33 @@
 <script setup lang="ts">
+import { useElementSize } from '@vueuse/core'
+
 // Client-only so the prerendered page doesn't bake in stats from build time.
-const { data: stats, status, refresh } = useFetch('/api/github', { server: false, lazy: true })
+// No automatic retry: the polling below already retries on its own schedule.
+const { data: stats, status, refresh } = useFetch('/api/github', { server: false, lazy: true, retry: false })
 // Only the first load shows skeletons; background refreshes keep the old values.
 const pending = computed(() => !stats.value && (status.value === 'idle' || status.value === 'pending'))
+const unavailable = computed(() => !stats.value && status.value === 'error')
 
-let timer: ReturnType<typeof setInterval>
+// The server caches stats for 10 minutes, so there's nothing new to poll for
+// once they've loaded; until then, retry every 2.5 minutes.
+let timer: ReturnType<typeof setInterval> | undefined
 onMounted(() => {
-    timer = setInterval(refresh, 60_000)
+    if (!stats.value) timer = setInterval(refresh, 150_000)
+})
+watch(stats, (value) => {
+    if (value) clearInterval(timer)
 })
 onBeforeUnmount(() => clearInterval(timer))
+
+// Show as many whole weeks as fit the card at a fixed cube size.
+const CELL = 13
+const GAP = 3
+const heatmap = useTemplateRef<HTMLElement>('heatmap')
+const { width } = useElementSize(heatmap)
+const weeks = computed(() => {
+    const fit = Math.max(1, Math.floor((width.value + GAP) / (CELL + GAP)))
+    return (stats.value?.weeks ?? []).slice(-fit)
+})
 
 const items = [
     { key: 'pullRequests', monthKey: 'pullRequestsThisMonth', label: 'Pull Requests', text: 'text-violet-300' },
@@ -25,15 +44,15 @@ function onCellOver(e: PointerEvent) {
     const cell = (e.target as HTMLElement).closest<HTMLElement>('[data-week]')
     if (!cell) return
     const week = Number(cell.dataset.week)
-    const day = stats.value?.weeks[week]?.[Number(cell.dataset.day)]
+    const day = weeks.value[week]?.[Number(cell.dataset.day)]
     if (!day) return
-    const weeks = stats.value!.weeks.length
+    const count = weeks.value.length
     hovered.value = {
         text: `${day.count} contribution${day.count === 1 ? '' : 's'} · ${dateFmt.format(new Date(day.date))}`,
         left: cell.offsetLeft + cell.offsetWidth / 2,
         top: cell.offsetTop,
         // Edge columns anchor the tooltip inward so the panel doesn't clip it.
-        align: week < 4 ? '-translate-x-3' : week >= weeks - 4 ? '-translate-x-[calc(100%-0.75rem)]' : '-translate-x-1/2',
+        align: week < 4 ? '-translate-x-3' : week >= count - 4 ? '-translate-x-[calc(100%-0.75rem)]' : '-translate-x-1/2',
     }
 }
 
@@ -46,21 +65,28 @@ const fmt = (n?: number) =>
 </script>
 
 <template>
-    <div class="flex flex-col gap-4">
-        <div>
+    <div v-if="unavailable" class="flex flex-1 flex-col items-center justify-center gap-2 py-8 text-center text-sm text-slate-400">
+        <UIcon name="i-ph-github-logo" class="size-6 text-slate-500" />
+        GitHub stats are temporarily unavailable.
+    </div>
+    <div v-else class="flex flex-col gap-4">
+        <div ref="heatmap">
             <div class="flex items-center justify-between">
-                <p class="text-[0.7rem] font-semibold uppercase tracking-widest text-slate-500">Last 18 weeks</p>
+                <p class="text-[0.7rem] font-semibold uppercase tracking-widest text-slate-500">
+                    {{ weeks.length ? `Last ${weeks.length} weeks` : 'Activity' }}
+                </p>
                 <p v-if="stats?.streak" class="flex items-center gap-1 text-xs text-slate-400">
                     <UIcon name="i-ph-fire-fill" class="h-3.5 w-3.5 text-orange-400" />
                     <span class="font-semibold text-white">{{ stats.streak }}-day</span> streak
                 </p>
             </div>
-            <div v-if="pending" class="mt-2 aspect-[18/7] w-full max-w-72 animate-pulse rounded bg-white/5" />
-            <div v-else class="relative mt-2 grid max-w-72 grid-flow-col grid-cols-18 grid-rows-7 gap-[3px]"
+            <div v-if="pending" class="mt-2 h-[109px] w-full animate-pulse rounded bg-white/5" />
+            <div v-else class="relative mt-2 grid grid-flow-col grid-rows-7 gap-[3px]"
+                :style="{ gridTemplateColumns: `repeat(${weeks.length}, ${CELL}px)` }"
                 @pointerover="onCellOver" @pointerleave="hovered = null">
-                <template v-for="(week, w) in stats?.weeks" :key="w">
+                <template v-for="(week, w) in weeks" :key="w">
                     <div v-for="(day, d) in week" :key="day.date" :data-week="w" :data-day="d"
-                        class="aspect-square rounded-[3px] hover:ring-1 hover:ring-white/60"
+                        class="size-[13px] rounded-[3px] hover:ring-1 hover:ring-white/60"
                         :class="levelClass[day.level]" />
                 </template>
                 <div v-if="hovered"
