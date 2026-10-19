@@ -22,7 +22,10 @@ const badges = computed(() => userBadges(user.value))
 
 const displayName = computed(() => user.value?.display_name || user.value?.global_name || user.value?.username || 'Kashall')
 const username = computed(() => user.value?.username)
-const joinedAt = computed(() => snowflakeToDate(user.value?.id)?.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }))
+const joinedAt = computed(() => {
+    const date = snowflakeToDate(user.value?.id)
+    return date && formatDate(date)
+})
 
 // Custom status (activity type 4)
 const customStatus = computed(() => lanyard.value?.activities?.find(a => a.type === 4))
@@ -70,7 +73,7 @@ function hideOnError(e: string | Event) {
 </script>
 
 <template>
-    <div class="w-full text-slate-200">
+    <div class="w-full text-default">
         <!-- Banner -->
         <div class="relative aspect-[3/1] max-h-40 w-full overflow-hidden" :style="{ backgroundColor: bannerColor }">
             <NuxtImg v-if="banner" :src="banner" alt="banner" width="1024" height="410"
@@ -81,7 +84,7 @@ function hideOnError(e: string | Event) {
         <!-- Avatar + status -->
         <div class="relative px-4">
             <div class="absolute -top-10 left-4">
-                <div class="relative h-[84px] w-[84px] rounded-full border-[5px] border-[#0b0b10] bg-[#0b0b10]">
+                <div class="relative h-[84px] w-[84px] rounded-full border-[5px] border-white bg-white dark:border-[#0b0b10] dark:bg-[#0b0b10]">
                     <svg width="74" height="74" viewBox="0 0 74 74" class="block">
                         <defs>
                             <mask id="discord-avatar-mask">
@@ -92,7 +95,7 @@ function hideOnError(e: string | Event) {
                         <foreignObject x="0" y="0" width="74" height="74" mask="url(#discord-avatar-mask)">
                             <NuxtImg v-if="avatar" :src="avatar" width="74" height="74"
                                 class="block h-full w-full object-cover" @error="hideOnError" />
-                            <div v-else class="h-full w-full animate-pulse rounded-full bg-zinc-700" />
+                            <div v-else class="h-full w-full animate-pulse rounded-full bg-accented" />
                         </foreignObject>
                         <circle cx="61" cy="61" r="8" :fill="statusColor(status)" />
                     </svg>
@@ -112,15 +115,15 @@ function hideOnError(e: string | Event) {
         <!-- Identity -->
         <div class="px-4 pb-1">
             <div class="flex items-center gap-2">
-                <h2 v-if="loaded" class="text-xl font-bold leading-6 text-white">{{ displayName }}</h2>
-                <div v-else class="h-5 w-28 animate-pulse rounded bg-zinc-700" />
+                <h2 v-if="loaded" class="text-xl font-bold leading-6 text-highlighted">{{ displayName }}</h2>
+                <div v-else class="h-5 w-28 animate-pulse rounded-md bg-accented" />
                 <span v-if="guildTag"
-                    class="flex items-center gap-1 rounded bg-zinc-800 px-1.5 py-0.5 text-xs font-semibold text-slate-200">
+                    class="flex items-center gap-1 rounded-md bg-elevated px-1.5 py-0.5 text-xs font-semibold text-default">
                     <NuxtImg v-if="guildBadge" :src="guildBadge" class="h-3.5 w-3.5" draggable="false" @error="hideOnError" />
                     {{ guildTag }}
                 </span>
             </div>
-            <p v-if="username" class="text-sm text-slate-400">@{{ username }}</p>
+            <p v-if="username" class="text-sm text-muted">@{{ username }}</p>
         </div>
 
         <!-- Body -->
@@ -131,11 +134,11 @@ function hideOnError(e: string | Event) {
                 <span>{{ customStatus.state }}</span>
             </div>
 
-            <div class="mb-3 h-px w-full bg-zinc-800" />
+            <div class="mb-3 h-px w-full bg-elevated" />
 
             <!-- Live activity (appears / disappears) -->
             <div class="mb-3">
-                <h3 class="mb-2 text-xs font-bold uppercase leading-4 text-slate-300">Activity</h3>
+                <h3 class="mb-2 text-xs font-semibold leading-4 text-highlighted">Activity</h3>
                 <TransitionGroup tag="div" class="relative flex flex-col gap-2"
                     enter-active-class="transition duration-300 ease-out"
                     enter-from-class="opacity-0 -translate-y-1.5 scale-[0.98]"
@@ -143,26 +146,26 @@ function hideOnError(e: string | Event) {
                     leave-to-class="opacity-0 translate-y-1.5 scale-[0.98]"
                     move-class="transition-transform duration-300">
                     <div v-if="!activities.length" key="idle"
-                        class="rounded-lg bg-zinc-800/60 px-3 py-2 text-xs italic text-slate-400">
+                        class="rounded-lg bg-elevated/60 px-3 py-2 text-xs italic text-muted">
                         {{ loaded ? 'Not doing anything right now.' : 'Connecting to Discord…' }}
                     </div>
 
-                    <div v-for="item in activities" :key="item.key" class="flex gap-3 rounded-lg bg-zinc-800/60 p-2.5">
+                    <div v-for="item in activities" :key="item.key" class="flex gap-3 rounded-lg bg-elevated/60 p-2.5">
                         <!-- Spotify -->
                         <template v-if="item.kind === 'spotify'">
                             <NuxtLink external :to="`https://open.spotify.com/track/${item.spotify.track_id}`"
                                 class="shrink-0">
-                                <NuxtImg :src="item.spotify.album_art_url" class="h-14 w-14 rounded" loading="lazy" draggable="false" />
+                                <NuxtImg :src="item.spotify.album_art_url" class="h-14 w-14 rounded-md" loading="lazy" draggable="false" />
                             </NuxtLink>
                             <div class="min-w-0 flex-1">
-                                <p class="flex items-center gap-1 text-[0.7rem] font-semibold uppercase tracking-wide text-green-400">
-                                    <UIcon name="i-ph-spotify-logo-fill" class="h-3.5 w-3.5" /> Listening to Spotify
+                                <p class="flex items-center gap-1 text-[0.7rem] font-semibold text-green-600 dark:text-green-400">
+                                    <UIcon name="i-ph-spotify-logo" class="h-3.5 w-3.5" /> Listening to Spotify
                                 </p>
-                                <p class="truncate text-sm font-bold text-white">{{ item.spotify.song }}</p>
-                                <p class="truncate text-xs text-slate-400">by {{ item.spotify.artist }}</p>
+                                <p class="truncate text-sm font-bold text-highlighted">{{ item.spotify.song }}</p>
+                                <p class="truncate text-xs text-muted">by {{ item.spotify.artist }}</p>
                                 <div class="mt-1.5">
                                     <UProgress :model-value="spotifyProgress(item.spotify).pct" size="xs" color="success" />
-                                    <div class="flex justify-between pt-1 text-[0.65rem] text-slate-400">
+                                    <div class="flex justify-between pt-1 text-[0.65rem] text-muted">
                                         <span>{{ spotifyProgress(item.spotify).elapsed }}</span>
                                         <span>{{ spotifyProgress(item.spotify).total }}</span>
                                     </div>
@@ -173,14 +176,14 @@ function hideOnError(e: string | Event) {
                         <!-- Game / rich presence -->
                         <template v-else>
                             <NuxtImg :src="activityImage(item.activity)" :alt="item.activity.name"
-                                class="h-14 w-14 shrink-0 rounded object-cover" loading="lazy" draggable="false" @error="hideOnError" />
+                                class="h-14 w-14 shrink-0 rounded-md object-cover" loading="lazy" draggable="false" @error="hideOnError" />
                             <div class="min-w-0 flex-1">
-                                <p class="text-[0.7rem] font-semibold uppercase tracking-wide text-primary-400">
+                                <p class="text-[0.7rem] font-semibold text-primary">
                                     {{ ActivityType[item.activity.type] }}
                                 </p>
-                                <p class="truncate text-sm font-bold text-white">{{ item.activity.name }}</p>
-                                <p v-if="item.activity.details" class="truncate text-xs text-slate-400">{{ item.activity.details }}</p>
-                                <p v-if="item.activity.state" class="truncate text-xs text-slate-400">{{ item.activity.state }}</p>
+                                <p class="truncate text-sm font-bold text-highlighted">{{ item.activity.name }}</p>
+                                <p v-if="item.activity.details" class="truncate text-xs text-muted">{{ item.activity.details }}</p>
+                                <p v-if="item.activity.state" class="truncate text-xs text-muted">{{ item.activity.state }}</p>
                             </div>
                         </template>
                     </div>
@@ -189,15 +192,15 @@ function hideOnError(e: string | Event) {
 
             <!-- About Me -->
             <div v-if="bio.length || pronouns" class="mb-3">
-                <h3 class="mb-1.5 text-xs font-bold uppercase leading-4 text-slate-300">About Me</h3>
-                <p v-if="pronouns" class="mb-1 text-xs text-slate-400">{{ pronouns }}</p>
-                <div class="flex flex-col gap-0.5 text-slate-300">
+                <h3 class="mb-1.5 text-xs font-semibold leading-4 text-highlighted">About Me</h3>
+                <p v-if="pronouns" class="mb-1 text-xs text-muted">{{ pronouns }}</p>
+                <div class="flex flex-col gap-0.5 text-toned">
                     <p v-for="(line, i) in bio" :key="i" class="flex flex-wrap items-center gap-x-1 leading-6">
                         <template v-for="(token, j) in line" :key="j">
                             <NuxtImg v-if="token.type === 'emoji'" :src="token.src" :alt="token.name"
                                 class="inline-block h-5 w-5 align-text-bottom" draggable="false" @error="hideOnError" />
                             <ULink v-else-if="token.type === 'link'" :to="token.href" external
-                                inactive-class="text-primary-400 hover:underline">{{ token.value }}</ULink>
+                                inactive-class="text-primary hover:underline">{{ token.value }}</ULink>
                             <span v-else>{{ token.value }}</span>
                         </template>
                     </p>
@@ -206,13 +209,13 @@ function hideOnError(e: string | Event) {
 
             <!-- Connections -->
             <div v-if="connections.length" class="mb-3">
-                <h3 class="mb-1.5 text-xs font-bold uppercase leading-4 text-slate-300">Connections</h3>
+                <h3 class="mb-1.5 text-xs font-semibold leading-4 text-highlighted">Connections</h3>
                 <div class="flex flex-wrap gap-1.5">
                     <component :is="conn.href ? 'a' : 'div'" v-for="conn in connections" :key="conn.type"
                         :href="conn.href || undefined" :target="conn.href ? '_blank' : undefined"
                         rel="noopener noreferrer" :title="`${conn.label}: ${conn.name}`"
-                        class="flex items-center gap-1.5 rounded bg-zinc-800 px-2 py-1 text-xs font-medium text-slate-200 transition-colors"
-                        :class="conn.href && 'hover:bg-zinc-700'">
+                        class="flex items-center gap-1.5 rounded-md bg-elevated px-2 py-1 text-xs font-medium text-default transition-colors"
+                        :class="conn.href && 'hover:bg-accented'">
                         <UIcon :name="conn.icon" class="h-4 w-4" :style="{ color: conn.color }" />
                         <span class="max-w-[120px] truncate">{{ conn.name }}</span>
                     </component>
@@ -221,18 +224,18 @@ function hideOnError(e: string | Event) {
 
             <!-- Member Since -->
             <div v-if="joinedAt" class="mb-3">
-                <h3 class="mb-1.5 text-xs font-bold uppercase leading-4 text-slate-300">Member Since</h3>
-                <p class="flex items-center gap-2 text-slate-300">
-                    <UIcon name="i-ph-discord-logo" class="h-4 w-4 text-slate-400" /> {{ joinedAt }}
+                <h3 class="mb-1.5 text-xs font-semibold leading-4 text-highlighted">Member Since</h3>
+                <p class="flex items-center gap-2 text-toned">
+                    <UIcon name="i-ph-discord-logo" class="h-4 w-4 text-muted" /> {{ joinedAt }}
                 </p>
             </div>
 
             <!-- Roles -->
             <div class="mb-3">
-                <h3 class="mb-1.5 text-xs font-bold uppercase leading-4 text-slate-300">Roles</h3>
+                <h3 class="mb-1.5 text-xs font-semibold leading-4 text-highlighted">Roles</h3>
                 <div class="flex flex-wrap gap-1">
                     <span v-for="role in roles" :key="role.label"
-                        class="flex items-center gap-1.5 rounded bg-zinc-800 px-1.5 py-1 text-xs font-medium">
+                        class="flex items-center gap-1.5 rounded-md bg-elevated px-1.5 py-1 text-xs font-medium">
                         <span :class="['h-2.5 w-2.5 rounded-full', role.color]" />
                         {{ role.label }}
                     </span>
@@ -241,10 +244,10 @@ function hideOnError(e: string | Event) {
 
             <!-- Note -->
             <div>
-                <h3 class="mb-1.5 text-xs font-bold uppercase leading-4 text-slate-300">Note</h3>
-                <p class="text-xs text-slate-400">
-                    Website made with <ULink to="https://nuxt.com" external inactive-class="text-primary-400 hover:underline">Nuxt</ULink>
-                    &amp; <ULink to="https://tailwindcss.com" external inactive-class="text-primary-400 hover:underline">TailwindCSS</ULink>.
+                <h3 class="mb-1.5 text-xs font-semibold leading-4 text-highlighted">Note</h3>
+                <p class="text-xs text-muted">
+                    Website made with <ULink to="https://nuxt.com" external inactive-class="text-primary hover:underline">Nuxt</ULink>
+                    &amp; <ULink to="https://tailwindcss.com" external inactive-class="text-primary hover:underline">TailwindCSS</ULink>.
                 </p>
             </div>
         </div>

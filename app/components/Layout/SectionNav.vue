@@ -29,7 +29,7 @@ onUnmounted(() => observer?.disconnect())
 <template>
     <nav class="flex items-center gap-1" aria-label="Page sections">
         <UButton v-for="section in homeSections" :key="section.id" :label="section.label" :icon="section.icon"
-            size="xs" color="primary" :variant="active === section.id ? 'soft' : 'ghost'"
+            size="sm" color="primary" :variant="active === section.id ? 'soft' : 'ghost'"
             :aria-current="active === section.id ? 'true' : undefined" @click="go(section.id)" />
     </nav>
 </template>

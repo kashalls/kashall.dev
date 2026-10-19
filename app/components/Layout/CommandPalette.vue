@@ -3,19 +3,22 @@ import type { CommandPaletteGroup, CommandPaletteItem } from '@nuxt/ui'
 
 const open = ref(false)
 const route = useRoute()
+// The posts sidebar's full-text search; it takes over search on post pages.
+const { open: contentSearchOpen } = useContentSearch()
 const colorMode = useColorMode()
 const toast = useToast()
 const { openContact } = useContact()
 const { reduced, toggle: toggleMotion } = useMotionPreference()
 const { enabled: readableFont, toggle: toggleReadableFont } = useReadableFont()
+const { set: setTextSize } = useTextSize()
 const { shortSha, ref: gitRef, commitUrl } = useBuildInfo()
 
 defineShortcuts({
     meta_k: {
         usingInput: true,
         handler: () => {
-            // The blog sidebar's full-text search owns ⌘K on blog pages.
-            if (route.path.startsWith('/blog')) return
+            // The posts full-text search owns ⌘K on post pages.
+            if (route.path.startsWith('/posts')) return
             open.value = !open.value
         },
     },
@@ -79,7 +82,7 @@ const groups = computed<CommandPaletteGroup[]>(() => [
         label: 'Pages',
         items: [
             { label: 'Home', icon: 'i-ph-house', to: '/' },
-            { label: 'Blog', icon: 'i-ph-article', to: '/blog' },
+            { label: 'Posts', icon: 'i-ph-article', to: '/posts' },
             ...homeSections.map(section => ({
                 label: section.label,
                 suffix: 'Home section',
@@ -115,6 +118,7 @@ const groups = computed<CommandPaletteGroup[]>(() => [
             { label: 'System theme', icon: 'i-ph-desktop', onSelect: () => { colorMode.preference = 'system' } },
             { label: reduced.value ? 'Allow motion' : 'Reduce motion', icon: 'i-ph-person-simple-walk', onSelect: toggleMotion },
             { label: readableFont.value ? 'Turn off OpenDyslexic font' : 'Use OpenDyslexic font', suffix: 'dyslexia', icon: 'i-ph-text-aa', onSelect: toggleReadableFont },
+            ...TEXT_SIZES.map(option => ({ label: `${option.label} text`, suffix: 'text size', icon: 'i-ph-text-aa', onSelect: () => setTextSize(option.value) })),
         ],
     },
     {
@@ -135,16 +139,17 @@ const groups = computed<CommandPaletteGroup[]>(() => [
 </script>
 
 <template>
-    <UModal v-model:open="open" :ui="{ content: 'sm:max-w-xl' }">
-        <UButton icon="i-ph-magnifying-glass" color="neutral" variant="ghost" size="xs" aria-label="Open command palette"
-            class="text-muted hover:text-highlighted">
-            <span class="hidden sm:inline">Search</span>
-            <span class="hidden items-center gap-0.5 sm:flex">
-                <UKbd value="meta" size="sm" />
-                <UKbd value="K" size="sm" />
-            </span>
-        </UButton>
+    <UButton icon="i-ph-magnifying-glass" color="neutral" variant="outline" aria-label="Search"
+        class="text-muted hover:text-highlighted sm:w-56 lg:w-96 xl:w-md"
+        @click="route.path.startsWith('/posts') ? contentSearchOpen = true : open = true">
+        <span class="hidden sm:inline">Search…</span>
+        <span class="ms-auto hidden items-center gap-0.5 sm:flex">
+            <UKbd value="meta" />
+            <UKbd value="K" />
+        </span>
+    </UButton>
 
+    <UModal v-model:open="open" :ui="{ content: 'sm:max-w-xl' }">
         <template #content>
             <UCommandPalette :groups="groups" placeholder="Jump to a page, post, link or setting…" close
                 class="h-96" @update:model-value="open = false" @update:open="open = $event" />

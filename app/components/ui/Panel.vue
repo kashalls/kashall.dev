@@ -1,9 +1,9 @@
 <template>
     <div
-        class="glow-card flex h-full flex-col overflow-hidden rounded border border-gray-900 bg-gradient-to-tr from-[#0e0c12]/75 to-[#0e0f0f]/25 backdrop-blur-3xl">
-        <div class="flex h-10 min-h-10 shrink-0 cursor-default select-none items-center border-b border-gray-900">
-            <p class="flex items-center gap-2 truncate px-4 font-body text-sm font-normal tracking-normal text-neutral-50">
-                <UIcon v-if="props.icon" :name="props.icon" class="h-4 w-4 shrink-0 text-primary-400" />
+        class="glow-card flex h-full flex-col overflow-hidden rounded-lg border border-default bg-gradient-to-tr from-white/75 to-white/25 dark:from-[#0e0c12]/75 dark:to-[#0e0f0f]/25 backdrop-blur-3xl">
+        <div class="flex h-10 min-h-10 shrink-0 cursor-default select-none items-center border-b border-default">
+            <p class="flex items-center gap-2 truncate px-4 font-body text-sm font-normal tracking-normal text-highlighted">
+                <UIcon v-if="props.icon" :name="props.icon" class="h-4 w-4 shrink-0 text-primary" />
                 {{ props.title }}
             </p>
         </div>

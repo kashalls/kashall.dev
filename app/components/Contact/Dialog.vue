@@ -43,11 +43,11 @@ watch(open, (isOpen) => {
     <UModal v-model:open="open" :ui="{ content: 'w-full sm:max-w-md' }">
         <template #content>
         <div
-            class="flex flex-col overflow-hidden rounded border border-gray-900 bg-gradient-to-tr from-[#0e0c12]/95 to-[#0e0f0f]/90 backdrop-blur-3xl">
+            class="flex flex-col overflow-hidden rounded-lg border border-default bg-gradient-to-tr from-white/95 to-white/90 dark:from-[#0e0c12]/95 dark:to-[#0e0f0f]/90 backdrop-blur-3xl">
             <!-- Title bar -->
-            <div class="flex h-10 shrink-0 items-center border-b border-gray-900 px-4">
-                <p class="flex items-center gap-2 font-body text-sm text-neutral-50">
-                    <UIcon name="i-ph-envelope-simple" class="h-4 w-4 text-primary-400" /> Send me a message
+            <div class="flex h-10 shrink-0 items-center border-b border-default px-4">
+                <p class="flex items-center gap-2 font-body text-sm text-highlighted">
+                    <UIcon name="i-ph-envelope-simple" class="h-4 w-4 text-primary" /> Send me a message
                 </p>
                 <UButton icon="i-ph-x" size="xs" color="primary" variant="ghost" class="ml-auto"
                     aria-label="Close" @click="closeContact" />
@@ -56,9 +56,9 @@ watch(open, (isOpen) => {
             <div class="p-4">
                 <!-- Success state -->
                 <div v-if="sent" class="flex flex-col items-center gap-3 py-6 text-center">
-                    <UIcon name="i-ph-check-circle" class="h-10 w-10 text-green-400" />
-                    <p class="font-medium text-white">Message sent!</p>
-                    <p class="text-sm text-slate-400">Thanks for reaching out — I'll get back to you soon.</p>
+                    <UIcon name="i-ph-check-circle" class="h-10 w-10 text-green-600 dark:text-green-400" />
+                    <p class="font-medium text-highlighted">Message sent!</p>
+                    <p class="text-sm text-muted">Thanks for reaching out — I'll get back to you soon.</p>
                     <UButton color="primary" class="mt-2" @click="closeContact">Close</UButton>
                 </div>
 
@@ -77,7 +77,7 @@ watch(open, (isOpen) => {
 
                     <NuxtTurnstile ref="turnstile" v-model="token" />
 
-                    <p v-if="errorMsg" class="flex items-center gap-1.5 text-sm text-red-400">
+                    <p v-if="errorMsg" class="flex items-center gap-1.5 text-sm text-red-600 dark:text-red-400">
                         <UIcon name="i-ph-warning-circle" class="h-4 w-4 shrink-0" /> {{ errorMsg }}
                     </p>
 

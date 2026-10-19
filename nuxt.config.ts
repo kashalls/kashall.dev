@@ -110,6 +110,10 @@ export default defineNuxtConfig({
   routeRules: {
       // Renders the requesting hostname, so it must be rendered per request.
       '/gateway': { prerender: false },
+      // Redirects or shows search results depending on ?q=, so it can't be a static file.
+      '/posts': { prerender: false },
+      // Old blog URLs, from before posts covered docs and guides too.
+      '/blog/**': { redirect: { to: '/posts/**', statusCode: 301 } },
       // Local fonts aren't content-hashed, so cache them without `immutable`.
       '/fonts/**': { headers: { 'cache-control': 'public, max-age=2592000' } },
   },
@@ -122,8 +126,8 @@ export default defineNuxtConfig({
       // Prerender the static routes so their OG images are generated at build
       // (required by ogImage.zeroRuntime). Dynamic client data still hydrates.
       prerender: {
-          routes: ['/', '/blog', '/feed.xml'],
-          // Follow links from /blog so every post (and its OG image) prerenders.
+          routes: ['/', '/posts/introduction', '/feed.xml'],
+          // Follow the posts sidebar's links so every post (and its OG image) prerenders.
           crawlLinks: true,
       },
       // Persist the cache to disk in dev so it survives restarts (fewer GitHub calls).

@@ -2,7 +2,10 @@
 title: Hello, world
 description: The site has a blog now. Here's what to expect.
 date: 2026-10-05
+section: blog
+category: meta
 tags: [meta]
+icon: i-ph-hand-waving
 ---
 
 The site finally has a blog. Posts live as Markdown in this repository and are published with the site.
