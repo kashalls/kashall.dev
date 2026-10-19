@@ -1,5 +1,6 @@
 /**
- * Atom feed of published blog posts. Prerendered at build (see nitro.prerender).
+ * Atom feed of the Blog section's posts; docs and guides change in place, so
+ * they stay out. Prerendered at build (see nitro.prerender).
  */
 // Imported explicitly: typed routes pull this file into the app's type check,
 // where the auto-imported queryCollection is the client version.
@@ -15,8 +16,9 @@ export default defineEventHandler(async (event) => {
     const site = getSiteConfig(event)
     const posts = await queryCollection(event, 'blog')
         .where('draft', '=', false)
+        .where('section', '=', 'blog')
         .order('date', 'DESC')
-        .select('title', 'description', 'date', 'path', 'tags')
+        .select('title', 'description', 'date', 'updated', 'path', 'tags')
         .all()
 
     const url = (path: string) => new URL(path, site.url).href
@@ -28,19 +30,20 @@ export default defineEventHandler(async (event) => {
     <title>${escape(post.title)}</title>
     <link href="${url(post.path)}"/>
     <published>${new Date(post.date).toISOString()}</published>
-    <updated>${new Date(post.date).toISOString()}</updated>
+    <updated>${new Date(post.updated ?? post.date).toISOString()}</updated>
     <summary>${escape(post.description ?? '')}</summary>
 ${(post.tags ?? []).map(tag => `    <category term="${escape(tag)}"/>`).join('\n')}
   </entry>`).join('')
 
     setResponseHeader(event, 'Content-Type', 'application/atom+xml; charset=utf-8')
+    // The feed <id> must never change, so it stays on the original /blog URL.
     return `<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>${url('/blog')}</id>
   <title>${escape(site.name)}</title>
   <subtitle>Notes on Kubernetes, homelabs, and whatever I'm building.</subtitle>
   <link href="${url('/feed.xml')}" rel="self"/>
-  <link href="${url('/blog')}"/>
+  <link href="${url('/posts')}"/>
   <author><name>Jordan Jones</name></author>
   <updated>${updated}</updated>${entries}
 </feed>

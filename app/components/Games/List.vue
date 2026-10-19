@@ -14,10 +14,10 @@ const empty = computed(() => !wowPending.value && !owPending.value && !wow.value
 <template>
     <div class="grid gap-4 2xl:grid-cols-2">
         <ClientOnly>
-            <USkeleton v-if="wowPending" class="h-52 rounded-lg bg-white/5" />
+            <USkeleton v-if="wowPending" class="h-52 rounded-lg bg-black/5 dark:bg-white/5" />
             <GamesWowCard v-for="c in wow?.characters" :key="`${c.flavor}-${c.realm}-${c.name}`" :character="c" />
 
-            <USkeleton v-if="owPending" class="h-52 rounded-lg bg-white/5" />
+            <USkeleton v-if="owPending" class="h-52 rounded-lg bg-black/5 dark:bg-white/5" />
             <GamesOverwatchCard v-for="p in ow?.players" :key="p.battletag" :player="p" />
 
             <UEmpty v-if="empty" icon="i-ph-game-controller" title="Nothing to show right now"
@@ -25,7 +25,7 @@ const empty = computed(() => !wowPending.value && !owPending.value && !wow.value
                 class="col-span-full" />
 
             <template #fallback>
-                <USkeleton v-for="i in 2" :key="i" class="h-52 rounded-lg bg-white/5" />
+                <USkeleton v-for="i in 2" :key="i" class="h-52 rounded-lg bg-black/5 dark:bg-white/5" />
             </template>
         </ClientOnly>
     </div>

@@ -1,0 +1,22 @@
+---
+title: 'Special Thanks'
+description: ''
+date: 2024-09-16
+updated: 2025-09-10
+section: homelab
+category: welcome
+tags: [homelab, community]
+icon: i-ph-medal
+order: 2
+---
+
+These people are worth admiting that they were helpful one way or another during my learning experience.
+This list is nonexhaustive, you may have helped me more than I care to admit. If you want to be on this list, open an issue. :)
+
+- [ᗪєνιη ᗷυнʟ](https://github.com/onedr0p/home-cluster)
+- [Dan Manners](https://github.com/danmanners/homelab-kube-cluster)
+- [Bᴇʀɴᴅ Sᴄʜᴏʀɢᴇʀs](https://github.com/bjw-s-labs/k8s-gitops)
+- [Toboshii Nakama](https://github.com/toboshii/home-cluster)
+- [Jory Irving](https://github.com/joryirving/home-ops)
+- [JJGadgets](https://github.com/JJGadgets/Biohazard)
+- *and everyone who particpates in the [Home Operations](https://discord.gg/home-operations) community!*

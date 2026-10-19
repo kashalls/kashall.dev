@@ -1,0 +1,79 @@
+---
+title: 'Janky Networking'
+description: 'See how my network comes to a crawl once RSTP is disabled...'
+date: 2024-09-16
+updated: 2025-10-29
+section: homelab
+category: homelab
+tags: [homelab, networking, unifi, bgp]
+icon: i-ph-network
+order: 4
+---
+
+## The Internet
+
+We don't know where it comes from... It's just there.
+Here's what I do know.
+
+### Xfinity
+
+Or comcast, or whatever. I don't know. I was paying them for their Gigabit plan that offered `1,200 Mbps Download` and `45 Mbps Upload`. I mostly needed it for the upload.
+
+They recently "upgraded" the network (I know they didn't invest any money into it recently) and grandfathered me into their **Gigabit x2 Plan** which offers up to `2000 Mbps Download` and `300 Mbps Uplaod`. It's almost too much for me.
+
+I still pay roughly the same amount, and still am using their modem however much I would not like to be doing that. It's $35 a month for Unlimited Data with my own modem, but $15 if I use theirs.
+
+
+### Ubiquiti
+
+I use Ubiquiti's [UXG-Max](https://store.ui.com/us/en/category/all-cloud-keys-gateways/products/uxg-max), a console-less 2.5Gbe router which I pared with my ancient [CloudKey+](https://store.ui.com/us/en/category/all-cloud-keys-gateways/collections/pro-uck-g2).
+I bought this before they released the [UCG-Max](https://store.ui.com/us/en/category/cloud-gateways-compact/collections/cloud-gateway-max) which offers the same thing, but with a Console + Protect Server inside.
+
+It's worked perfectly for me so far.
+I only wish that BGP support could come sooner.
+
+My UXG-Max is plugged into my *also ancient* [USW-24-Gen1](https://store.ui.com/us/en/category/all-switching/products/usw-24).
+*They don't even make these anymore.*
+In the future, I will want to replace this with a smaller PoE Switch that offers 10Gbe.
+
+All the devices that offer support for 2.5Gbe are plugged directly into the UXG-Max, the rest are plugged into the USW-24-G1.
+
+As for WiFI Connectivity, I have a [U6-LR](https://store.ui.com/us/en/category/all-wifi/products/u6-lr) and a [UAP-AC-Pro](https://store.ui.com/us/en/category/all-wifi/products/uap-ac-pro).
+
+#### BGP
+
+As of recently, UniFi now allows BGP natively through the app.
+Here's my config:
+
+```
+router bgp 64513
+  bgp router-id 10.0.10.1
+  no bgp ebgp-requires-policy
+
+  neighbor kubernetes peer-group
+  neighbor kubernetes remote-as 64514
+  neighbor kubernetes activate
+  neighbor kubernetes capability extended-nexthop
+  neighbor kubernetes soft-reconfiguration inbound
+
+  neighbor 10.0.10.2 peer-group kubernetes
+
+  address-family ipv4 unicast
+    neighbor kubernetes next-hop-self
+    neighbor 10.0.10.2 route-map kubernetes-main-ipv4-filter in
+  exit-address-family
+
+  address-family ipv6 unicast
+    neighbor kubernetes next-hop-self
+    neighbor kubernetes activate
+    neighbor kubernetes allowas-in
+  exit-address-family
+
+ip prefix-list kubernetes-main-ipv4 seq 10 permit 172.30.0.0/24
+! Allows any /32 routes within this range.
+ip prefix-list kubernetes-main-ipv4 seq 11 permit 10.0.20.0/24 ge 32 le 32
+ip prefix-list kubernetes-main-ipv4 seq 20 deny any
+
+route-map kubernetes-main-ipv4-filter permit 10
+  match ip address prefix-list kubernetes-main-ipv4
+```

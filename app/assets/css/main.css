@@ -2,9 +2,14 @@
 @import "@nuxt/ui";
 
 @theme {
-  /* Keep PP Neue Machina Inktrap as the default sans (loaded via @nuxt/fonts). */
-  --font-sans: "PP Neue Machina Inktrap", ui-sans-serif, system-ui, sans-serif,
+  /* Inter for body text and controls; Machina is reserved for display text. */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* `font-display` -> the name, page titles and other brand text. */
+  --font-display: "PP Neue Machina Inktrap", ui-sans-serif, system-ui, sans-serif;
+
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* `font-body` utility -> PP Neue Machina Plain (used on window/dialog titles). */
   --font-body: "PP Neue Machina Plain", ui-sans-serif, system-ui, sans-serif;

@@ -19,7 +19,7 @@ withDefaults(defineProps<{
     <div class="flex size-full flex-col px-[90px] font-jetbrains text-white"
         style="background:#0a0a12;background-image:radial-gradient(900px circle at 85% -10%, rgba(168,85,247,0.4), transparent 60%), linear-gradient(135deg,#0a0a12,#140b24);">
         <div class="mt-20 flex text-[26px] tracking-[2px] text-purple-500 uppercase">
-            ok8.sh / blog
+            ok8.sh / posts
         </div>
         <div class="mt-10 flex max-w-[1000px] font-jakarta leading-[1.1] font-extrabold"
             :class="title.length > 50 ? 'text-[60px]' : 'text-[72px]'">

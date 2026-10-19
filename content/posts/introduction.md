@@ -1,0 +1,31 @@
+---
+title: 'Introduction'
+description: 'The nodes and the bees.'
+date: 2024-09-16
+section: homelab
+category: welcome
+tags: [homelab, gitops, flux]
+icon: i-ph-hand-waving
+order: 1
+---
+
+## What is this?
+
+This documentation accompanies my version controlled homelab where I self host many services which which either better or worsen my life.
+I've had many iterations of my homelab and this site will document my encounters to help others own the road.
+
+## How does your home operations work?
+
+We use an open source and extensible continuous delivery system called [Flux](https://github.com/fluxcd/flux2).
+It's actually called "Flux2", but most of the community refers to it as "Flux".
+
+Flux is simply a tool that ensures that the Kubernetes cluster it is managing stays in sync with the configurations presenting in this repository.
+
+We use other tools like [Renovate](https://github.com/renovatebot/renovate) to watch for dependency updates and automatically create new pull requests.
+When these pull requests are merged, Flux will automatically apply the changes to the cluster.
+
+## Neat, How do I start my own?
+
+Thanks to [onedr0p](https://github.com/onedr0p), there is a [cluster template](https://github.com/onedr0p/flux-cluster-template) that allows you to easily get started with your own kubernetes cluster at home. You don't need to have multiple computers or a fancy setup to get one working.
+
+If you're interested, you can also join and talk wit the community: [Home Operations](https://discord.gg/home-operations). Several people are involved daily and it makes for some interesting conversations.

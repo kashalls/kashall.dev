@@ -13,7 +13,7 @@ defineProps<{
             <div class="w-full lg:w-2/5">
                 <UiPanel :title="String(code)" icon="i-ph-warning-octagon" :padded="false">
                     <div
-                        class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-gradient-to-br from-primary-900/30 via-black to-black">
+                        class="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-gradient-to-br from-primary-200/40 via-(--ui-bg) to-(--ui-bg) dark:from-primary-900/30">
                         <div
                             class="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_50%_120%,rgb(var(--color-primary-500)),transparent_60%)]" />
                         <span
@@ -28,7 +28,7 @@ defineProps<{
             <div class="flex w-full flex-col gap-4 lg:flex-1">
                 <UiPanel :title="title" icon="i-ph-info">
                     <div class="flex h-full flex-col gap-4 p-1">
-                        <p class="text-slate-300">{{ description }}</p>
+                        <p class="text-toned">{{ description }}</p>
                         <slot name="extra" />
                         <div class="mt-auto flex flex-wrap gap-2 pt-2">
                             <slot>

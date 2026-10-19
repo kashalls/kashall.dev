@@ -5,3 +5,11 @@ export function postDate(value: string | Date): Date {
     const date = new Date(value)
     return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
 }
+
+// The site's one date style, e.g. "Oct 5, 2026"; `year: false` drops the year
+// where a list is already grouped by year.
+export function formatDate(date: Date, { year = true } = {}): string {
+    return date.toLocaleDateString('en-US', year
+        ? { month: 'short', day: 'numeric', year: 'numeric' }
+        : { month: 'short', day: 'numeric' })
+}

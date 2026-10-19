@@ -29,12 +29,12 @@ const data = ref<Record<string, Metric>>({})
 const pending = ref(true)
 
 const colorClass = (c?: string) => (({
-    green: 'text-green-400',
-    orange: 'text-orange-400',
-    red: 'text-red-400',
-    yellow: 'text-yellow-300',
-    blue: 'text-blue-400',
-} as Record<string, string>)[c ?? ''] ?? 'text-white')
+    green: 'text-green-600 dark:text-green-400',
+    orange: 'text-orange-600 dark:text-orange-400',
+    red: 'text-red-600 dark:text-red-400',
+    yellow: 'text-yellow-700 dark:text-yellow-300',
+    blue: 'text-blue-600 dark:text-blue-400',
+} as Record<string, string>)[c ?? ''] ?? 'text-highlighted')
 
 async function load() {
     const keys = [
@@ -60,24 +60,24 @@ onBeforeUnmount(() => clearInterval(timer))
     <div class="flex flex-col gap-2">
         <div class="grid grid-cols-2 gap-2">
             <div v-for="s in stats" :key="s.key"
-                class="flex flex-col gap-1 rounded-lg border border-gray-800 bg-zinc-900/60 p-2.5">
-                <div class="flex items-center gap-1 text-[0.7rem] text-slate-400">
+                class="flex flex-col gap-1 rounded-lg border border-default bg-white/60 dark:bg-zinc-900/60 p-2.5">
+                <div class="flex items-center gap-1 text-[0.7rem] text-muted">
                     <UIcon :name="s.icon" class="h-3.5 w-3.5" /> {{ s.label }}
                 </div>
                 <p class="text-base font-bold leading-none" :class="colorClass(data[s.key]?.color)">
-                    <span v-if="pending" class="inline-block h-4 w-8 animate-pulse rounded bg-white/10 align-middle" />
+                    <span v-if="pending" class="inline-block h-4 w-8 animate-pulse rounded-md bg-black/10 dark:bg-white/10 align-middle" />
                     <template v-else>{{ data[s.key]?.value ?? '—' }}<span v-if="s.totalKey && data[s.totalKey]"
-                            class="text-[0.6rem] font-normal text-slate-500"> / {{ data[s.totalKey]?.value }}</span></template>
+                            class="text-[0.6rem] font-normal text-dimmed"> / {{ data[s.totalKey]?.value }}</span></template>
                 </p>
             </div>
         </div>
 
-        <div class="flex flex-col gap-1.5 rounded-lg border border-gray-800 bg-zinc-900/60 p-2.5">
+        <div class="flex flex-col gap-1.5 rounded-lg border border-default bg-white/60 dark:bg-zinc-900/60 p-2.5">
             <div v-for="f in footer" :key="f.key" class="flex items-center gap-2 text-xs">
-                <UIcon :name="f.icon" class="h-4 w-4 text-primary-400" />
-                <span class="text-slate-400">{{ f.label }}</span>
-                <span class="ml-auto font-mono font-medium text-white">
-                    <span v-if="pending" class="inline-block h-3 w-12 animate-pulse rounded bg-white/10 align-middle" />
+                <UIcon :name="f.icon" class="h-4 w-4 text-primary" />
+                <span class="text-muted">{{ f.label }}</span>
+                <span class="ml-auto font-mono font-medium text-highlighted">
+                    <span v-if="pending" class="inline-block h-3 w-12 animate-pulse rounded-md bg-black/10 dark:bg-white/10 align-middle" />
                     <template v-else>{{ data[f.key]?.value ?? '—' }}</template>
                 </span>
             </div>

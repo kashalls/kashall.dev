@@ -34,7 +34,7 @@ const open = ref(false)
             </div>
 
             <div v-if="$slots.details" class="relative flex px-5 pb-4">
-                <UButton :label="open ? 'View Less' : 'View More'" leading-icon="i-ph-caret-down-fill"
+                <UButton :label="open ? 'View Less' : 'View More'" leading-icon="i-ph-caret-down"
                     color="neutral" variant="link" size="xs" :aria-expanded="open"
                     class="group p-0 text-neutral-300 hover:text-white"
                     :ui="{ leadingIcon: ['size-3 transition-transform duration-300 group-hover:translate-y-0.5', open && 'rotate-180 group-hover:-translate-y-0.5'] }"
