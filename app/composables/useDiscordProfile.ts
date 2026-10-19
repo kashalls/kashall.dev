@@ -1,24 +1,13 @@
-export interface ConnectedAccount {
-    type: string
-    id: string
-    name: string
-    verified: boolean
-}
-
 export interface DiscordProfile {
     user: {
         id: string
         banner?: string | null
         banner_color?: string | null
         accent_color?: number | null
-        bio?: string
     }
     user_profile?: {
-        bio?: string
-        pronouns?: string
         accent_color?: number | null
     }
-    connected_accounts?: ConnectedAccount[]
     premium_type?: number
 }
 

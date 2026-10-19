@@ -114,6 +114,7 @@ export default defineNuxtConfig({
       '/posts': { prerender: false },
       // Old blog URLs, from before posts covered docs and guides too.
       '/blog/**': { redirect: { to: '/posts/**', statusCode: 301 } },
+      '/git': { redirect: { to: 'https://github.com/kashalls', statusCode: 302 } },
       // Local fonts aren't content-hashed, so cache them without `immutable`.
       '/fonts/**': { headers: { 'cache-control': 'public, max-age=2592000' } },
   },

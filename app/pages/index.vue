@@ -1,100 +1,117 @@
 <template>
   <UiContainer class="flex flex-col gap-8">
     <section v-for="section in homeSections" :id="section.id" :key="section.id" class="flex scroll-mt-4 flex-col gap-3">
-      <h2 class="flex items-center gap-2 px-1 text-sm font-semibold text-highlighted">
+      <h2 v-if="section.id !== 'about'" class="flex items-center gap-2 px-1 text-sm font-semibold text-highlighted">
         <UIcon :name="section.icon" class="h-4 w-4" />
         {{ section.label }}
       </h2>
 
-      <div v-if="section.id === 'about'" class="grid gap-4 xl:grid-cols-2">
-        <UiPanel title="Hello There" icon="i-ph-hand-waving">
-          <div
-            class="p-1 *:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
-            <p>Hi, I'm <span class="text-primary">Jordan</span>, a <span class="text-blue-500">Platform
-                Engineer</span> with a <span class="text-purple-600 dark:text-purple-400">software engineering background</span>.</p>
-            <p>I design and maintain <span class="text-pink-500">Kubernetes infrastructure</span> and write <span
-                class="text-orange-600 dark:text-orange-400">tooling that makes platforms more extensible</span>.</p>
-            <p>On the side, I provide <span class="text-green-600 dark:text-green-400">Residential &amp; Business IT Services</span>,
-              <span class="text-red-600 dark:text-red-400">Full-stack Web Development</span> &amp; <span
-                class="text-yellow-700 dark:text-yellow-300">Managed
-                Infrastructure Services</span>.
-            </p>
-          </div>
-          <div class="mt-3 flex flex-col gap-1.5 border-t border-default p-1 pt-3 text-sm text-toned">
-            <p class="flex items-center gap-2">
-              <UIcon name="i-ph-map-pin" class="h-4 w-4 shrink-0 text-primary" />
-              <span>Based in <ULink to="https://en.wikipedia.org/wiki/Eugene,_Oregon" external
-                  inactive-class="text-primary">Eugene, Oregon</ULink> · available for consultancy inside the United
-                States.</span>
-            </p>
-            <p class="flex items-center gap-2">
-              <UIcon name="i-ph-certificate" class="h-4 w-4 shrink-0 text-primary" />
-              <ULink to="https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/"
-                external inactive-class="text-blue-500">Linux Foundation: KCNA</ULink>
-            </p>
+      <div v-if="section.id === 'about'" class="grid gap-4 xl:grid-cols-5">
+        <UiPanel title="Hello There" icon="i-ph-hand-waving" :padded="false" class="xl:col-span-3">
+          <ProfileHeader />
+          <div class="flex flex-1 flex-col p-4">
+            <div
+              class="p-1 *:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
+              <p>Hi, I'm <span class="text-primary">Jordan</span>, a <span class="text-blue-500">Platform
+                  Engineer</span> with a <span class="text-purple-600 dark:text-purple-400">software engineering background</span>.</p>
+              <p>I design and maintain <span class="text-pink-500">Kubernetes infrastructure</span> and write <span
+                  class="text-orange-600 dark:text-orange-400">tooling that makes platforms more extensible</span>.</p>
+              <p>On the side, I provide <span class="text-green-600 dark:text-green-400">Residential &amp; Business IT Services</span>,
+                <span class="text-red-600 dark:text-red-400">Full-stack Web Development</span> &amp; <span
+                  class="text-yellow-700 dark:text-yellow-300">Managed
+                  Infrastructure Services</span>.
+              </p>
+            </div>
+            <div class="mt-3 flex flex-col gap-1.5 border-t border-default p-1 pt-3 text-sm text-toned">
+              <p class="flex items-center gap-2">
+                <UIcon name="i-ph-map-pin" class="h-4 w-4 shrink-0 text-primary" />
+                <span>Based in <ULink to="https://en.wikipedia.org/wiki/Eugene,_Oregon" external
+                    inactive-class="text-primary">Eugene, Oregon</ULink> · available for consultancy inside the United
+                  States.</span>
+              </p>
+              <p class="flex items-center gap-2">
+                <UIcon name="i-ph-certificate" class="h-4 w-4 shrink-0 text-primary" />
+                <ULink to="https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/"
+                  external inactive-class="text-blue-500">Linux Foundation: KCNA</ULink>
+              </p>
+            </div>
           </div>
         </UiPanel>
 
-        <UiPanel title="Technologies" icon="i-ph-stack">
-          <div class="grid gap-3 p-1 sm:grid-cols-3">
-            <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-4 xl:col-span-2">
+          <UiPanel title="Technologies" icon="i-ph-stack" class="flex-1">
+            <div class="grid gap-3 p-1 sm:grid-cols-3">
+              <div class="flex flex-col gap-3">
+                <div>
+                  <p class="text-green-500">Frontend</p>
+                  <ol
+                    class="*:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
+                    <li>Nuxt / Vue</li>
+                    <li>
+                      <UTooltip text="I no longer work with these technologies">
+                        <span class="cursor-help text-dimmed line-through">Wordpress / PHP</span>
+                      </UTooltip>
+                    </li>
+                  </ol>
+                </div>
+                <div>
+                  <p class="text-purple-600 dark:text-purple-400">Artificial Intelligence</p>
+                  <ol
+                    class="*:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
+                    <li>Claude</li>
+                    <li>Devin</li>
+                  </ol>
+                </div>
+              </div>
               <div>
-                <p class="text-green-500">Frontend</p>
+                <p class="text-blue-500">Orchestration</p>
                 <ol
                   class="*:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
-                  <li>Nuxt / Vue</li>
+                  <li>k3s / k8s (Kubernetes)</li>
+                  <li>OpenShift</li>
+                  <li>Talos</li>
+                  <li>Podman</li>
                   <li>
                     <UTooltip text="I no longer work with these technologies">
-                      <span class="cursor-help text-dimmed line-through">Wordpress / PHP</span>
+                      <span class="cursor-help text-dimmed line-through">Rancher</span>
                     </UTooltip>
                   </li>
                 </ol>
               </div>
               <div>
-                <p class="text-purple-600 dark:text-purple-400">Artificial Intelligence</p>
+                <p class="text-red-500">Languages</p>
                 <ol
                   class="*:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
-                  <li>Claude</li>
-                  <li>Devin</li>
+                  <li>Javascript / Typescript</li>
+                  <li>Golang</li>
+                  <li>Elixir <UBadge label="Learning" color="primary" variant="subtle" size="sm" class="ml-1 align-middle" /></li>
+                  <li>
+                    <UTooltip text="I no longer work with these technologies">
+                      <span class="cursor-help text-dimmed line-through">Java</span>
+                    </UTooltip>
+                  </li>
+                  <li>
+                    <UTooltip text="I no longer work with these technologies">
+                      <span class="cursor-help text-dimmed line-through">C / C++</span>
+                    </UTooltip>
+                  </li>
                 </ol>
               </div>
             </div>
-            <div>
-              <p class="text-blue-500">Orchestration</p>
-              <ol
-                class="*:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
-                <li>k3s / k8s (Kubernetes)</li>
-                <li>OpenShift</li>
-                <li>Talos</li>
-                <li>Podman</li>
-                <li>
-                  <UTooltip text="I no longer work with these technologies">
-                    <span class="cursor-help text-dimmed line-through">Rancher</span>
-                  </UTooltip>
-                </li>
-              </ol>
-            </div>
-            <div>
-              <p class="text-red-500">Languages</p>
-              <ol
-                class="*:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
-                <li>Javascript / Typescript</li>
-                <li>Golang</li>
-                <li>Elixir <UBadge label="Learning" color="primary" variant="subtle" size="sm" class="ml-1 align-middle" /></li>
-                <li>
-                  <UTooltip text="I no longer work with these technologies">
-                    <span class="cursor-help text-dimmed line-through">Java</span>
-                  </UTooltip>
-                </li>
-                <li>
-                  <UTooltip text="I no longer work with these technologies">
-                    <span class="cursor-help text-dimmed line-through">C / C++</span>
-                  </UTooltip>
-                </li>
-              </ol>
-            </div>
+          </UiPanel>
+
+          <div class="grid gap-3 sm:grid-cols-2">
+            <NuxtLink v-for="link in quickLinks" :key="link.to" :to="link.to" :external="link.external"
+              class="group flex items-center gap-3 rounded-lg border border-default bg-elevated/40 p-3 transition-colors hover:border-primary/50 hover:bg-elevated">
+              <UIcon :name="link.icon" class="h-6 w-6 shrink-0 text-primary" />
+              <div class="min-w-0 flex-1">
+                <p class="font-medium text-highlighted">{{ link.label }}</p>
+                <p class="truncate font-mono text-xs text-muted">{{ link.to }}</p>
+              </div>
+              <UIcon name="i-ph-arrow-right" class="h-4 w-4 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+            </NuxtLink>
           </div>
-        </UiPanel>
+        </div>
       </div>
 
       <div v-else-if="section.id === 'writing'" class="grid gap-4 xl:grid-cols-3">
@@ -137,12 +154,6 @@
       </div>
 
       <div v-else-if="section.id === 'live'" class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <!-- From md up the tall Discord card spans two rows, with GitHub and Homelab
-             beside it; Status follows (full width on md, beside Discord on xl). -->
-        <UiPanel title="Discord" icon="i-ph-discord-logo" :padded="false" class="md:row-span-2">
-          <DiscordCard />
-        </UiPanel>
-
         <UiPanel title="GitHub" icon="i-ph-github-logo">
           <GithubStats />
         </UiPanel>
@@ -151,7 +162,7 @@
           <HomelabStats />
         </UiPanel>
 
-        <UiPanel title="Status" icon="i-ph-heartbeat" class="md:col-span-2">
+        <UiPanel title="Status" icon="i-ph-heartbeat" class="md:col-span-2 xl:col-span-1">
           <HomelabUptime />
         </UiPanel>
       </div>
@@ -172,6 +183,11 @@ const { data: posts } = await useAsyncData('home-posts', () =>
 
 // Docs and guides change in place, so rank by the latest edit, not first publish.
 const lastChange = (post: { date: string | Date, updated?: string | Date }) => postDate(post.updated ?? post.date)
+const quickLinks = [
+  { label: 'Homelab', to: '/lab', icon: 'i-simple-icons-kubernetes' },
+  { label: 'GitHub', to: '/git', icon: 'i-ph-github-logo', external: true },
+]
+
 const latestPosts = computed(() => [...posts.value ?? []]
   .sort((a, b) => lastChange(b).getTime() - lastChange(a).getTime())
   .slice(0, 3))
