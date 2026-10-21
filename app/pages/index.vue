@@ -119,19 +119,17 @@
           <ul v-if="latestPosts.length" class="flex flex-col divide-y divide-default">
             <li v-for="post in latestPosts" :key="post.path" class="py-3 first:pt-1 last:pb-1">
               <NuxtLink :to="post.path" class="group flex flex-col gap-1">
-                <div class="flex items-baseline justify-between gap-4">
-                  <p class="font-medium text-highlighted group-hover:text-primary">{{ post.title }}</p>
-                  <span class="shrink-0 text-xs text-dimmed">
-                    {{ post.updated ? 'Updated ' : '' }}{{ formatDate(lastChange(post)) }}
-                  </span>
-                </div>
+                <p class="font-medium text-highlighted group-hover:text-primary">{{ post.title }}</p>
                 <p v-if="post.description" class="text-sm text-muted">{{ post.description }}</p>
-                <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium">
-                  <span v-if="blogSection(post.section)" class="flex items-center gap-1" :class="blogSection(post.section)!.accent.text">
+                <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium">
+                  <span v-if="blogSection(post.section)" class="mr-1 flex items-center gap-1" :class="blogSection(post.section)!.accent.text">
                     <UIcon :name="blogSection(post.section)!.icon" class="size-3.5" />
                     {{ blogSection(post.section)!.label }}
                   </span>
-                  <span v-for="tag in post.tags" :key="tag" class="text-primary">#{{ tag }}</span>
+                  <UBadge v-for="tag in post.tags" :key="tag" :label="`#${tag}`" color="primary" variant="subtle" size="sm" />
+                  <span class="ml-auto shrink-0 font-normal text-dimmed">
+                    {{ post.updated ? 'Updated ' : '' }}{{ formatDate(lastChange(post)) }}
+                  </span>
                 </div>
               </NuxtLink>
             </li>
