@@ -35,6 +35,12 @@ export default defineNuxtConfig({
       name: 'Jordan Jones',
   },
 
+  robots: {
+      // /.well-known/matrix/ is routed by Envoy to Continuwuity, not this app.
+      // /gateway is the page Envoy's fallback route serves for unknown hosts.
+      disallow: ['/.well-known/matrix/', '/gateway'],
+  },
+
   // Allow optimising remote avatars/banners through <NuxtImg>.
   image: {
       // Passthrough provider: the remote images are already sized by their CDNs.
