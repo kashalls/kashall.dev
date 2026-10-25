@@ -55,10 +55,11 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       - if: env.CAN_PREVIEW == 'true'
         id: preview
-        # The --json output isn't documented, so find the stable URL by its prefix.
+        # --json still prints progress lines first, so keep only the JSON object, and
+        # find the stable URL by its prefix since the fields aren't documented.
         run: |
           bunx wrangler preview --name "$PREVIEW_NAME" --json > preview.json
-          url=$(jq -r --arg p "https://$PREVIEW_NAME-" '[.. | strings | select(startswith($p))][0] // empty' preview.json || true)
+          url=$(sed -n '/^{$/,$p' preview.json | jq -r --arg p "https://$PREVIEW_NAME-" '[.. | strings | select(startswith($p))][0] // empty' || true)
           if [ -z "$url" ]; then cat preview.json; exit 1; fi
           echo "url=$url" >> "$GITHUB_OUTPUT"
         env:

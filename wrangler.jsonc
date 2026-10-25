@@ -4,6 +4,9 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ok8-sh",
   "routes": [{ "pattern": "ok8.sh", "custom_domain": true }],
+  // Routes switch the workers.dev URL off, and preview URLs default to match it,
+  // which would leave pull request Previews (deploy.yaml) without a URL.
+  "preview_urls": true,
   "observability": { "enabled": true },
   "assets": {
     // Nuxt links have no trailing slash; the default redirects /posts/x to /posts/x/.
