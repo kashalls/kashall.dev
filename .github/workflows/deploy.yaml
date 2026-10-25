@@ -9,6 +9,7 @@ on:
     paths-ignore:
       - "**.md"
   pull_request:
+    types: [opened, synchronize, reopened, closed]
     paths-ignore:
       - "**.md"
 
@@ -19,10 +20,19 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  PREVIEW_NAME: pr-${{ github.event.pull_request.number }}
+  # Pull requests from forks don't get the Cloudflare secrets, so they only build.
+  CAN_PREVIEW: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+
 jobs:
   deploy:
     name: Deploy
+    if: github.event.action != 'closed'
     runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      pull-requests: write # Preview URL comment
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # bun wrote bun.lock; the nuxt CLI (and node:sqlite in Nuxt Content) runs under Node.
@@ -36,11 +46,44 @@ jobs:
       # Shown in the site footer and the curl card.
       - run: bun run build
         env:
-          GIT_SHA: ${{ github.sha }}
+          GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GIT_REF: ${{ github.head_ref || github.ref_name }}
-      # Pull requests only build, so broken dependency bumps fail before merge.
       - if: github.event_name == 'push'
         run: bunx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - if: env.CAN_PREVIEW == 'true'
+        id: preview
+        # The --json output isn't documented, so find the stable URL by its prefix.
+        run: |
+          bunx wrangler preview --name "$PREVIEW_NAME" --json > preview.json
+          url=$(jq -r --arg p "https://$PREVIEW_NAME-" '[.. | strings | select(startswith($p))][0] // empty' preview.json || true)
+          if [ -z "$url" ]; then cat preview.json; exit 1; fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - if: env.CAN_PREVIEW == 'true'
+        run: >-
+          gh pr comment "${{ github.event.pull_request.number }}" --edit-last --create-if-none
+          --body "Preview: ${{ steps.preview.outputs.url }} (${{ github.event.pull_request.head.sha }})"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+
+  cleanup:
+    name: Delete Preview
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.3
+      # Only wrangler is needed; skip the `nuxt prepare` postinstall.
+      - run: bun install --frozen-lockfile --ignore-scripts
+      - run: bunx wrangler preview delete --name "$PREVIEW_NAME" --skip-confirmation
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
