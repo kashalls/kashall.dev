@@ -3,8 +3,8 @@ import { execSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import app from './app/config/app'
 
-// CI passes GIT_SHA/GIT_REF (a pull request checkout is a detached HEAD);
-// local builds read them from the checkout.
+// Workers Builds sets WORKERS_CI_COMMIT_SHA/WORKERS_CI_BRANCH; local builds
+// read them from the checkout.
 const git = (args: string) => {
     try {
         return execSync(`git ${args}`, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()
@@ -98,8 +98,8 @@ export default defineNuxtConfig({
           userId: '201077739589992448',
           github: 'kashalls',
           build: {
-              sha: process.env.GIT_SHA || git('rev-parse HEAD'),
-              ref: process.env.GIT_REF || git('rev-parse --abbrev-ref HEAD'),
+              sha: process.env.WORKERS_CI_COMMIT_SHA || git('rev-parse HEAD'),
+              ref: process.env.WORKERS_CI_BRANCH || git('rev-parse --abbrev-ref HEAD'),
               time: new Date().toISOString(),
           },
       }
