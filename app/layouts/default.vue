@@ -68,7 +68,6 @@ useHead({
       </footer>
 
       <ContactDialog />
-      <LayoutLiveMessage />
     </div>
   </div>
 </template>
