@@ -22,7 +22,8 @@ function dismiss() {
 </script>
 
 <template>
-    <UAlert v-if="message && message !== dismissed" icon="i-ph-broadcast" color="primary" variant="subtle"
+    <!-- Opaque, since it floats over the page's text. -->
+    <UAlert v-if="message && message !== dismissed" icon="i-ph-broadcast" color="primary" variant="outline"
         title="Live" :description="message" close
-        class="fixed bottom-16 right-4 z-50 w-auto max-w-sm shadow-lg" @update:open="dismiss" />
+        class="fixed bottom-16 right-4 z-50 w-auto max-w-sm bg-default shadow-lg" @update:open="dismiss" />
 </template>

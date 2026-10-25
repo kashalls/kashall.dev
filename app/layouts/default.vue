@@ -53,15 +53,16 @@ useHead({
         class="flex border-t border-default bg-gradient-to-tr from-white/25 to-white/25 dark:from-[#0e0c12]/25 dark:to-[#0e0f0f]/25 [grid-area:bottom]">
         <!-- Same width and columns as the header. -->
         <div class="mx-auto grid w-full max-w-[96rem] grid-cols-[1fr_auto] items-center gap-2 px-2 md:px-4 lg:grid-cols-[1fr_auto_1fr]">
-          <div class="flex items-center">
-            <LayoutBuildInfo />
-            <LayoutVisitCount />
+          <div class="flex items-center gap-1">
+            <LayoutStatusPill />
+            <LayoutDisplay />
           </div>
           <div v-if="route.path === '/'" class="hidden lg:flex">
             <LayoutSectionNav />
           </div>
-          <div class="col-start-2 justify-self-end lg:col-start-3">
-            <LayoutSocial />
+          <div class="col-start-2 flex items-center justify-self-end lg:col-start-3">
+            <LayoutVisitCount />
+            <LayoutBuildInfo />
           </div>
         </div>
       </footer>
