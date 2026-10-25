@@ -31,6 +31,7 @@ useHead({
       <LayoutHeader />
 
       <div class="h-auto overflow-x-hidden overflow-y-scroll scroll p-1 [grid-area:content]" id="content-frame">
+        <LayoutMaintenanceBanner />
         <slot />
       </div>
 
@@ -52,6 +53,7 @@ useHead({
       </footer>
 
       <ContactDialog />
+      <LayoutLiveMessage />
     </div>
   </div>
 </template>

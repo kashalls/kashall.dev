@@ -13,7 +13,11 @@
   },
   // No IDs: wrangler creates these on the first deploy and keeps them linked.
   "d1_databases": [{ "binding": "DB" }],
-  "kv_namespaces": [{ "binding": "CACHE" }],
+  "kv_namespaces": [
+    { "binding": "CACHE" },
+    // Site-wide messages served by /api/meta (server/api/meta.get.ts).
+    { "binding": "MESSAGES" }
+  ],
   // Reached through ctx.exports, so each Preview gets its own namespace automatically.
   "exports": {
     "VisitorCounter": { "type": "durable-object", "storage": "sqlite" }
@@ -23,6 +27,9 @@
     "d1_databases": [
       { "binding": "DB", "database_name": "kashall-dev-preview", "database_id": "e4bbc622-aeb7-4bc8-ad83-86efde5a1d89" }
     ],
-    "kv_namespaces": [{ "binding": "CACHE", "id": "f8cd22fa58ab499389be95e3789709d2" }]
+    "kv_namespaces": [
+      { "binding": "CACHE", "id": "f8cd22fa58ab499389be95e3789709d2" },
+      { "binding": "MESSAGES", "id": "a806ca07b17643e5bb869ab77d5f6001" }
+    ]
   }
 }

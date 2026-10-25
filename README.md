@@ -34,18 +34,26 @@ Environment variables:
 
 The site builds with Nitro's `cloudflare_module` preset and runs as a Cloudflare Worker. Prerendered pages and assets are served by [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/) without invoking the Worker. [wrangler.jsonc](wrangler.jsonc) declares the bindings:
 
-| Binding | Type | Purpose                                               |
-| ------- | ---- | ----------------------------------------------------- |
-| `DB`    | D1   | Nuxt Content database, restored from the build's dump |
-| `CACHE` | KV   | Nitro cache storage (GitHub and status responses)     |
+| Binding    | Type | Purpose                                                  |
+| ---------- | ---- | -------------------------------------------------------- |
+| `DB`       | D1   | Nuxt Content database, restored from the build's dump    |
+| `CACHE`    | KV   | Nitro cache storage (GitHub and status responses)        |
+| `MESSAGES` | KV   | Maintenance banner and live corner message (`/api/meta`) |
 
-Wrangler creates both on the first deploy. The footer's visit count lives in the `VisitorCounter` Durable Object ([server/durable/visitor-counter.ts](server/durable/visitor-counter.ts)), declared under `exports` and reached through `ctx.exports` rather than a binding; Cloudflare creates its namespace on deploy. Set the runtime secrets once:
+Wrangler creates these on the first deploy. The footer's visit count lives in the `VisitorCounter` Durable Object ([server/durable/visitor-counter.ts](server/durable/visitor-counter.ts)), declared under `exports` and reached through `ctx.exports` rather than a binding; Cloudflare creates its namespace on deploy. Set the runtime secrets once:
 
 ```bash
 bunx wrangler secret put NUXT_GITHUB_TOKEN
 bunx wrangler secret put NUXT_RESEND_API_KEY
 bunx wrangler secret put NUXT_TURNSTILE_SECRET_KEY
 bunx wrangler secret put NUXT_PUBLIC_TURNSTILE_SITE_KEY
+```
+
+The `maintenance` and `live` keys in `MESSAGES` show a banner above the content and a dismissible message in the corner; deleting a key hides it. Find the namespace ID with `bunx wrangler kv namespace list`, then:
+
+```bash
+bunx wrangler kv key put live "Streaming now" --namespace-id <id> --remote
+bunx wrangler kv key delete live --namespace-id <id> --remote
 ```
 
 Build, then preview locally or deploy:
