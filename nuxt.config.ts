@@ -35,6 +35,18 @@ export default defineNuxtConfig({
       name: 'Jordan Jones',
   },
 
+  robots: {
+      groups: [
+          {
+              userAgent: '*',
+              contentSignal: { 'ai-train': 'no', 'search': 'yes', 'ai-input': 'yes' },
+          },
+      ],
+      // /.well-known/matrix/ is routed by Envoy to Continuwuity, not this app.
+      // /gateway is the page Envoy's fallback route serves for unknown hosts.
+      disallow: ['/.well-known/matrix/', '/gateway'],
+  },
+
   // Allow optimising remote avatars/banners through <NuxtImg>.
   image: {
       // Passthrough provider: the remote images are already sized by their CDNs.
@@ -108,7 +120,7 @@ export default defineNuxtConfig({
 
   routeRules: {
       // Renders the requesting hostname, so it must be rendered per request.
-      '/gateway': { prerender: false },
+      '/gateway': { prerender: false, sitemap: false },
       // Redirects or shows search results depending on ?q=, so it can't be a static file.
       '/posts': { prerender: false },
       // Old blog URLs, from before posts covered docs and guides too.
@@ -137,7 +149,7 @@ export default defineNuxtConfig({
       // Prerender the static routes so their OG images are generated at build
       // (required by ogImage.zeroRuntime). Dynamic client data still hydrates.
       prerender: {
-          routes: ['/', '/posts/introduction', '/feed.xml'],
+          routes: ['/', '/posts/introduction', '/feed.xml', '/legal/juno/terms', '/legal/juno/privacy'],
           // Follow the posts sidebar's links so every post (and its OG image) prerenders.
           crawlLinks: true,
       },
