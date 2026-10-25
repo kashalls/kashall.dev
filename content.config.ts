@@ -23,5 +23,13 @@ export default defineContentConfig({
                 order: z.number().optional(),
             }),
         }),
+        // Policies for other projects, served at /legal/<project>/<page> and not linked from the site.
+        legal: defineCollection({
+            type: 'page',
+            source: 'legal/**/*.md',
+            schema: z.object({
+                updated: z.date(),
+            }),
+        }),
     },
 })
