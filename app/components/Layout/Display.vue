@@ -12,7 +12,7 @@ const themes = [
 </script>
 
 <template>
-    <UPopover :content="{ align: 'end', sideOffset: 8 }">
+    <UPopover :content="{ side: 'top', align: 'start', sideOffset: 8 }">
         <UButton icon="i-ph-text-aa" label="Display" color="neutral" variant="ghost"
             class="text-muted hover:text-highlighted data-[state=open]:text-highlighted" :ui="{ label: 'hidden md:inline' }" />
 

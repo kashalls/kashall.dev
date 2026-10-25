@@ -1,7 +1,21 @@
 <script setup>
+import { useDocumentVisibility, useIntervalFn } from '@vueuse/core'
+
 useProximityGlow()
 
 const route = useRoute()
+
+// Pages are prerendered, so messages load in the browser. Open pages pick up
+// changes on navigation, when the tab comes back into view, and every five
+// minutes while it's visible; idle hidden tabs cost nothing.
+const { refresh: refreshMessages } = useSiteMessages()
+if (import.meta.client) {
+  const visibility = useDocumentVisibility()
+  onMounted(refreshMessages)
+  watch(() => route.path, refreshMessages)
+  watch(visibility, (state) => { if (state === 'visible') refreshMessages() })
+  useIntervalFn(() => { if (visibility.value === 'visible') refreshMessages() }, 5 * 60_000)
+}
 
 const { reduced } = useMotionPreference()
 const { enabled: readableFont } = useReadableFont()
@@ -31,6 +45,7 @@ useHead({
       <LayoutHeader />
 
       <div class="h-auto overflow-x-hidden overflow-y-scroll scroll p-1 [grid-area:content]" id="content-frame">
+        <LayoutMaintenanceBanner />
         <slot />
       </div>
 
@@ -38,14 +53,16 @@ useHead({
         class="flex border-t border-default bg-gradient-to-tr from-white/25 to-white/25 dark:from-[#0e0c12]/25 dark:to-[#0e0f0f]/25 [grid-area:bottom]">
         <!-- Same width and columns as the header. -->
         <div class="mx-auto grid w-full max-w-[96rem] grid-cols-[1fr_auto] items-center gap-2 px-2 md:px-4 lg:grid-cols-[1fr_auto_1fr]">
-          <div class="flex items-center">
-            <LayoutBuildInfo />
+          <div class="flex items-center gap-1">
+            <LayoutStatusPill />
+            <LayoutDisplay />
           </div>
           <div v-if="route.path === '/'" class="hidden lg:flex">
             <LayoutSectionNav />
           </div>
-          <div class="col-start-2 justify-self-end lg:col-start-3">
-            <LayoutSocial />
+          <div class="col-start-2 flex items-center justify-self-end lg:col-start-3">
+            <LayoutVisitCount />
+            <LayoutBuildInfo />
           </div>
         </div>
       </footer>

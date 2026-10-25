@@ -60,7 +60,7 @@ const secrets: (CommandPaletteItem & { trigger: string })[] = [
         trigger: 'kubectl get pods',
         label: 'kubectl get pods',
         icon: 'i-simple-icons-kubernetes',
-        onSelect: () => toast.add({ title: 'kashall-dev-7c9f8b-x2k4l', description: '1/1 Running · 0 restarts (that you know of)', icon: 'i-simple-icons-kubernetes' }),
+        onSelect: () => toast.add({ title: 'ok8-sh-7c9f8b-x2k4l', description: '1/1 Running · 0 restarts (that you know of)', icon: 'i-simple-icons-kubernetes' }),
     },
     {
         trigger: 'do a barrel roll',

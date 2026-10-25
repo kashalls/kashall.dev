@@ -1,4 +1,4 @@
-export const SOURCE_URL = 'https://github.com/kashalls/kashall.dev'
+export const SOURCE_URL = 'https://github.com/kashalls/ok8.sh'
 
 /** The commit this deployment was built from (see `build` in nuxt.config). */
 export const useBuildInfo = () => {

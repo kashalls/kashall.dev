@@ -4,10 +4,13 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "preview": "wrangler dev",
+    "deploy": "wrangler deploy",
     "typecheck": "nuxt typecheck",
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261025.1",
     "@iconify-json/simple-icons": "^1.2.98",
     "@nuxt/fonts": "^1.0.0",
     "@nuxt/ui": "^4.11.3",
@@ -19,7 +22,8 @@
     "nuxt-og-image": "^7.0.0",
     "nuxt-resend": "^0.0.2",
     "typescript": "^6.0.3",
-    "vue-tsc": "3.3.11"
+    "vue-tsc": "3.3.11",
+    "wrangler": "^4.152.0"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.139",

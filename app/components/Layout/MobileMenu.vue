@@ -31,6 +31,8 @@ const links = [
                 <USeparator class="my-6" />
                 <BlogNav />
             </template>
+            <USeparator class="my-6" />
+            <LayoutSocial />
         </template>
     </USlideover>
 </template>
