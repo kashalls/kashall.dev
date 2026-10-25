@@ -36,6 +36,12 @@ export default defineNuxtConfig({
   },
 
   robots: {
+      groups: [
+          {
+              userAgent: '*',
+              contentSignal: { 'ai-train': 'no', 'search': 'yes', 'ai-input': 'yes' },
+          },
+      ],
       // /.well-known/matrix/ is routed by Envoy to Continuwuity, not this app.
       // /gateway is the page Envoy's fallback route serves for unknown hosts.
       disallow: ['/.well-known/matrix/', '/gateway'],
