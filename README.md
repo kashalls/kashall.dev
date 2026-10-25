@@ -1,6 +1,6 @@
 ## Jordan's Site
 
-> My personal website, live at [ok8.sh](https://ok8.sh). Built with Nuxt 4 and Nuxt UI, shipped as a container image.
+> My personal website, live at [ok8.sh](https://ok8.sh). Built with Nuxt 4 and Nuxt UI, deployed to Cloudflare Workers.
 
 After almost continuous revisions, I've finally got my personal website to a state where I am proud of it. It's been a long journey since I first got invested in Vue, and it has grown alongside me from Nuxt 3 to Nuxt 4.
 
@@ -32,13 +32,31 @@ Environment variables:
 
 ### Deployment
 
-The [Dockerfile](Dockerfile) builds a Nitro `node-server` output with bun and ships it on a distroless Node image, listening on port `3000`.
+The site builds with Nitro's `cloudflare_module` preset and runs as a Cloudflare Worker. Prerendered pages and assets are served by [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/) without invoking the Worker. [wrangler.jsonc](wrangler.jsonc) declares the bindings:
 
-On every push to `main` and on each release, GitHub Actions builds a signed multi-arch (`amd64`/`arm64`) image with an SBOM and publishes it to `ghcr.io/kashalls/kashall.dev`.
+| Binding | Type | Purpose                                               |
+| ------- | ---- | ----------------------------------------------------- |
+| `DB`    | D1   | Nuxt Content database, restored from the build's dump |
+| `CACHE` | KV   | Nitro cache storage (GitHub and status responses)     |
+
+Wrangler creates both on the first deploy. Set the runtime secrets once:
 
 ```bash
-docker run --rm -p 3000:3000 ghcr.io/kashalls/kashall.dev:main
+bunx wrangler secret put NUXT_GITHUB_TOKEN
+bunx wrangler secret put NUXT_RESEND_API_KEY
+bunx wrangler secret put NUXT_TURNSTILE_SECRET_KEY
+bunx wrangler secret put NUXT_PUBLIC_TURNSTILE_SITE_KEY
 ```
+
+Build, then preview locally or deploy:
+
+```bash
+bun run build
+bun run preview
+bun run deploy
+```
+
+On every push to `main`, GitHub Actions builds and deploys with `wrangler deploy`, using the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets. Pull requests only build.
 
 ### 💖 Sponsors
 

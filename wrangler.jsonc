@@ -1,0 +1,17 @@
+// Merged by Nitro into .output/server/wrangler.json at build (nitro.cloudflare.deployConfig),
+// which supplies main, assets and compatibility_date. Run wrangler after `bun run build`.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kashall-dev",
+  "routes": [{ "pattern": "ok8.sh", "custom_domain": true }],
+  "observability": { "enabled": true },
+  "assets": {
+    // Nuxt links have no trailing slash; the default redirects /posts/x to /posts/x/.
+    "html_handling": "drop-trailing-slash",
+    // The curl card (server/plugins/curl-card.ts) has to see requests for `/`.
+    "run_worker_first": ["/"]
+  },
+  // No IDs: wrangler creates these on the first deploy and keeps them linked.
+  "d1_databases": [{ "binding": "DB" }],
+  "kv_namespaces": [{ "binding": "CACHE" }]
+}

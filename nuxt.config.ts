@@ -2,7 +2,7 @@
 import { execSync } from 'node:child_process'
 import app from './app/config/app'
 
-// The container build passes GIT_SHA/GIT_REF as build args (it has no .git);
+// CI passes GIT_SHA/GIT_REF (a pull request checkout is a detached HEAD);
 // local builds read them from the checkout.
 const git = (args: string) => {
     try {
@@ -93,12 +93,11 @@ export default defineNuxtConfig({
   },
 
   content: {
-      // Restored from the bundled dump at startup. The default (./contents.sqlite,
-      // relative to cwd) is unwritable under a read-only root filesystem.
-      database: { type: 'sqlite', filename: '/tmp/contents.sqlite' },
+      // Restored from the bundled dump on first query; binding declared in wrangler.jsonc.
+      database: { type: 'd1', bindingName: 'DB' },
       experimental: {
-          // Node's built-in node:sqlite (Node >= 22.5), so the distroless
-          // runtime image doesn't need a native better-sqlite3 build.
+          // The build's local database uses Node's built-in node:sqlite
+          // (Node >= 22.5) instead of a native better-sqlite3 build.
           sqliteConnector: 'native',
       },
   },
@@ -124,6 +123,17 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+      preset: 'cloudflare_module',
+      cloudflare: {
+          // Generates the deploy config from wrangler.jsonc plus the build output.
+          deployConfig: true,
+          nodeCompat: true,
+      },
+      // Isolates are short-lived and per-location, so the default in-memory
+      // cache would rarely hit. Binding declared in wrangler.jsonc.
+      storage: {
+          cache: { driver: 'cloudflare-kv-binding', binding: 'CACHE' },
+      },
       // Prerender the static routes so their OG images are generated at build
       // (required by ogImage.zeroRuntime). Dynamic client data still hydrates.
       prerender: {

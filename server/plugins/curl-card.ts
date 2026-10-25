@@ -31,14 +31,18 @@ function card(build: { sha: string, ref: string, time: string }) {
 }
 
 export default defineNitroPlugin((nitroApp) => {
-    // Prerendered pages are served by Nitro's static asset handler, which runs
-    // before server middleware, so this has to go at the front of the stack.
+    // Static assets are served before the Worker runs, so wrangler.jsonc routes
+    // `/` to the Worker first (assets.run_worker_first).
     nitroApp.h3App.stack.unshift({
         route: '/',
         handler: defineEventHandler((event) => {
             if (getRequestURL(event).pathname !== '/') return
             appendResponseHeader(event, 'Vary', 'User-Agent')
-            if (!CLI_AGENT.test(getRequestHeader(event, 'user-agent') ?? '')) return
+            if (!CLI_AGENT.test(getRequestHeader(event, 'user-agent') ?? '')) {
+                // Hand browsers the prerendered page instead of rendering it again.
+                // There's no ASSETS binding in dev, where the page renders as usual.
+                return event.context.cloudflare?.env?.ASSETS?.fetch(toWebRequest(event))
+            }
             setResponseHeader(event, 'Content-Type', 'text/plain; charset=utf-8')
             return card(useRuntimeConfig(event).public.build)
         }),
