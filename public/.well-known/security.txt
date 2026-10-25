@@ -1,0 +1,4 @@
+Contact: mailto:noc@ok8.sh
+Expires: 2027-10-24T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://ok8.sh/.well-known/security.txt
