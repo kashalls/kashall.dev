@@ -5,7 +5,7 @@
   "name": "ok8-sh",
   "routes": [{ "pattern": "ok8.sh", "custom_domain": true }],
   // Routes switch the workers.dev URL off, and preview URLs default to match it,
-  // which would leave pull request Previews (deploy.yaml) without a URL.
+  // which would leave Workers Builds' branch Previews without a URL.
   "preview_urls": true,
   "observability": { "enabled": true },
   "assets": {
@@ -14,18 +14,19 @@
     // The curl card (server/plugins/curl-card.ts) has to see requests for `/`.
     "run_worker_first": ["/"]
   },
-  // No IDs: wrangler creates these on the first deploy and keeps them linked.
-  "d1_databases": [{ "binding": "DB" }],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "ok8-sh-db", "database_id": "5d94131b-473f-4646-b7b8-9131cfe39aea" }
+  ],
   "kv_namespaces": [
-    { "binding": "CACHE" },
+    { "binding": "CACHE", "id": "d1f079b8184c4f2287ac6bef37b21180" },
     // Site-wide messages served by /api/meta (server/api/meta.get.ts).
-    { "binding": "MESSAGES" }
+    { "binding": "MESSAGES", "id": "33e8573100954e449a8860f849015953" }
   ],
   // Reached through ctx.exports, so each Preview gets its own namespace automatically.
   "exports": {
     "VisitorCounter": { "type": "durable-object", "storage": "sqlite" }
   },
-  // Pull request Previews (deploy.yaml) share these, so they never touch production data.
+  // Branch Previews (Workers Builds) share these, so they never touch production data.
   "previews": {
     "d1_databases": [
       { "binding": "DB", "database_name": "ok8-sh-preview", "database_id": "06429210-49f2-40c8-9b6b-92df45963fc4" }

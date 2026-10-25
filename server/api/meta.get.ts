@@ -6,7 +6,7 @@ interface MessagesNamespace {
 
 /**
  * Site-wide messages from the MESSAGES KV namespace, changed without a deploy:
- *   bunx wrangler kv key put maintenance "The contact form is down" --namespace-id <id> --remote
+ *   bunx wrangler kv key put maintenance "The contact form is down" --binding MESSAGES --remote
  * A missing key comes back as an empty string, which hides that message. Read
  * through the binding rather than useStorage(), which would JSON-parse values
  * like "true" or "123".

@@ -40,7 +40,7 @@ The site builds with Nitro's `cloudflare_module` preset and runs as a Cloudflare
 | `CACHE`    | KV   | Nitro cache storage (GitHub and status responses)        |
 | `MESSAGES` | KV   | Maintenance banner and other site messages (`/api/meta`) |
 
-Wrangler creates these on the first deploy. The footer's visit count lives in the `VisitorCounter` Durable Object ([server/durable/visitor-counter.ts](server/durable/visitor-counter.ts)), declared under `exports` and reached through `ctx.exports` rather than a binding; Cloudflare creates its namespace on deploy. Set the runtime secrets once:
+They're `ok8-sh-db`, `ok8-sh-cache` and `ok8-sh-messages`. The footer's visit count lives in the `VisitorCounter` Durable Object ([server/durable/visitor-counter.ts](server/durable/visitor-counter.ts)), declared under `exports` and reached through `ctx.exports` rather than a binding; Cloudflare creates its namespace on deploy. Set the runtime secrets once:
 
 ```bash
 bunx wrangler secret put NUXT_GITHUB_TOKEN
@@ -49,11 +49,11 @@ bunx wrangler secret put NUXT_TURNSTILE_SECRET_KEY
 bunx wrangler secret put NUXT_PUBLIC_TURNSTILE_SITE_KEY
 ```
 
-`/api/meta` serves the `maintenance` and `live` keys in `MESSAGES`. A `maintenance` value shows as a banner above the content and deleting the key hides it; `live` isn't displayed yet. Find the namespace ID with `bunx wrangler kv namespace list`, then:
+`/api/meta` serves the `maintenance` and `live` keys in `MESSAGES`. A `maintenance` value shows as a banner above the content and deleting the key hides it; `live` isn't displayed yet.
 
 ```bash
-bunx wrangler kv key put maintenance "The contact form is down" --namespace-id <id> --remote
-bunx wrangler kv key delete maintenance --namespace-id <id> --remote
+bunx wrangler kv key put maintenance "The contact form is down" --binding MESSAGES --remote
+bunx wrangler kv key delete maintenance --binding MESSAGES --remote
 ```
 
 Build, then preview locally or deploy:
@@ -64,15 +64,15 @@ bun run preview
 bun run deploy
 ```
 
-On every push to `main`, GitHub Actions builds and deploys with `wrangler deploy`, using the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets.
+[Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) builds every push from the connected repository with `bun run build`. Pushes to `main` deploy with `wrangler deploy`; the Bun version comes from `packageManager` in [package.json](package.json).
 
-Each pull request gets a [Worker Preview](https://developers.cloudflare.com/workers/previews/) named `pr-<number>`, linked in a PR comment and deleted when the PR closes. Previews use the `ok8-sh-preview` D1 database and the `ok8-sh-preview-cache` and `ok8-sh-preview-messages` KV namespaces (the `previews` block in [wrangler.jsonc](wrangler.jsonc)), never production's. Their secrets are shared through the Preview base config, set once:
+Every other branch gets a [Worker Preview](https://developers.cloudflare.com/workers/previews/) named after the branch, linked in a pull request comment. Cloudflare evicts the oldest Previews past the plan's limit; delete one sooner with `bunx wrangler preview delete --name <branch>`. Previews use the `ok8-sh-preview` D1 database and the `ok8-sh-preview-cache` and `ok8-sh-preview-messages` KV namespaces (the `previews` block in [wrangler.jsonc](wrangler.jsonc)), never production's. Their secrets are shared through the Preview base config, set once:
 
 ```bash
 bunx wrangler preview base-config secret put NUXT_GITHUB_TOKEN
 ```
 
-Repeat for the other secrets above. Pull requests from forks only build.
+Repeat for the other secrets above.
 
 ### 💖 Sponsors
 
