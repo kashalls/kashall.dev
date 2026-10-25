@@ -35,6 +35,15 @@ export default defineNuxtConfig({
       name: 'Jordan Jones',
   },
 
+  robots: {
+      groups: [
+          {
+              userAgent: '*',
+              contentSignal: { 'ai-train': 'no', 'search': 'yes', 'ai-input': 'yes' },
+          },
+      ],
+  },
+
   // Allow optimising remote avatars/banners through <NuxtImg>.
   image: {
       // Passthrough provider: the remote images are already sized by their CDNs.
