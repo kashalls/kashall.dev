@@ -2,7 +2,7 @@
 // Remembers the dismissed text, so a new message shows again.
 const DISMISSED_KEY = 'kashall-live-dismissed'
 
-const { data } = useSiteMessages()
+const { messages } = useSiteMessages()
 const dismissed = ref<string | null>(null)
 
 onMounted(() => {
@@ -11,7 +11,7 @@ onMounted(() => {
     } catch {}
 })
 
-const message = computed(() => data.value.messages.live)
+const message = computed(() => messages.value.live)
 
 function dismiss() {
     dismissed.value = message.value

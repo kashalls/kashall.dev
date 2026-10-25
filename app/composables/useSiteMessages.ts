@@ -1,8 +1,13 @@
-/** Messages from /api/meta; components sharing the key share one request. */
-export const useSiteMessages = () => useFetch('/api/meta', {
-    key: 'meta',
-    // Pages are prerendered, so fetch the current messages in the browser.
-    server: false,
-    lazy: true,
-    default: () => ({ messages: { maintenance: '', live: '' } }),
-})
+/**
+ * Messages from /api/meta, shared by every caller. The default layout decides
+ * when to refresh them. A failed refresh keeps the last messages, where
+ * useFetch would reset them to its default.
+ */
+export const useSiteMessages = () => {
+    const messages = useState('site-messages', () => ({ maintenance: '', live: '' }))
+    const refresh = async () => {
+        const result = await $fetch('/api/meta').catch(() => null)
+        if (result) messages.value = result.messages
+    }
+    return { messages, refresh }
+}

@@ -1,7 +1,21 @@
 <script setup>
+import { useDocumentVisibility, useIntervalFn } from '@vueuse/core'
+
 useProximityGlow()
 
 const route = useRoute()
+
+// Pages are prerendered, so messages load in the browser. Open pages pick up
+// changes on navigation, when the tab comes back into view, and every five
+// minutes while it's visible; idle hidden tabs cost nothing.
+const { refresh: refreshMessages } = useSiteMessages()
+if (import.meta.client) {
+  const visibility = useDocumentVisibility()
+  onMounted(refreshMessages)
+  watch(() => route.path, refreshMessages)
+  watch(visibility, (state) => { if (state === 'visible') refreshMessages() })
+  useIntervalFn(() => { if (visibility.value === 'visible') refreshMessages() }, 5 * 60_000)
+}
 
 const { reduced } = useMotionPreference()
 const { enabled: readableFont } = useReadableFont()
