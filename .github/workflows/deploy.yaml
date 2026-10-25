@@ -23,7 +23,7 @@ permissions:
 env:
   PREVIEW_NAME: pr-${{ github.event.pull_request.number }}
   # Pull requests from forks don't get the Cloudflare secrets, so they only build.
-  CAN_PREVIEW: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+  CAN_PREVIEW: ${{ github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork }}
 
 jobs:
   deploy:
@@ -74,7 +74,7 @@ jobs:
 
   cleanup:
     name: Delete Preview
-    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event.action == 'closed' && !github.event.pull_request.head.repo.fork
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
