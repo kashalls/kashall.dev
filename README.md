@@ -39,7 +39,7 @@ The site builds with Nitro's `cloudflare_module` preset and runs as a Cloudflare
 | `DB`    | D1   | Nuxt Content database, restored from the build's dump |
 | `CACHE` | KV   | Nitro cache storage (GitHub and status responses)     |
 
-Wrangler creates both on the first deploy. Set the runtime secrets once:
+Wrangler creates both on the first deploy. The footer's visit count lives in the `VisitorCounter` Durable Object ([server/durable/visitor-counter.ts](server/durable/visitor-counter.ts)), declared under `exports` and reached through `ctx.exports` rather than a binding; Cloudflare creates its namespace on deploy. Set the runtime secrets once:
 
 ```bash
 bunx wrangler secret put NUXT_GITHUB_TOKEN

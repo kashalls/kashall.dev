@@ -14,6 +14,10 @@
   // No IDs: wrangler creates these on the first deploy and keeps them linked.
   "d1_databases": [{ "binding": "DB" }],
   "kv_namespaces": [{ "binding": "CACHE" }],
+  // Reached through ctx.exports, so each Preview gets its own namespace automatically.
+  "exports": {
+    "VisitorCounter": { "type": "durable-object", "storage": "sqlite" }
+  },
   // Pull request Previews (deploy.yaml) share these, so they never touch production data.
   "previews": {
     "d1_databases": [

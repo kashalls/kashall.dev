@@ -40,6 +40,7 @@ useHead({
         <div class="mx-auto grid w-full max-w-[96rem] grid-cols-[1fr_auto] items-center gap-2 px-2 md:px-4 lg:grid-cols-[1fr_auto_1fr]">
           <div class="flex items-center">
             <LayoutBuildInfo />
+            <LayoutVisitCount />
           </div>
           <div v-if="route.path === '/'" class="hidden lg:flex">
             <LayoutSectionNav />

@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { execSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import app from './app/config/app'
 
 // CI passes GIT_SHA/GIT_REF (a pull request checkout is a detached HEAD);
@@ -136,6 +137,14 @@ export default defineNuxtConfig({
 
   nitro: {
       preset: 'cloudflare_module',
+      modules: [
+          // The preset's entry, plus the Durable Object classes the Worker exports.
+          // Not set as `entry`: the prerenderer, a Node build, would inherit it.
+          (nitro) => {
+              if (nitro.options.preset === 'cloudflare-module')
+                  nitro.options.entry = fileURLToPath(new URL('./server/entry.ts', import.meta.url))
+          },
+      ],
       cloudflare: {
           // Generates the deploy config from wrangler.jsonc plus the build output.
           deployConfig: true,

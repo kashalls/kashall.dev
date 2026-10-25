@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261025.1",
     "@iconify-json/simple-icons": "^1.2.98",
     "@nuxt/fonts": "^1.0.0",
     "@nuxt/ui": "^4.11.3",
