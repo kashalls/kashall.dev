@@ -66,7 +66,7 @@ bun run deploy
 
 On every push to `main`, GitHub Actions builds and deploys with `wrangler deploy`, using the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets.
 
-Each pull request gets a [Worker Preview](https://developers.cloudflare.com/workers/previews/) named `pr-<number>`, linked in a PR comment and deleted when the PR closes. Previews use the `kashall-dev-preview` D1 database and `kashall-dev-preview-cache` KV namespace (the `previews` block in [wrangler.jsonc](wrangler.jsonc)), never production's. Their secrets are shared through the Preview base config, set once:
+Each pull request gets a [Worker Preview](https://developers.cloudflare.com/workers/previews/) named `pr-<number>`, linked in a PR comment and deleted when the PR closes. Previews use the `ok8-sh-preview` D1 database and the `ok8-sh-preview-cache` and `ok8-sh-preview-messages` KV namespaces (the `previews` block in [wrangler.jsonc](wrangler.jsonc)), never production's. Their secrets are shared through the Preview base config, set once:
 
 ```bash
 bunx wrangler preview base-config secret put NUXT_GITHUB_TOKEN

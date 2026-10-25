@@ -2,7 +2,7 @@
 // which supplies main, assets and compatibility_date. Run wrangler after `bun run build`.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "kashall-dev",
+  "name": "ok8-sh",
   "routes": [{ "pattern": "ok8.sh", "custom_domain": true }],
   "observability": { "enabled": true },
   "assets": {
@@ -25,7 +25,7 @@
   // Pull request Previews (deploy.yaml) share these, so they never touch production data.
   "previews": {
     "d1_databases": [
-      { "binding": "DB", "database_name": "kashall-dev-preview", "database_id": "e4bbc622-aeb7-4bc8-ad83-86efde5a1d89" }
+      { "binding": "DB", "database_name": "ok8-sh-preview", "database_id": "06429210-49f2-40c8-9b6b-92df45963fc4" }
     ],
     "kv_namespaces": [
       { "binding": "CACHE", "id": "f8cd22fa58ab499389be95e3789709d2" },

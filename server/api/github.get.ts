@@ -61,7 +61,7 @@ export default defineCachedEventHandler(async (event) => {
     const monthStart = new Date().toISOString().slice(0, 8) + '01'
 
     const headers = {
-        'User-Agent': 'kashall.dev',
+        'User-Agent': 'ok8.sh',
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${config.githubToken}`,
     }
