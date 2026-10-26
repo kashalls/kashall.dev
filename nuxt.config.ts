@@ -43,7 +43,7 @@ export default defineNuxtConfig({
               contentSignal: { 'ai-train': 'no', 'search': 'yes', 'ai-input': 'yes' },
           },
       ],
-      // /.well-known/matrix/ is routed by Envoy to Continuwuity, not this app.
+      // /.well-known/matrix/ is Matrix delegation (server/routes/.well-known/matrix/).
       // /gateway is the page Envoy's fallback route serves for unknown hosts.
       disallow: ['/.well-known/matrix/', '/gateway'],
   },
