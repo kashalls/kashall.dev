@@ -3,8 +3,7 @@ import type { H3Event } from 'h3'
 // The RPC stub's shape, typed here because typed routes pull this file into the
 // app's type check, where the Workers runtime types would clash with the DOM's.
 interface VisitorCounterStub {
-    count(): Promise<number>
-    increment(): Promise<number>
+    visit(ip: string, userAgent: string): Promise<number>
 }
 
 /**

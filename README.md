@@ -40,7 +40,7 @@ The site builds with Nitro's `cloudflare_module` preset and runs as a Cloudflare
 | `CACHE`    | KV   | Nitro cache storage (GitHub and status responses)        |
 | `MESSAGES` | KV   | Maintenance banner and other site messages (`/api/meta`) |
 
-They're `ok8-sh-db`, `ok8-sh-cache` and `ok8-sh-messages`. The footer's visit count lives in the `VisitorCounter` Durable Object ([server/durable/visitor-counter.ts](server/durable/visitor-counter.ts)), declared under `exports` and reached through `ctx.exports` rather than a binding; Cloudflare creates its namespace on deploy. Set the runtime secrets once:
+They're `ok8-sh-db`, `ok8-sh-cache` and `ok8-sh-messages`. The footer's visit count (each visitor counted once a day) lives in the `VisitorCounter` Durable Object ([server/durable/visitor-counter.ts](server/durable/visitor-counter.ts)), declared under `exports` and reached through `ctx.exports` rather than a binding; Cloudflare creates its namespace on deploy. Set the runtime secrets once:
 
 ```bash
 bunx wrangler secret put NUXT_GITHUB_TOKEN
