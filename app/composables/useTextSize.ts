@@ -11,7 +11,7 @@ export const TEXT_SIZES = [
 export type TextSize = typeof TEXT_SIZES[number]['value']
 
 /**
- * Site-wide text size, chosen in the Display panel and persisted. The layout
+ * Site-wide text size, chosen in the Display menu and persisted. The layout
  * mirrors it onto <html> as `data-text-size`; an inline head script applies it
  * before first paint.
  */

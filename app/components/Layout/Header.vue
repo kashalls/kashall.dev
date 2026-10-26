@@ -25,6 +25,7 @@ const route = useRoute()
 
             <div class="flex items-center gap-1 lg:justify-self-end">
                 <!-- No room below lg; the mobile menu carries them there. -->
+                <LayoutDisplay />
                 <LayoutSocial class="hidden lg:flex" />
                 <LayoutMobileMenu class="lg:hidden" />
             </div>
