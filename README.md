@@ -29,6 +29,9 @@ Environment variables:
 | `NUXT_TURNSTILE_SITE_KEY`    | Turnstile site key (dev uses the always-pass test keys)  |
 | `NUXT_TURNSTILE_SECRET_KEY`  | Turnstile secret for server-side verification            |
 | `NUXT_PUBLIC_SITE_URL`       | Overrides the canonical site URL                         |
+| `NUXT_SESSION_PASSWORD`      | Seals the session cookie (32+ characters; dev generates one into `.env`) |
+| `NUXT_OAUTH_GITHUB_CLIENT_ID` | GitHub OAuth app client ID for sign-in at `/auth/github` |
+| `NUXT_OAUTH_GITHUB_CLIENT_SECRET` | GitHub OAuth app client secret                       |
 
 ### Deployment
 
@@ -47,7 +50,12 @@ bunx wrangler secret put NUXT_GITHUB_TOKEN
 bunx wrangler secret put NUXT_RESEND_API_KEY
 bunx wrangler secret put NUXT_TURNSTILE_SECRET_KEY
 bunx wrangler secret put NUXT_PUBLIC_TURNSTILE_SITE_KEY
+bunx wrangler secret put NUXT_SESSION_PASSWORD
+bunx wrangler secret put NUXT_OAUTH_GITHUB_CLIENT_ID
+bunx wrangler secret put NUXT_OAUTH_GITHUB_CLIENT_SECRET
 ```
+
+GitHub sign-in needs an [OAuth app](https://github.com/settings/developers) whose callback URL is `https://ok8.sh/auth/github`. GitHub only redirects to that callback's host, so local dev and Previews each need their own OAuth app (callback `http://localhost:3000/auth/github` for dev).
 
 `/api/meta` serves the `maintenance` and `live` keys in `MESSAGES`. A `maintenance` value shows as a banner above the content and deleting the key hides it; `live` isn't displayed yet.
 

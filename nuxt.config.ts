@@ -26,7 +26,8 @@ export default defineNuxtConfig({
       "@nuxt/fonts",
       'nuxt-og-image',
       '@nuxtjs/sitemap',
-      '@nuxtjs/robots'
+      '@nuxtjs/robots',
+      'nuxt-auth-utils'
   ],
 
   // Canonical site (used by sitemap, robots, OG images). Override with
@@ -45,7 +46,8 @@ export default defineNuxtConfig({
       ],
       // /.well-known/matrix/ is Matrix delegation (server/routes/.well-known/matrix/).
       // /gateway is the page Envoy's fallback route serves for unknown hosts.
-      disallow: ['/.well-known/matrix/', '/gateway'],
+      // /auth/ starts OAuth sign-in (server/routes/auth/).
+      disallow: ['/.well-known/matrix/', '/gateway', '/auth/'],
   },
 
   // Allow optimising remote avatars/banners through <NuxtImg>.
