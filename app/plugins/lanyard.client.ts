@@ -1,8 +1,8 @@
 import type { LanyardResponse } from '~/types/lanyard'
 
 const enum Constants {
-    apiBase = 'https://api.ok8.sh/juno/',
-    webSocketBase = 'wss://api.ok8.sh/juno/socket',
+    apiBase = 'https://api.lanyard.rest/v1',
+    webSocketBase = 'wss://api.lanyard.rest/socket',
 }
 
 export default defineNuxtPlugin(() => {
@@ -21,20 +21,28 @@ export default defineNuxtPlugin(() => {
             // Throw error if userId is missing.
         } else if (options.socket === true) {
             const socket = new WebSocket(Constants.webSocketBase)
-            socket.addEventListener('open', () => {
-                // Send heartbeat every 30 seconds
-                setInterval(() => {
+            let heartbeat: ReturnType<typeof setInterval> | undefined
+
+            // Lanyard expects Initialize right after Hello, then heartbeats at the interval Hello gives.
+            socket.addEventListener('message', ({ data }) => {
+                const { op, d } = JSON.parse(data)
+                if (op !== 1) return
+
+                socket.send(JSON.stringify({ op: 2, d: { subscribe_to_id: DISCORD_USER_ID } }))
+                clearInterval(heartbeat)
+                heartbeat = setInterval(() => {
                     socket.send(
                         JSON.stringify({
                             op: 3
                         })
                     )
-                }, 30000)
+                }, d.heartbeat_interval)
             })
+            socket.addEventListener('close', () => clearInterval(heartbeat))
 
             return socket
         } else {
-            const data = await fetch(`${Constants.apiBase}/users/me`).then(res =>
+            const data = await fetch(`${Constants.apiBase}/users/${DISCORD_USER_ID}`).then(res =>
                 res.json()
             )
 

@@ -16,7 +16,10 @@ export enum ActivityType {
 	Competing,
 }
 
+export const DISCORD_USER_ID = '201077739589992448'
+
 const CDN = 'https://cdn.discordapp.com'
+const DCDN = 'https://dcdn.dstn.to'
 
 export interface DiscordUserLike {
 	id: string
@@ -53,10 +56,9 @@ export function statusColor(status?: string): string {
 	return STATUS[status as keyof typeof STATUS]?.color ?? STATUS.offline.color
 }
 
-export function bannerUrl(id?: string, hash?: string | null, size = 600): string | null {
-	if (!id || !hash) return null
-	const animated = hash.startsWith('a_')
-	return `${CDN}/banners/${id}/${hash}.${animated ? 'gif' : 'png'}?size=${size}`
+/** dcdn 404s when the user has no banner. */
+export function bannerUrl(id: string, size = 600): string {
+	return `${DCDN}/banners/${id}?size=${size}`
 }
 
 /** Resolves an activity's large image asset to a usable image URL. */
@@ -68,5 +70,5 @@ export function activityImage(activity?: { application_id?: string | null; asset
 		if (asset.startsWith('spotify:')) return `https://i.scdn.co/image/${asset.replace('spotify:', '')}`
 		if (activity.application_id) return `${CDN}/app-assets/${activity.application_id}/${asset}.png`
 	}
-	return activity.application_id ? `https://api.ok8.sh/juno/app-icons/${activity.application_id}` : ''
+	return activity.application_id ? `${DCDN}/app-icons/${activity.application_id}` : ''
 }

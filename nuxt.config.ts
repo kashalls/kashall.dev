@@ -56,7 +56,7 @@ export default defineNuxtConfig({
           'cdn.discordapp.com',
           'media.discordapp.net',
           'i.scdn.co',
-          'api.ok8.sh',
+          'dcdn.dstn.to',
           'cdn.jsdelivr.net',
       ],
   },

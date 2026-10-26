@@ -6,7 +6,7 @@ After almost continuous revisions, I've finally got my personal website to a sta
 
 ### Features
 
-- Live Discord presence (activities, Spotify, profile banner and bio) streamed from [Juno](https://github.com/kashalls/juno)
+- Live Discord presence (activities, Spotify, profile banner and bio) streamed from [Lanyard](https://github.com/Phineas/lanyard)
 - GitHub contribution stats, cached server-side for an hour
 - Homelab stats pulled from [kromgo](https://github.com/kashalls/kromgo) badges
 - Contact form protected by Cloudflare Turnstile and delivered with Resend
@@ -85,5 +85,5 @@ Repeat for the other secrets above.
 ### Powered By
 
 - [Nuxt](https://nuxt.com) and [Nuxt UI](https://ui.nuxt.com)
-- [Juno](https://github.com/kashalls/juno) (for Discord presence)
+- [Lanyard](https://github.com/Phineas/lanyard) (for Discord presence) and [dcdn](https://dcdn.dstn.to) (for profile assets)
 - [Resend](https://resend.com) and [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/)
