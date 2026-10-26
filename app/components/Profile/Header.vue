@@ -127,7 +127,7 @@ function hideOnError(e: string | Event) {
                                 <NuxtImg :src="item.spotify.album_art_url" class="h-12 w-12 rounded-md" loading="lazy" draggable="false" />
                             </NuxtLink>
                             <div class="min-w-0 flex-1">
-                                <p class="flex items-center gap-1 text-[0.65rem] font-semibold text-green-600 dark:text-green-400">
+                                <p class="flex min-h-5 items-center gap-1 text-[0.65rem] font-semibold text-green-600 dark:text-green-400">
                                     <UIcon name="i-ph-spotify-logo" class="h-3.5 w-3.5" /> Listening to Spotify
                                 </p>
                                 <p class="truncate text-sm font-bold text-highlighted">{{ item.spotify.song }}</p>
@@ -144,7 +144,7 @@ function hideOnError(e: string | Event) {
                             <NuxtImg :src="activityImage(item.activity)" :alt="item.activity.name"
                                 class="h-12 w-12 shrink-0 rounded-md object-cover" loading="lazy" draggable="false" @error="hideOnError" />
                             <div class="min-w-0 flex-1">
-                                <p class="text-[0.65rem] font-semibold text-primary">
+                                <p class="flex min-h-5 items-center text-[0.65rem] font-semibold text-primary">
                                     {{ ActivityType[item.activity.type] }}
                                 </p>
                                 <p class="truncate text-sm font-bold text-highlighted">{{ item.activity.name }}</p>
