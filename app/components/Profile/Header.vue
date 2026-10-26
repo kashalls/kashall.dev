@@ -8,7 +8,8 @@ const loaded = computed(() => !!user.value)
 const status = computed(() => lanyard.value?.discord_status ?? 'offline')
 const statusLabel = computed(() => STATUS[status.value as keyof typeof STATUS]?.label ?? STATUS.offline.label)
 
-const banner = computed(() => bannerUrl(user.value?.id ?? profile.value?.user?.id, profile.value?.user?.banner, 1024))
+const banner = bannerUrl(DISCORD_USER_ID, 1024)
+const bannerFailed = ref(false)
 const bannerColor = computed(() => profile.value?.user?.banner_color ?? '#5865f2')
 const avatar = computed(() => avatarUrl(user.value, 128))
 const decoration = computed(() => decorationUrl(user.value))
@@ -53,8 +54,8 @@ function hideOnError(e: string | Event) {
     <div>
         <!-- Banner -->
         <div class="relative h-28 w-full overflow-hidden sm:h-40" :style="{ backgroundColor: bannerColor }">
-            <NuxtImg v-if="banner" :src="banner" alt="" width="1024" height="410" class="h-full w-full object-cover"
-                loading="lazy" draggable="false" @error="hideOnError" />
+            <NuxtImg v-if="!bannerFailed" :src="banner" alt="" width="1024" height="410" class="h-full w-full object-cover"
+                loading="lazy" draggable="false" @error="bannerFailed = true" />
             <div v-else class="absolute inset-0 opacity-40 [background:radial-gradient(circle_at_20%_120%,#ffffff,transparent_55%)]" />
         </div>
 

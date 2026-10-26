@@ -12,8 +12,9 @@ export interface DiscordProfile {
 }
 
 /**
- * Fetches the Discord profile (banner and colours) from juno. Lanyard does not
- * expose these fields, so we pull them separately.
+ * Fetches the Discord profile (banner colour) from dcdn. Lanyard does not
+ * expose these fields, so we pull them separately. dcdn's terms forbid
+ * polling, so this runs once per page load.
  */
 export const useDiscordProfile = () => {
     const profile = useState<DiscordProfile | null>('discord-profile', () => null)
@@ -21,7 +22,7 @@ export const useDiscordProfile = () => {
     onMounted(async () => {
         if (profile.value || !import.meta.browser) return
         try {
-            profile.value = await $fetch<DiscordProfile>(`https://api.ok8.sh/juno/profile`)
+            profile.value = await $fetch<DiscordProfile>(`https://dcdn.dstn.to/profile/${DISCORD_USER_ID}`)
         } catch {
             // Non-fatal: the card falls back to a gradient banner and Lanyard data.
         }

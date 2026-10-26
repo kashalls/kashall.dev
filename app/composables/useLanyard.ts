@@ -12,8 +12,9 @@ export const useLanyard = () => {
         socket.value = ws
 
         ws.addEventListener('message', ({ data }) => {
-            const { d } = JSON.parse(data)
-            if (!d.heartbeat_interval) {
+            const { op, d } = JSON.parse(data)
+            // Op 0 carries INIT_STATE and PRESENCE_UPDATE, both the full presence.
+            if (op === 0) {
                 lanyard.value = d
             }
         })
