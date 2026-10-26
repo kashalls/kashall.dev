@@ -113,7 +113,7 @@ function hideOnError(e: string | Event) {
             <!-- Live activity (only when something is happening); one card at a time, the rest behind thumbnails -->
             <div class="relative lg:w-80 lg:shrink-0 lg:pt-3">
                 <!-- Every card shares one grid cell so switching never changes the height. -->
-                <TransitionGroup tag="div" class="relative grid"
+                <TransitionGroup tag="div" class="relative grid grid-cols-1"
                     enter-active-class="transition duration-300 ease-out"
                     enter-from-class="opacity-0 -translate-y-1.5 scale-[0.98]"
                     leave-active-class="transition duration-200 ease-in absolute w-full"
