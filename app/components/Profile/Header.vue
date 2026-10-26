@@ -34,6 +34,17 @@ const activities = computed(() => {
     return out
 })
 
+const selectedKey = ref<string>()
+const featured = computed(() => activities.value.find(a => a.key === selectedKey.value) ?? activities.value[0])
+
+function activityThumb(item: Record<string, any>) {
+    return item.kind === 'spotify' ? item.spotify.album_art_url : activityImage(item.activity)
+}
+
+function activityName(item: Record<string, any>) {
+    return item.kind === 'spotify' ? `${item.spotify.song} by ${item.spotify.artist}` : item.activity.name
+}
+
 function spotifyProgress(s: any) {
     const total = s.timestamps.end - s.timestamps.start
     const elapsed = Math.min(Math.max(timestamp.value - s.timestamps.start, 0), total)
@@ -99,47 +110,61 @@ function hideOnError(e: string | Event) {
                 </div>
             </div>
 
-            <!-- Live activity (only when something is happening) -->
-            <TransitionGroup tag="div" class="relative flex flex-col gap-2 lg:w-80 lg:shrink-0 lg:pt-3"
-                enter-active-class="transition duration-300 ease-out"
-                enter-from-class="opacity-0 -translate-y-1.5 scale-[0.98]"
-                leave-active-class="transition duration-200 ease-in absolute w-full"
-                leave-to-class="opacity-0 translate-y-1.5 scale-[0.98]"
-                move-class="transition-transform duration-300">
-                <div v-for="item in activities" :key="item.key"
-                    class="flex gap-3 rounded-lg bg-elevated/70 p-2.5 backdrop-blur">
-                    <template v-if="item.kind === 'spotify'">
-                        <NuxtLink external :to="`https://open.spotify.com/track/${item.spotify.track_id}`" class="shrink-0">
-                            <NuxtImg :src="item.spotify.album_art_url" class="h-12 w-12 rounded-md" loading="lazy" draggable="false" />
-                        </NuxtLink>
-                        <div class="min-w-0 flex-1">
-                            <p class="flex items-center gap-1 text-[0.65rem] font-semibold text-green-600 dark:text-green-400">
-                                <UIcon name="i-ph-spotify-logo" class="h-3.5 w-3.5" /> Listening to Spotify
-                            </p>
-                            <p class="truncate text-sm font-bold text-highlighted">{{ item.spotify.song }}</p>
-                            <p class="truncate text-xs text-muted">by {{ item.spotify.artist }}</p>
-                            <div class="mt-1 flex items-center gap-2 text-[0.6rem] tabular-nums text-muted">
-                                <span>{{ spotifyProgress(item.spotify).elapsed }}</span>
-                                <UProgress :model-value="spotifyProgress(item.spotify).pct" size="xs" color="success" class="flex-1" />
-                                <span>{{ spotifyProgress(item.spotify).total }}</span>
+            <!-- Live activity (only when something is happening); one card at a time, the rest behind thumbnails -->
+            <div class="relative lg:w-80 lg:shrink-0 lg:pt-3">
+                <!-- Every card shares one grid cell so switching never changes the height. -->
+                <TransitionGroup tag="div" class="relative grid"
+                    enter-active-class="transition duration-300 ease-out"
+                    enter-from-class="opacity-0 -translate-y-1.5 scale-[0.98]"
+                    leave-active-class="transition duration-200 ease-in absolute w-full"
+                    leave-to-class="opacity-0 translate-y-1.5 scale-[0.98]"
+                    move-class="transition-transform duration-300">
+                    <div v-for="item in activities" :key="item.key" :aria-hidden="item.key !== featured?.key"
+                        class="col-start-1 row-start-1 flex gap-3 rounded-lg bg-elevated/70 p-2.5 backdrop-blur transition-opacity duration-300"
+                        :class="{ 'invisible opacity-0': item.key !== featured?.key }">
+                        <template v-if="item.kind === 'spotify'">
+                            <NuxtLink external :to="`https://open.spotify.com/track/${item.spotify.track_id}`" class="shrink-0">
+                                <NuxtImg :src="item.spotify.album_art_url" class="h-12 w-12 rounded-md" loading="lazy" draggable="false" />
+                            </NuxtLink>
+                            <div class="min-w-0 flex-1">
+                                <p class="flex items-center gap-1 text-[0.65rem] font-semibold text-green-600 dark:text-green-400">
+                                    <UIcon name="i-ph-spotify-logo" class="h-3.5 w-3.5" /> Listening to Spotify
+                                </p>
+                                <p class="truncate text-sm font-bold text-highlighted">{{ item.spotify.song }}</p>
+                                <p class="truncate text-xs text-muted">by {{ item.spotify.artist }}</p>
+                                <div class="mt-1 flex items-center gap-2 text-[0.6rem] tabular-nums text-muted">
+                                    <span>{{ spotifyProgress(item.spotify).elapsed }}</span>
+                                    <UProgress :model-value="spotifyProgress(item.spotify).pct" size="xs" color="success" class="flex-1" />
+                                    <span>{{ spotifyProgress(item.spotify).total }}</span>
+                                </div>
                             </div>
-                        </div>
-                    </template>
+                        </template>
 
-                    <template v-else>
-                        <NuxtImg :src="activityImage(item.activity)" :alt="item.activity.name"
-                            class="h-12 w-12 shrink-0 rounded-md object-cover" loading="lazy" draggable="false" @error="hideOnError" />
-                        <div class="min-w-0 flex-1">
-                            <p class="text-[0.65rem] font-semibold text-primary">
-                                {{ ActivityType[item.activity.type] }}
-                            </p>
-                            <p class="truncate text-sm font-bold text-highlighted">{{ item.activity.name }}</p>
-                            <p v-if="item.activity.details" class="truncate text-xs text-muted">{{ item.activity.details }}</p>
-                            <p v-if="item.activity.state" class="truncate text-xs text-muted">{{ item.activity.state }}</p>
-                        </div>
-                    </template>
+                        <template v-else>
+                            <NuxtImg :src="activityImage(item.activity)" :alt="item.activity.name"
+                                class="h-12 w-12 shrink-0 rounded-md object-cover" loading="lazy" draggable="false" @error="hideOnError" />
+                            <div class="min-w-0 flex-1">
+                                <p class="text-[0.65rem] font-semibold text-primary">
+                                    {{ ActivityType[item.activity.type] }}
+                                </p>
+                                <p class="truncate text-sm font-bold text-highlighted">{{ item.activity.name }}</p>
+                                <p v-if="item.activity.details" class="truncate text-xs text-muted">{{ item.activity.details }}</p>
+                                <p v-if="item.activity.state" class="truncate text-xs text-muted">{{ item.activity.state }}</p>
+                            </div>
+                        </template>
+                    </div>
+                </TransitionGroup>
+                <div v-if="activities.length > 1" class="absolute right-2.5 top-2.5 z-10 flex gap-1 lg:top-5.5">
+                    <UTooltip v-for="item in activities" :key="item.key" :text="activityName(item)">
+                        <button type="button" :aria-label="activityName(item)" :aria-pressed="item.key === featured?.key"
+                            class="h-5 w-5 overflow-hidden rounded bg-accented ring-1 transition"
+                            :class="item.key === featured?.key ? 'ring-primary' : 'opacity-50 ring-transparent hover:opacity-100'"
+                            @click="selectedKey = item.key">
+                            <NuxtImg :src="activityThumb(item)" alt="" class="h-full w-full object-cover" draggable="false" @error="hideOnError" />
+                        </button>
+                    </UTooltip>
                 </div>
-            </TransitionGroup>
+            </div>
         </div>
     </div>
 </template>
