@@ -139,15 +139,11 @@ const groups = computed<CommandPaletteGroup[]>(() => [
 </script>
 
 <template>
-    <UButton icon="i-ph-magnifying-glass" color="neutral" variant="outline" aria-label="Search"
-        class="text-muted hover:text-highlighted sm:w-56 lg:w-96 xl:w-md"
-        @click="route.path.startsWith('/posts') ? contentSearchOpen = true : open = true">
-        <span class="hidden sm:inline">Search…</span>
-        <span class="ms-auto hidden items-center gap-0.5 sm:flex">
-            <UKbd value="meta" />
-            <UKbd value="K" />
-        </span>
-    </UButton>
+    <UTooltip text="Search" :kbds="['meta', 'K']">
+        <UButton icon="i-ph-magnifying-glass" color="neutral" variant="ghost" aria-label="Search"
+            class="text-muted hover:text-highlighted"
+            @click="route.path.startsWith('/posts') ? contentSearchOpen = true : open = true" />
+    </UTooltip>
 
     <UModal v-model:open="open" :ui="{ content: 'sm:max-w-xl' }">
         <template #content>
