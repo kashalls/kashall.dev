@@ -23,9 +23,10 @@ export default defineNuxtPlugin(() => {
             const socket = new WebSocket(Constants.webSocketBase)
             let heartbeat: ReturnType<typeof setInterval> | undefined
 
-            // Lanyard expects Initialize right after Hello, then heartbeats at the interval Hello gives.
+            // Lanyard expects Initialize right after Hello. Its documented heartbeat is 30s;
+            // Hello's heartbeat_interval isn't trusted as a timer duration.
             socket.addEventListener('message', ({ data }) => {
-                const { op, d } = JSON.parse(data)
+                const { op } = JSON.parse(data)
                 if (op !== 1) return
 
                 socket.send(JSON.stringify({ op: 2, d: { subscribe_to_id: DISCORD_USER_ID } }))
@@ -36,7 +37,7 @@ export default defineNuxtPlugin(() => {
                             op: 3
                         })
                     )
-                }, d.heartbeat_interval)
+                }, 30000)
             })
             socket.addEventListener('close', () => clearInterval(heartbeat))
 
