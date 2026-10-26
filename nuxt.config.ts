@@ -84,6 +84,12 @@ export default defineNuxtConfig({
       zeroRuntime: true,
   },
 
+  // Every sitemap URL is known at build, so prerender it and keep the
+  // sitemap runtime out of the server bundle.
+  sitemap: {
+      zeroRuntime: true,
+  },
+
   runtimeConfig: {
       // GitHub token (set NUXT_GITHUB_TOKEN); required by the GraphQL API behind /api/github.
       githubToken: '',
