@@ -785,7 +785,7 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid var(--rule);
 }
 
-.field .item:first-child {
+.field .list > li:first-child > .item {
   padding-top: 0;
 }
 
