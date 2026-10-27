@@ -38,8 +38,7 @@ watch(open, (isOpen) => {
 
 async function goToSection(id: string) {
     if (route.path !== '/') await navigateTo('/')
-    await nextTick()
-    document.getElementById(id)?.scrollIntoView({ behavior: reduced.value ? 'auto' : 'smooth', block: 'start' })
+    await showHomeSection(id, reduced.value)
 }
 
 function barrelRoll() {
