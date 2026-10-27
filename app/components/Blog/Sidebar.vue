@@ -26,8 +26,12 @@ const { data: searchFiles } = useLazyAsyncData('blog-search', () => queryCollect
 
 <template>
     <!-- No site header bar here, so drop UPageAside's header offset and padding
-         to line the sidebar up with the article. -->
-    <UPageAside :ui="{ root: 'py-0 lg:top-0' }">
+         to line the sidebar up with the article. The container takes UiPanel's
+         glass surface; the root can't, as glow-card would unstick it. -->
+    <UPageAside :ui="{
+        root: 'py-0 lg:top-0',
+        container: 'glow-card rounded-lg border border-default bg-gradient-to-tr from-white/75 to-white/25 dark:from-[#0e0c12]/75 dark:to-[#0e0f0f]/25 backdrop-blur-3xl p-2 pb-4',
+    }">
         <BlogNav />
         <ClientOnly>
             <UContentSearch v-model:search-term="searchTerm" :files="searchFiles ?? []" :navigation="searchNavigation"

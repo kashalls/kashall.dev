@@ -10,6 +10,7 @@ After almost continuous revisions, I've finally got my personal website to a sta
 - GitHub contribution stats, cached server-side for an hour
 - Homelab stats pulled from [kromgo](https://github.com/kashalls/kromgo) badges
 - Contact form protected by Cloudflare Turnstile and delivered with Resend
+- Comments under Blog posts from GitHub accounts at least 14 days old, with one level of replies and hearts
 - A `/gateway` fallback page for hostnames that hit the gateway with no service behind them
 - Pre-rendered OG images, sitemap and robots.txt
 
@@ -43,7 +44,7 @@ The site builds with Nitro's `cloudflare_module` preset and runs as a Cloudflare
 | `CACHE`    | KV   | Nitro cache storage (GitHub and status responses)        |
 | `MESSAGES` | KV   | Maintenance banner and other site messages (`/api/meta`) |
 
-They're `ok8-sh-db`, `ok8-sh-cache` and `ok8-sh-messages`. The footer's visit count (each visitor counted once a day) lives in the `VisitorCounter` Durable Object ([server/durable/visitor-counter.ts](server/durable/visitor-counter.ts)), declared under `exports` and reached through `ctx.exports` rather than a binding; Cloudflare creates its namespace on deploy. Set the runtime secrets once:
+They're `ok8-sh-db`, `ok8-sh-cache` and `ok8-sh-messages`. The footer's visit count (each visitor counted once a day) lives in the `VisitorCounter` Durable Object ([server/durable/visitor-counter.ts](server/durable/visitor-counter.ts)), declared under `exports` and reached through `ctx.exports` rather than a binding; Cloudflare creates its namespace on deploy. Post comments work the same way: each post's comments live in its own `PostComments` Durable Object ([server/durable/post-comments.ts](server/durable/post-comments.ts)). Neither Durable Object runs under `bun run dev`; use `bun run build` and `bun run preview` to try them locally. Set the runtime secrets once:
 
 ```bash
 bunx wrangler secret put NUXT_GITHUB_TOKEN
@@ -54,6 +55,8 @@ bunx wrangler secret put NUXT_SESSION_PASSWORD
 bunx wrangler secret put NUXT_OAUTH_GITHUB_CLIENT_ID
 bunx wrangler secret put NUXT_OAUTH_GITHUB_CLIENT_SECRET
 ```
+
+Commenting needs GitHub sign-in (`/auth/github?redirect=<path>` returns to the page). Commenters can remove their own comments; the account in `runtimeConfig.githubUserId` is the site owner, whose comments get an Author badge and who can remove anyone's.
 
 GitHub sign-in needs an [OAuth app](https://github.com/settings/developers) whose callback URL is `https://ok8.sh/auth/github`. GitHub only redirects to that callback's host, so local dev and Previews each need their own OAuth app (callback `http://localhost:3000/auth/github` for dev).
 
