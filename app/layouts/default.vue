@@ -24,22 +24,7 @@ if (import.meta.client) {
   useIntervalFn(() => { if (visibility.value === 'visible') refreshMessages() }, 5 * 60_000)
 }
 
-const { reduced } = useMotionPreference()
-const { enabled: readableFont } = useReadableFont()
-const { size: textSize } = useTextSize()
-if (import.meta.client) {
-  watchEffect(() => document.documentElement.classList.toggle('reduce-motion', reduced.value))
-  watchEffect(() => document.documentElement.classList.toggle('readable-font', readableFont.value))
-  watchEffect(() => { document.documentElement.dataset.textSize = textSize.value })
-}
-
-// Pages are prerendered, so apply the saved font and text size before first
-// paint instead of swapping them once the app hydrates.
-useHead({
-  script: [{
-    innerHTML: `try{if(localStorage.getItem('${READABLE_FONT_KEY}')==='true')document.documentElement.classList.add('readable-font');var s=localStorage.getItem('${TEXT_SIZE_KEY}');if(s)document.documentElement.dataset.textSize=s}catch(e){}`,
-  }],
-})
+useDisplayPreferences()
 </script>
 
 <template>
@@ -66,9 +51,6 @@ useHead({
           <div class="flex items-center gap-1">
             <LayoutStatusPill />
           </div>
-          <div v-if="route.path === '/'" class="hidden lg:flex">
-            <LayoutSectionNav />
-          </div>
           <div class="col-start-2 flex items-center justify-self-end lg:col-start-3">
             <LayoutVisitCount />
             <LayoutBuildInfo />
@@ -83,26 +65,6 @@ useHead({
 
 
 <style>
-html.reduce-motion *,
-html.reduce-motion *::before,
-html.reduce-motion *::after {
-  animation-duration: 0.001ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.001ms !important;
-  scroll-behavior: auto !important;
-}
-
-html[data-text-size="sm"] { font-size: 87.5%; }
-html[data-text-size="lg"] { font-size: 112.5%; }
-html[data-text-size="xl"] { font-size: 125%; }
-
-html.readable-font {
-  --font-sans: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
-  --font-stat: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
-}
-
 #content-frame {
   scrollbar-width: thin;
   scrollbar-color: oklch(var(--color-primary-DEFAULT)) transparent;

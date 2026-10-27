@@ -93,7 +93,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-      // GitHub token (set NUXT_GITHUB_TOKEN); required by the GraphQL API behind /api/github.
+      // GitHub token (set NUXT_GITHUB_TOKEN); raises the rate limit for /api/repos.
       githubToken: '',
       // GitHub account ID (github.com/kashalls) that signs in as the site owner,
       // who posts comments as the author and can remove them.

@@ -36,11 +36,6 @@ watch(open, (isOpen) => {
     if (isOpen && !posts.value) loadPosts()
 })
 
-async function goToSection(id: string) {
-    if (route.path !== '/') await navigateTo('/')
-    await showHomeSection(id, reduced.value)
-}
-
 function barrelRoll() {
     const frame = document.getElementById('content-frame')
     if (!frame || reduced.value) return
@@ -82,12 +77,10 @@ const groups = computed<CommandPaletteGroup[]>(() => [
         items: [
             { label: 'Home', icon: 'i-ph-house', to: '/' },
             { label: 'Posts', icon: 'i-ph-article', to: '/posts' },
-            ...homeSections.map(section => ({
-                label: section.label,
-                suffix: 'Home section',
-                icon: section.icon,
-                onSelect: () => goToSection(section.id),
-            })),
+            { label: 'About', icon: 'i-ph-user', to: '/about' },
+            { label: 'Work', icon: 'i-ph-briefcase', to: '/work' },
+            { label: 'Writing', icon: 'i-ph-pen-nib', to: '/writing' },
+            { label: 'Live', icon: 'i-ph-broadcast', to: '/live' },
         ],
     },
     {

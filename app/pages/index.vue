@@ -1,262 +1,100 @@
-<template>
-  <div>
-    <!-- Full-bleed band: undo the content frame's padding so the fade and rule reach its edges. -->
-    <section id="about" class="relative -mx-1 -mt-1 scroll-mt-4 bg-gradient-to-b from-transparent from-30% to-primary-500/20">
-      <UiContainer>
-        <div class="grid gap-4 xl:grid-cols-5">
-          <UiPanel title="Hello There" icon="i-ph-hand-waving" :padded="false" class="xl:col-span-3">
-            <ProfileHeader />
-            <div class="flex flex-1 flex-col p-4">
-              <div
-                class="p-1 *:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
-                <p>Hi, I'm <span class="text-primary">Jordan</span>, a <span class="text-blue-500">Platform
-                    Engineer</span> with a <span class="text-purple-600 dark:text-purple-400">software engineering background</span>.</p>
-                <p>I design and maintain <span class="text-pink-500">Kubernetes infrastructure</span> and write <span
-                    class="text-orange-600 dark:text-orange-400">tooling that makes platforms more extensible</span>.</p>
-                <p>On the side, I provide <span class="text-green-600 dark:text-green-400">Residential &amp; Business IT Services</span>,
-                  <span class="text-red-600 dark:text-red-400">Full-stack Web Development</span> &amp; <span
-                    class="text-yellow-700 dark:text-yellow-300">Managed
-                    Infrastructure Services</span>.
-                </p>
-              </div>
-              <div class="mt-3 flex flex-col gap-1.5 border-t border-default p-1 pt-3 text-sm text-toned">
-                <p class="flex items-center gap-2">
-                  <UIcon name="i-ph-map-pin" class="h-4 w-4 shrink-0 text-primary" />
-                  <span>Based in <ULink to="https://en.wikipedia.org/wiki/Eugene,_Oregon" external
-                      inactive-class="text-primary">Eugene, Oregon</ULink> · available for consultancy inside the United
-                    States.</span>
-                </p>
-                <p class="flex items-center gap-2">
-                  <UIcon name="i-ph-certificate" class="h-4 w-4 shrink-0 text-primary" />
-                  <ULink to="https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/"
-                    external inactive-class="text-blue-500">Linux Foundation: KCNA</ULink>
-                </p>
-              </div>
-            </div>
-          </UiPanel>
-
-          <UiPanel title="Technologies" icon="i-ph-stack" class="xl:col-span-3">
-            <div class="grid gap-3 p-1 sm:grid-cols-3">
-              <div v-for="(column, i) in technologies" :key="i" class="flex flex-col gap-3">
-                <div v-for="group in column" :key="group.label">
-                  <p :class="group.color">{{ group.label }}</p>
-                  <ol
-                    class="*:mb-1 *:font-medium *:pl-5 *:before:content-['*'] *:before:-ml-5 *:before:w-5 *:before:text-right *:before:px-2 *:before:inline-flex *:before:justify-end">
-                    <li v-for="item in group.items" :key="item.name">
-                      <UTooltip v-if="item.retired" text="I no longer work with these technologies">
-                        <span class="cursor-help text-dimmed line-through">{{ item.name }}</span>
-                      </UTooltip>
-                      <template v-else>{{ item.name }}</template>
-                      <UBadge v-if="item.learning" label="Learning" color="primary" variant="subtle" size="sm" class="ml-1 align-middle" />
-                    </li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </UiPanel>
-
-          <UiPanel title="Portfolio" icon="i-ph-briefcase" class="xl:col-span-2 xl:col-start-4 xl:row-span-2 xl:row-start-1">
-            <ul class="flex flex-col divide-y divide-default">
-              <li v-for="project in portfolio" :key="project.repo" class="py-3 first:pt-1 last:pb-1">
-                <NuxtLink :to="`https://github.com/${project.repo}`" external class="group flex items-start gap-3">
-                  <UIcon :name="project.icon" class="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                  <div class="min-w-0 flex-1">
-                    <p class="font-medium text-highlighted group-hover:text-primary">{{ project.name }}</p>
-                    <p class="text-sm text-muted">{{ project.description }}</p>
-                    <p class="mt-1 truncate font-mono text-xs text-dimmed">{{ project.repo }}</p>
-                  </div>
-                  <UIcon name="i-ph-arrow-up-right" class="mt-1 h-4 w-4 shrink-0 text-muted group-hover:text-primary" />
-                </NuxtLink>
-              </li>
-            </ul>
-          </UiPanel>
-        </div>
-      </UiContainer>
-      <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(to_right,transparent,var(--ui-primary)_30%,var(--ui-primary)_70%,transparent)]" />
-    </section>
-
-    <UiContainer id="home-tabs" class="flex scroll-mt-4 flex-col gap-4">
-      <div class="flex items-center gap-4">
-        <UTabs v-model="tab" :items="tabs" :content="false" size="sm" class="shrink-0" />
-        <div aria-hidden="true" class="h-px flex-1 bg-default" />
-        <span class="hidden font-mono text-xs text-dimmed sm:block">{{ tabs.find(t => t.value === tab)?.caption }}</span>
-      </div>
-
-      <div ref="panels" class="transition-[height] duration-300 ease-out" :style="{ '--tab-dir': tabDirection }"
-        @transitionend="onPanelsTransitionEnd">
-        <div v-show="tab === 'writing'" class="tab-panel grid gap-4 xl:grid-cols-3">
-          <UiPanel title="Recently Updated" icon="i-ph-article" class="xl:col-span-2">
-            <ul v-if="latestPosts.length" class="flex flex-col divide-y divide-default">
-              <li v-for="post in latestPosts" :key="post.path" class="py-3 first:pt-1 last:pb-1">
-                <NuxtLink :to="post.path" class="group flex flex-col gap-1">
-                  <p class="font-medium text-highlighted group-hover:text-primary">{{ post.title }}</p>
-                  <p v-if="post.description" class="text-sm text-muted">{{ post.description }}</p>
-                  <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium">
-                    <span v-if="blogSection(post.section)" class="mr-1 flex items-center gap-1" :class="blogSection(post.section)!.accent.text">
-                      <UIcon :name="blogSection(post.section)!.icon" class="size-3.5" />
-                      {{ blogSection(post.section)!.label }}
-                    </span>
-                    <UBadge v-for="tag in post.tags" :key="tag" :label="`#${tag}`" color="primary" variant="subtle" size="sm" />
-                    <span class="ml-auto shrink-0 font-normal text-dimmed">
-                      {{ post.updated ? 'Updated ' : '' }}{{ formatDate(lastChange(post)) }}
-                    </span>
-                  </div>
-                </NuxtLink>
-              </li>
-            </ul>
-            <UEmpty v-else icon="i-ph-article" title="No posts yet" variant="naked" />
-            <UButton v-if="posts?.length" to="/posts" label="All posts" trailing-icon="i-ph-arrow-right" color="neutral"
-              variant="link" size="xs" class="mt-2 self-end" />
-          </UiPanel>
-
-          <UiPanel title="Things I Like To Talk About" icon="i-ph-chats-circle">
-            <div class="flex flex-wrap gap-2 p-1">
-              <UBadge v-for="topic in topics" :key="topic.label" :label="topic.label" color="primary" variant="subtle"
-                size="lg" :class="!topic.count && 'opacity-60'">
-                <template v-if="topic.count" #trailing>
-                  <span class="rounded-md bg-primary-500/20 px-1 text-xs tabular-nums">{{ topic.count }}</span>
-                </template>
-              </UBadge>
-            </div>
-          </UiPanel>
-        </div>
-
-        <div v-show="tab === 'live'" class="tab-panel grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          <UiPanel title="GitHub" icon="i-ph-github-logo">
-            <GithubStats />
-          </UiPanel>
-
-          <UiPanel title="Homelab" icon="i-simple-icons-kubernetes">
-            <HomelabStats />
-          </UiPanel>
-
-          <UiPanel title="Status" icon="i-ph-heartbeat" class="md:col-span-2 xl:col-span-1">
-            <HomelabUptime />
-          </UiPanel>
-        </div>
-
-        <GamesList v-show="tab === 'games'" class="tab-panel" />
-      </div>
-    </UiContainer>
-  </div>
-</template>
-
 <script setup lang="ts">
-const { data: posts } = await useAsyncData('home-posts', () =>
-  queryCollection('blog')
-    .where('draft', '=', false)
-    .order('date', 'DESC')
-    .select('title', 'description', 'date', 'updated', 'path', 'tags', 'section')
-    .all(),
-)
+definePageMeta({ layout: 'field', pageTransition: { name: 'column', mode: 'out-in' } })
 
-// Docs and guides change in place, so rank by the latest edit, not first publish.
-const lastChange = (post: { date: string | Date, updated?: string | Date }) => postDate(post.updated ?? post.date)
-const tab = useHomeTab()
-const captions: Record<HomeTab, string> = {
-  writing: 'Notes from the lab',
-  live: 'Straight from the cluster',
-  games: 'Off the clock',
-}
-const tabs = homeSections
-  .filter(section => section.id !== 'about')
-  .map(section => ({ label: section.label, icon: section.icon, value: section.id, caption: captions[section.id] }))
+import type { LanyardData } from '~/types/lanyard'
 
-// Panels slide in from the side of the tab they replace (-1 left, 1 right),
-// while the wrapper eases between the old and new panel heights.
-const { reduced } = useMotionPreference()
-const panels = useTemplateRef<HTMLElement>('panels')
-const tabDirection = ref(0)
+const lanyard = useState<LanyardData>('lanyard')
 
-watch(tab, async (to, from) => {
-  tabDirection.value = Math.sign(tabs.findIndex(t => t.value === to) - tabs.findIndex(t => t.value === from))
-  const el = panels.value
-  if (!el || reduced.value) return
-
-  el.style.height = `${el.offsetHeight}px`
-  await nextTick()
-  const end = [...el.children].find(child => child instanceof HTMLElement && child.style.display !== 'none') as HTMLElement | undefined
-  const target = end?.offsetHeight ?? 0
-  if (!target || `${target}px` === el.style.height) {
-    el.style.height = ''
-    return
-  }
-  el.style.overflowY = 'clip'
-  el.style.height = `${target}px`
+// One line of presence, in words.
+const presence = computed(() => {
+  const l = lanyard.value
+  if (!l) return undefined
+  if (l.listening_to_spotify && l.spotify) return `Listening to ${l.spotify.song} by ${l.spotify.artist}`
+  const activity = l.activities?.find(a => ![2, 4, 6].includes(a.type))
+  if (activity) return `${ActivityType[activity.type]} ${activity.name}`
+  return `${STATUS[l.discord_status]?.label ?? 'Offline'} on Discord`
 })
-
-function onPanelsTransitionEnd(event: TransitionEvent) {
-  const el = event.currentTarget as HTMLElement
-  if (event.target !== el || event.propertyName !== 'height') return
-  el.style.height = ''
-  el.style.overflowY = ''
-}
-
-const portfolio = [
-  { name: 'External DNS for UniFi', repo: 'home-operations/external-dns-unifi-webhook', icon: 'i-simple-icons-go', description: 'Creates and manages your Kubernetes DNS records for UniFi Gateways.' },
-  { name: 'Kromgo', repo: 'home-operations/kromgo', icon: 'i-simple-icons-go', description: 'Turns PromQL queries into shareable badges and graphs for safe external consumption.' },
-  { name: 'Infrastructure', repo: 'waifulabs/infrastructure', icon: 'i-simple-icons-kubernetes', description: 'My fiance-unapproved kubernetes cluster runing Talos, Flux, Renovate and GitHub Actions.' },
-  { name: 'Openterface Viewer', repo: 'kashalls/openterface-viewer', icon: 'i-simple-icons-typescript', description: 'Control an Openterface KVM straight from your browser, no app install needed.' },
-  { name: 'ok8.sh', repo: 'kashalls/ok8.sh', icon: 'i-simple-icons-nuxt', description: 'The site you\'re on right now, built with Nuxt and served from Cloudflare Workers.' },
-]
-
-interface Technology { name: string, retired?: boolean, learning?: boolean }
-
-// Each inner array is one grid column; groups in it stack vertically.
-const technologies: { label: string, color: string, items: Technology[] }[][] = [
-  [
-    { label: 'Frontend', color: 'text-green-500', items: [
-      { name: 'Nuxt / Vue' },
-      { name: 'Wordpress / PHP', retired: true },
-    ] },
-    { label: 'Artificial Intelligence', color: 'text-purple-600 dark:text-purple-400', items: [
-      { name: 'Claude' },
-      { name: 'Devin' },
-    ] },
-  ],
-  [
-    { label: 'Orchestration', color: 'text-blue-500', items: [
-      { name: 'k3s / k8s (Kubernetes)' },
-      { name: 'OpenShift' },
-      { name: 'Talos' },
-      { name: 'Podman' },
-      { name: 'Rancher', retired: true },
-    ] },
-  ],
-  [
-    { label: 'Languages', color: 'text-red-500', items: [
-      { name: 'Javascript / Typescript' },
-      { name: 'Golang' },
-      { name: 'Elixir', learning: true },
-      { name: 'Java', retired: true },
-      { name: 'C / C++', retired: true },
-    ] },
-  ],
-]
-
-const latestPosts = computed(() => [...posts.value ?? []]
-  .sort((a, b) => lastChange(b).getTime() - lastChange(a).getTime())
-  .slice(0, 3))
-
-// Each topic counts posts carrying any of its tags.
-const topics = computed(() => [
-  { label: 'Kubernetes', tags: ['kubernetes', 'k8s'] },
-  { label: 'Talos Linux', tags: ['talos'] },
-  { label: 'GitOps & Flux', tags: ['gitops', 'flux'] },
-  { label: 'Homelabs', tags: ['homelab'] },
-  { label: 'Go', tags: ['go', 'golang'] },
-  { label: 'Nuxt & Vue', tags: ['nuxt', 'vue'] },
-  { label: 'Home Assistant', tags: ['home-assistant'] },
-  { label: 'World of Warcraft', tags: ['wow', 'warcraft'] },
-  { label: 'Overwatch', tags: ['overwatch'] },
-].map(topic => ({
-  ...topic,
-  count: posts.value?.filter(post => (post.tags ?? []).some(tag => topic.tags.includes(tag))).length ?? 0,
-})))
-
 
 defineOgImage('Default', {
   title: 'Jordan Jones',
   description: 'Freelance Software Engineer — integrations, full-stack & infrastructure.',
 })
 </script>
+
+<template>
+  <main class="home">
+    <ClientOnly>
+      <Transition name="presence" mode="out-in">
+        <p v-if="presence" :key="presence" class="home-presence">{{ presence }}</p>
+      </Transition>
+    </ClientOnly>
+    <div class="home-about">
+      <p class="tone-who">Hi, I'm <span>Jordan</span>, a <span>Platform Engineer</span> with a <span>software engineering background</span>.</p>
+      <p class="tone-work">I design and maintain <span>Kubernetes infrastructure</span> and write <span>tooling that makes platforms more extensible</span>.</p>
+      <p class="tone-side">On the side, I provide <span>Residential &amp; Business IT Services</span>, <span>Full&#8209;stack Web Development</span> &amp; <span>Managed Infrastructure Services</span>.</p>
+    </div>
+    <h1 class="home-name">Jordan Jones</h1>
+  </main>
+</template>
+
+<style scoped>
+.home {
+  position: absolute;
+  z-index: 4;
+  left: clamp(1.25rem, 4vw, 3.5rem);
+  right: clamp(1.25rem, 4vw, 3.5rem);
+  bottom: clamp(1rem, 4vh, 2.5rem);
+}
+
+.home-name {
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 11vw, 10.5rem);
+  line-height: 0.82;
+  letter-spacing: -0.035em;
+  color: var(--fg);
+}
+
+.home-about {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  max-width: 46rem;
+  margin-bottom: clamp(1rem, 3vh, 1.75rem);
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+/* Grey, so each sentence's coloured phrases stand out. */
+.home-about p {
+  color: var(--fg-2);
+}
+
+.home-presence {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: var(--fg-3);
+}
+
+.home-presence::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px 1px var(--accent);
+}
+
+.presence-enter-active,
+.presence-leave-active {
+  transition: opacity 400ms;
+}
+
+.presence-enter-from,
+.presence-leave-to {
+  opacity: 0;
+}
+</style>

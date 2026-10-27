@@ -38,6 +38,7 @@ const CLEAN_WINDOWS_UP = 3
 const PAUSE_GAP_MS = 250
 const INTRO_SECONDS = 2.4
 const DISPERSE_SECONDS = 1.6
+const MORPH_SECONDS = 1.6
 const POINTER_FOLLOW_SECONDS = 0.25
 const POINTER_HOLD_SECONDS = 0.5
 const DIM = 0.55
@@ -56,6 +57,26 @@ export type NebulaRenderer = {
   setReduced: (reduced: boolean) => void
   /** blows the cloud apart; resolves once it is gone, or straight away under reduced motion */
   disperse: () => Promise<void>
+  /**
+   * recolours the cloud from a new image, each particle crossing over on its
+   * own beat; `swirl` 0 swaps in place, for quick changes like a blink
+   */
+  morph: (source: TexImageSource, options?: MorphOptions) => Promise<void>
+  /** where the overlay rests on screen and how far it shifts towards the pointer, in screen uv */
+  setGaze: (anchor: Point, reach: Point) => void
+}
+
+export type MorphOptions = {
+  seconds?: number
+  swirl?: number
+  /**
+   * a layer over the image that shifts towards the pointer, like eyes
+   * following it, and a mask (its red channel) of where it shows; both match
+   * the image's size
+   */
+  overlay?: { layer: TexImageSource, mask: TexImageSource }
+  /** where particles swirl (red channel); elsewhere they change colour in place */
+  swirlMask?: TexImageSource
 }
 
 export type NebulaOptions = {
@@ -67,6 +88,8 @@ export type NebulaOptions = {
 
 type Point = [number, number]
 
+const UNIT = { image: 0, next: 1, layer: 2, mask: 3, nextLayer: 4, nextMask: 5, swirl: 6 } as const
+
 export function createNebulaRenderer (
   canvas: HTMLCanvasElement,
   { src, reduced: reducedAtStart, onStruggle }: NebulaOptions,
@@ -77,6 +100,14 @@ export function createNebulaRenderer (
   let program: WebGLProgram | undefined
   let texture: WebGLTexture | null = null
   let imageSize: Point | undefined
+  let nextTexture: WebGLTexture | null = null
+  let nextSize: Point | undefined
+  /** layer and mask */
+  let overlay: [WebGLTexture | null, WebGLTexture | null] | undefined
+  let nextOverlay: [WebGLTexture | null, WebGLTexture | null] | undefined
+  let swirlTexture: WebGLTexture | null = null
+  let gazeAnchor: Point = [0.5, 0.5]
+  let gazeReach: Point = [0, 0]
   let observer: ResizeObserver | undefined
   let rafId = 0
 
@@ -86,6 +117,12 @@ export function createNebulaRenderer (
   let grid: Point = [1, 1]
   let cover = [1, 1, 0, 0]
   let lod = 0
+  let nextCover = [1, 1, 0, 0]
+  let nextLod = 0
+  let morphStart: number | undefined
+  let morphSeconds = MORPH_SECONDS
+  let morphSwirl = 1
+  let morphDone: (() => void) | undefined
 
   let pointer: Point | undefined
   let smoothed: Point = [0.5, 0.5]
@@ -116,13 +153,22 @@ export function createNebulaRenderer (
     rejectReady = reject
   })
 
-  type Uniforms = Record<'uImage' | 'uResolution' | 'uGrid' | 'uCover' | 'uLod' | 'uPointer' | 'uMisc' | 'uDim' | 'uDisperse', WebGLUniformLocation | null>
+  type Uniforms = Record<'uImage' | 'uResolution' | 'uGrid' | 'uCover' | 'uLod' | 'uPointer' | 'uMisc' | 'uDim' | 'uDisperse' | 'uImageNext' | 'uCoverNext' | 'uLodNext' | 'uMorph' | 'uSwirl' | 'uLayer' | 'uMask' | 'uLayerNext' | 'uMaskNext' | 'uOverlay' | 'uGaze' | 'uSwirlMask' | 'uHasSwirlMask', WebGLUniformLocation | null>
   let uniforms: Uniforms | undefined
 
   const schedule = () => {
     if (disposed) { return }
     lastRender = -Infinity
     rafId ||= requestAnimationFrame(frame)
+  }
+
+  /** cover fit of an image on the screen, and the mip level matching the particle spacing */
+  const fit = (size: Point): [number[], number] => {
+    const screenAspect = width / height
+    const imageAspect = size[0] / size[1]
+    const sx = screenAspect < imageAspect ? screenAspect / imageAspect : 1
+    const sy = screenAspect < imageAspect ? 1 : imageAspect / screenAspect
+    return [[sx, sy, 0.5 - sx / 2, 0.5 - sy / 2], Math.max(0, Math.log2(size[1] * sy / grid[1]))]
   }
 
   const layout = () => {
@@ -132,13 +178,8 @@ export function createNebulaRenderer (
     const spacing = Math.max(SPACING, Math.sqrt(cssWidth * cssHeight / MAX_PARTICLES))
       / Math.sqrt(TIERS[tier]!.density)
     grid = [Math.ceil(cssWidth / spacing), Math.ceil(cssHeight / spacing)]
-
-    const screenAspect = width / height
-    const imageAspect = imageSize[0] / imageSize[1]
-    const sx = screenAspect < imageAspect ? screenAspect / imageAspect : 1
-    const sy = screenAspect < imageAspect ? 1 : imageAspect / screenAspect
-    cover = [sx, sy, 0.5 - sx / 2, 0.5 - sy / 2]
-    lod = Math.max(0, Math.log2(imageSize[1] * sy / grid[1]))
+    ;[cover, lod] = fit(imageSize)
+    if (nextSize) { [nextCover, nextLod] = fit(nextSize) }
   }
 
   const measure = () => {
@@ -257,6 +298,8 @@ export function createNebulaRenderer (
     presence += ((pointer ? 1 : 0) - presence) * (1 - Math.exp(-dt / POINTER_HOLD_SECONDS))
     if (disperseDone) { disperseStart ??= time }
     const dispersal = disperseStart === undefined ? 0 : Math.min((time - disperseStart) / DISPERSE_SECONDS, 1)
+    if (morphDone) { morphStart ??= time }
+    const morphing = morphStart === undefined ? 0 : Math.min((time - morphStart) / morphSeconds, 1)
 
     gl.uniform2f(uniforms.uResolution, width, height)
     gl.uniform2f(uniforms.uGrid, grid[0], grid[1])
@@ -266,6 +309,16 @@ export function createNebulaRenderer (
     gl.uniform4f(uniforms.uMisc, time, reduced ? 0 : presence, reduced ? 1 : Math.min(time / INTRO_SECONDS, 1), pixelRatio)
     gl.uniform1f(uniforms.uDim, DIM)
     gl.uniform1f(uniforms.uDisperse, dispersal)
+    gl.uniform4f(uniforms.uCoverNext, nextCover[0]!, nextCover[1]!, nextCover[2]!, nextCover[3]!)
+    gl.uniform1f(uniforms.uLodNext, nextLod)
+    gl.uniform1f(uniforms.uMorph, morphing)
+    gl.uniform1f(uniforms.uSwirl, morphSwirl)
+    gl.uniform2f(uniforms.uOverlay, overlay ? 1 : 0, nextOverlay ? 1 : 0)
+    gl.uniform1f(uniforms.uHasSwirlMask, swirlTexture ? 1 : 0)
+    // the overlay leans towards the pointer and settles back once it leaves
+    const lean = (axis: 0 | 1) => Math.max(-1, Math.min(1, (smoothed[axis] - gazeAnchor[axis]) / 0.35))
+      * gazeReach[axis] * (reduced ? 0 : presence)
+    gl.uniform2f(uniforms.uGaze, lean(0), lean(1))
 
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.drawArrays(gl.TRIANGLES, 0, grid[0] * grid[1] * 6)
@@ -275,6 +328,83 @@ export function createNebulaRenderer (
       disperseDone?.()
       disperseDone = undefined
     }
+    if (morphing >= 1) { finishMorph() }
+  }
+
+  const bind = (unit: number, bound: WebGLTexture | null) => {
+    if (!gl) { return }
+    gl.activeTexture(gl.TEXTURE0 + unit)
+    gl.bindTexture(gl.TEXTURE_2D, bound)
+    gl.activeTexture(gl.TEXTURE0)
+  }
+
+  const upload = (source: TexImageSource, unit: number, alpha = false) => {
+    if (!gl) { return null }
+    const created = gl.createTexture()
+    const format = alpha ? gl.RGBA : gl.RGB
+    gl.activeTexture(gl.TEXTURE0 + unit)
+    gl.bindTexture(gl.TEXTURE_2D, created)
+    gl.texImage2D(gl.TEXTURE_2D, 0, format, format, gl.UNSIGNED_BYTE, source)
+    gl.generateMipmap(gl.TEXTURE_2D)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.activeTexture(gl.TEXTURE0)
+    return created
+  }
+
+  /** the incoming image becomes the cloud's own */
+  const finishMorph = () => {
+    if (!gl || !nextSize) { return }
+    gl.deleteTexture(texture)
+    texture = nextTexture
+    imageSize = nextSize
+    nextTexture = null
+    nextSize = undefined
+    bind(UNIT.image, texture)
+    overlay?.forEach(made => gl!.deleteTexture(made))
+    overlay = nextOverlay
+    nextOverlay = undefined
+    bind(UNIT.layer, overlay?.[0] ?? null)
+    bind(UNIT.mask, overlay?.[1] ?? null)
+    gl.deleteTexture(swirlTexture)
+    swirlTexture = null
+    layout()
+    morphStart = undefined
+    if (uniforms) { gl.uniform1f(uniforms.uMorph, 0) }
+    morphDone?.()
+    morphDone = undefined
+    schedule()
+  }
+
+  const morph = (source: TexImageSource, { seconds = MORPH_SECONDS, swirl = 1, overlay: layered, swirlMask }: MorphOptions = {}) => {
+    if (disposed || !gl || !imageSize) { return Promise.resolve() }
+    // a morph still under way lands at once, so the next starts from a settled cloud
+    if (nextSize) { finishMorph() }
+    morphSeconds = seconds
+    morphSwirl = swirl
+    nextTexture = upload(source, UNIT.next)
+    nextOverlay = layered && [upload(layered.layer, UNIT.nextLayer, true), upload(layered.mask, UNIT.nextMask)]
+    swirlTexture = swirlMask ? upload(swirlMask, UNIT.swirl) : null
+    nextSize = 'naturalWidth' in source
+      ? [source.naturalWidth, source.naturalHeight]
+      : [(source as { width: number }).width, (source as { height: number }).height]
+    layout()
+    if (reduced) {
+      finishMorph()
+      return Promise.resolve()
+    }
+    return new Promise<void>((resolve) => {
+      morphDone = resolve
+      schedule()
+    })
+  }
+
+  const setGaze = (anchor: Point, reach: Point) => {
+    gazeAnchor = anchor
+    gazeReach = reach
+    schedule()
   }
 
   const setReduced = (next: boolean) => {
@@ -295,6 +425,8 @@ export function createNebulaRenderer (
     disposed = true
     disperseDone?.()
     disperseDone = undefined
+    morphDone?.()
+    morphDone = undefined
     if (rafId) { cancelAnimationFrame(rafId) }
     rafId = 0
     observer?.disconnect()
@@ -302,7 +434,9 @@ export function createNebulaRenderer (
     document.documentElement.removeEventListener('pointerleave', handlePointerLeave)
     canvas.removeEventListener('webglcontextlost', handleContextLost)
     if (gl) {
-      gl.deleteTexture(texture)
+      for (const made of [texture, nextTexture, swirlTexture, ...overlay ?? [], ...nextOverlay ?? []]) {
+        gl.deleteTexture(made)
+      }
       gl.deleteProgram(program ?? null)
     }
     gl = undefined
@@ -370,8 +504,27 @@ export function createNebulaRenderer (
       uMisc: at('uMisc'),
       uDim: at('uDim'),
       uDisperse: at('uDisperse'),
+      uImageNext: at('uImageNext'),
+      uCoverNext: at('uCoverNext'),
+      uLodNext: at('uLodNext'),
+      uMorph: at('uMorph'),
+      uSwirl: at('uSwirl'),
+      uLayer: at('uLayer'),
+      uMask: at('uMask'),
+      uLayerNext: at('uLayerNext'),
+      uMaskNext: at('uMaskNext'),
+      uOverlay: at('uOverlay'),
+      uGaze: at('uGaze'),
+      uSwirlMask: at('uSwirlMask'),
+      uHasSwirlMask: at('uHasSwirlMask'),
     }
-    context.uniform1i(uniforms.uImage, 0)
+    context.uniform1i(uniforms.uImage, UNIT.image)
+    context.uniform1i(uniforms.uImageNext, UNIT.next)
+    context.uniform1i(uniforms.uLayer, UNIT.layer)
+    context.uniform1i(uniforms.uMask, UNIT.mask)
+    context.uniform1i(uniforms.uLayerNext, UNIT.nextLayer)
+    context.uniform1i(uniforms.uMaskNext, UNIT.nextMask)
+    context.uniform1i(uniforms.uSwirlMask, UNIT.swirl)
 
     // every vertex comes from gl_VertexID, so only an empty vertex array is bound
     context.bindVertexArray(context.createVertexArray())
@@ -390,14 +543,8 @@ export function createNebulaRenderer (
     image.decoding = 'async'
     image.onload = () => {
       if (disposed || !gl) { return }
-      texture = gl.createTexture()
+      texture = upload(image, 0)
       gl.bindTexture(gl.TEXTURE_2D, texture)
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image)
-      gl.generateMipmap(gl.TEXTURE_2D)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
       imageSize = [image.naturalWidth, image.naturalHeight]
       layout()
       schedule()
@@ -417,5 +564,5 @@ export function createNebulaRenderer (
     rejectReady(error instanceof Error ? error : new Error(String(error)))
   }
 
-  return { ready, dispose, setReduced, disperse }
+  return { ready, dispose, setReduced, disperse, morph, setGaze }
 }

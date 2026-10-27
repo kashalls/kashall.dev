@@ -6,8 +6,9 @@ After almost continuous revisions, I've finally got my personal website to a sta
 
 ### Features
 
-- Live Discord presence (activities, Spotify, profile banner and bio) streamed from [Lanyard](https://github.com/Phineas/lanyard)
-- GitHub contribution stats, cached server-side for an hour
+- A WebGL particle nebula that re-forms into each page's title, with the Discord banner's eyes drawn in particles that follow the cursor and blink
+- Live Discord presence (activities and Spotify) streamed from [Lanyard](https://github.com/Phineas/lanyard)
+- GitHub star counts for the Work page, cached server-side for an hour
 - Homelab stats pulled from [kromgo](https://github.com/kashalls/kromgo) badges
 - Contact form protected by Cloudflare Turnstile and delivered with Resend
 - Comments under Blog posts from GitHub accounts at least 14 days old, with one level of replies and hearts
@@ -25,7 +26,7 @@ Environment variables:
 
 | Variable                     | Purpose                                                  |
 | ---------------------------- | -------------------------------------------------------- |
-| `NUXT_GITHUB_TOKEN`          | Required for `/api/github` (GitHub GraphQL API)          |
+| `NUXT_GITHUB_TOKEN`          | Optional; raises the GitHub rate limit for `/api/repos`  |
 | `NUXT_RESEND_API_KEY`        | Enables sending mail from the contact form               |
 | `NUXT_TURNSTILE_SITE_KEY`    | Turnstile site key (dev uses the always-pass test keys)  |
 | `NUXT_TURNSTILE_SECRET_KEY`  | Turnstile secret for server-side verification            |

@@ -59,24 +59,23 @@
   mask-composite: exclude;
 }
 
-/* Home tab panels toggle with v-show, so going from display:none back to
-   visible restarts this animation each time a tab is selected. */
-@keyframes tab-panel-in {
-  from {
-    opacity: 0;
-    translate: calc(var(--tab-dir, 0) * 1.5rem) 0;
-  }
+/* Display preferences (useDisplayPreferences), on every layout. */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
 }
 
-.tab-panel > * {
-  animation: tab-panel-in 300ms ease-out both;
-}
+html[data-text-size="sm"] { font-size: 87.5%; }
+html[data-text-size="lg"] { font-size: 112.5%; }
+html[data-text-size="xl"] { font-size: 125%; }
 
-.tab-panel > :nth-child(2) { animation-delay: 60ms; }
-.tab-panel > :nth-child(3) { animation-delay: 120ms; }
-.tab-panel > :nth-child(n + 4) { animation-delay: 180ms; }
-
-/* The global reduce-motion rule shortens durations but not delays. */
-html.reduce-motion .tab-panel > * {
-  animation: none;
+html.readable-font {
+  --font-sans: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
+  --font-stat: "OpenDyslexic", ui-sans-serif, system-ui, sans-serif;
 }
