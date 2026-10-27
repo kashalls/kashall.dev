@@ -82,58 +82,61 @@
         <span class="hidden font-mono text-xs text-dimmed sm:block">{{ tabs.find(t => t.value === tab)?.caption }}</span>
       </div>
 
-      <div v-show="tab === 'writing'" class="grid gap-4 xl:grid-cols-3">
-        <UiPanel title="Recently Updated" icon="i-ph-article" class="xl:col-span-2">
-          <ul v-if="latestPosts.length" class="flex flex-col divide-y divide-default">
-            <li v-for="post in latestPosts" :key="post.path" class="py-3 first:pt-1 last:pb-1">
-              <NuxtLink :to="post.path" class="group flex flex-col gap-1">
-                <p class="font-medium text-highlighted group-hover:text-primary">{{ post.title }}</p>
-                <p v-if="post.description" class="text-sm text-muted">{{ post.description }}</p>
-                <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium">
-                  <span v-if="blogSection(post.section)" class="mr-1 flex items-center gap-1" :class="blogSection(post.section)!.accent.text">
-                    <UIcon :name="blogSection(post.section)!.icon" class="size-3.5" />
-                    {{ blogSection(post.section)!.label }}
-                  </span>
-                  <UBadge v-for="tag in post.tags" :key="tag" :label="`#${tag}`" color="primary" variant="subtle" size="sm" />
-                  <span class="ml-auto shrink-0 font-normal text-dimmed">
-                    {{ post.updated ? 'Updated ' : '' }}{{ formatDate(lastChange(post)) }}
-                  </span>
-                </div>
-              </NuxtLink>
-            </li>
-          </ul>
-          <UEmpty v-else icon="i-ph-article" title="No posts yet" variant="naked" />
-          <UButton v-if="posts?.length" to="/posts" label="All posts" trailing-icon="i-ph-arrow-right" color="neutral"
-            variant="link" size="xs" class="mt-2 self-end" />
-        </UiPanel>
+      <div ref="panels" class="transition-[height] duration-300 ease-out" :style="{ '--tab-dir': tabDirection }"
+        @transitionend="onPanelsTransitionEnd">
+        <div v-show="tab === 'writing'" class="tab-panel grid gap-4 xl:grid-cols-3">
+          <UiPanel title="Recently Updated" icon="i-ph-article" class="xl:col-span-2">
+            <ul v-if="latestPosts.length" class="flex flex-col divide-y divide-default">
+              <li v-for="post in latestPosts" :key="post.path" class="py-3 first:pt-1 last:pb-1">
+                <NuxtLink :to="post.path" class="group flex flex-col gap-1">
+                  <p class="font-medium text-highlighted group-hover:text-primary">{{ post.title }}</p>
+                  <p v-if="post.description" class="text-sm text-muted">{{ post.description }}</p>
+                  <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium">
+                    <span v-if="blogSection(post.section)" class="mr-1 flex items-center gap-1" :class="blogSection(post.section)!.accent.text">
+                      <UIcon :name="blogSection(post.section)!.icon" class="size-3.5" />
+                      {{ blogSection(post.section)!.label }}
+                    </span>
+                    <UBadge v-for="tag in post.tags" :key="tag" :label="`#${tag}`" color="primary" variant="subtle" size="sm" />
+                    <span class="ml-auto shrink-0 font-normal text-dimmed">
+                      {{ post.updated ? 'Updated ' : '' }}{{ formatDate(lastChange(post)) }}
+                    </span>
+                  </div>
+                </NuxtLink>
+              </li>
+            </ul>
+            <UEmpty v-else icon="i-ph-article" title="No posts yet" variant="naked" />
+            <UButton v-if="posts?.length" to="/posts" label="All posts" trailing-icon="i-ph-arrow-right" color="neutral"
+              variant="link" size="xs" class="mt-2 self-end" />
+          </UiPanel>
 
-        <UiPanel title="Things I Like To Talk About" icon="i-ph-chats-circle">
-          <div class="flex flex-wrap gap-2 p-1">
-            <UBadge v-for="topic in topics" :key="topic.label" :label="topic.label" color="primary" variant="subtle"
-              size="lg" :class="!topic.count && 'opacity-60'">
-              <template v-if="topic.count" #trailing>
-                <span class="rounded-md bg-primary-500/20 px-1 text-xs tabular-nums">{{ topic.count }}</span>
-              </template>
-            </UBadge>
-          </div>
-        </UiPanel>
+          <UiPanel title="Things I Like To Talk About" icon="i-ph-chats-circle">
+            <div class="flex flex-wrap gap-2 p-1">
+              <UBadge v-for="topic in topics" :key="topic.label" :label="topic.label" color="primary" variant="subtle"
+                size="lg" :class="!topic.count && 'opacity-60'">
+                <template v-if="topic.count" #trailing>
+                  <span class="rounded-md bg-primary-500/20 px-1 text-xs tabular-nums">{{ topic.count }}</span>
+                </template>
+              </UBadge>
+            </div>
+          </UiPanel>
+        </div>
+
+        <div v-show="tab === 'live'" class="tab-panel grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <UiPanel title="GitHub" icon="i-ph-github-logo">
+            <GithubStats />
+          </UiPanel>
+
+          <UiPanel title="Homelab" icon="i-simple-icons-kubernetes">
+            <HomelabStats />
+          </UiPanel>
+
+          <UiPanel title="Status" icon="i-ph-heartbeat" class="md:col-span-2 xl:col-span-1">
+            <HomelabUptime />
+          </UiPanel>
+        </div>
+
+        <GamesList v-show="tab === 'games'" class="tab-panel" />
       </div>
-
-      <div v-show="tab === 'live'" class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <UiPanel title="GitHub" icon="i-ph-github-logo">
-          <GithubStats />
-        </UiPanel>
-
-        <UiPanel title="Homelab" icon="i-simple-icons-kubernetes">
-          <HomelabStats />
-        </UiPanel>
-
-        <UiPanel title="Status" icon="i-ph-heartbeat" class="md:col-span-2 xl:col-span-1">
-          <HomelabUptime />
-        </UiPanel>
-      </div>
-
-  <GamesList v-show="tab === 'games'" />
     </UiContainer>
   </div>
 </template>
@@ -158,6 +161,36 @@ const captions: Record<HomeTab, string> = {
 const tabs = homeSections
   .filter(section => section.id !== 'about')
   .map(section => ({ label: section.label, icon: section.icon, value: section.id, caption: captions[section.id] }))
+
+// Panels slide in from the side of the tab they replace (-1 left, 1 right),
+// while the wrapper eases between the old and new panel heights.
+const { reduced } = useMotionPreference()
+const panels = useTemplateRef<HTMLElement>('panels')
+const tabDirection = ref(0)
+
+watch(tab, async (to, from) => {
+  tabDirection.value = Math.sign(tabs.findIndex(t => t.value === to) - tabs.findIndex(t => t.value === from))
+  const el = panels.value
+  if (!el || reduced.value) return
+
+  el.style.height = `${el.offsetHeight}px`
+  await nextTick()
+  const end = [...el.children].find(child => child instanceof HTMLElement && child.style.display !== 'none') as HTMLElement | undefined
+  const target = end?.offsetHeight ?? 0
+  if (!target || `${target}px` === el.style.height) {
+    el.style.height = ''
+    return
+  }
+  el.style.overflowY = 'clip'
+  el.style.height = `${target}px`
+})
+
+function onPanelsTransitionEnd(event: TransitionEvent) {
+  const el = event.currentTarget as HTMLElement
+  if (event.target !== el || event.propertyName !== 'height') return
+  el.style.height = ''
+  el.style.overflowY = ''
+}
 
 const portfolio = [
   { name: 'External DNS for UniFi', repo: 'home-operations/external-dns-unifi-webhook', icon: 'i-simple-icons-go', description: 'Creates and manages your Kubernetes DNS records for UniFi Gateways.' },
