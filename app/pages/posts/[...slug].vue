@@ -94,9 +94,16 @@ const toc = computed(() => post.value?.body?.toc?.links ?? [])
 
             <!-- Always reserve the column so the article width doesn't change with the headings. -->
             <template #right>
-                <!-- Stick to the top: there's no site header bar to sit under. -->
+                <!-- Stick to the top: there's no site header bar to sit under. The
+                     root is the grid item, so it has to start-align rather than
+                     stretch the row's height to have room to stick, and is capped at
+                     the content frame's height (see layouts/default.vue). As a side
+                     column (xl) the container takes UiPanel's glass surface. -->
                 <UContentToc v-if="toc.length" :links="toc" title="On this page" highlight highlight-color="primary"
-                    color="primary" :ui="{ root: 'top-0 max-h-full' }" />
+                    color="primary" :ui="{
+                        root: 'top-0 max-h-full lg:self-start lg:max-h-[calc(100dvh-8.25rem)]',
+                        container: 'glow-card xl:rounded-lg xl:border xl:border-solid xl:border-default xl:bg-gradient-to-tr xl:from-white/75 xl:to-white/25 xl:dark:from-[#0e0c12]/75 xl:dark:to-[#0e0f0f]/25 xl:backdrop-blur-3xl xl:p-4',
+                    }" />
                 <div v-else />
             </template>
         </UPage>
