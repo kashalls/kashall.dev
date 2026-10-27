@@ -84,6 +84,12 @@ const toc = computed(() => post.value?.body?.toc?.links ?? [])
                     <USeparator />
                     <UContentSurround :surround="surround" />
                 </template>
+
+                <!-- Docs and guides change in place, so only the Blog section takes comments. -->
+                <template v-if="post.section === 'blog'">
+                    <USeparator />
+                    <BlogComments :path="post.path" />
+                </template>
             </UPageBody>
 
             <!-- Always reserve the column so the article width doesn't change with the headings. -->

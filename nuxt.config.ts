@@ -95,6 +95,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
       // GitHub token (set NUXT_GITHUB_TOKEN); required by the GraphQL API behind /api/github.
       githubToken: '',
+      // GitHub account ID (github.com/kashalls) that signs in as the site owner,
+      // who posts comments as the author and can remove them.
+      githubUserId: 17620516,
       // Resend (set NUXT_RESEND_API_KEY). `onboarding@resend.dev` works without a
       // verified domain and delivers to your Resend account email.
       resend: { apiKey: '' },

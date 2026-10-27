@@ -5,6 +5,8 @@ declare module '#auth-utils' {
         login: string
         name: string | null
         avatar: string
+        // When the GitHub account was made; comments need an account of some age.
+        createdAt: string
     }
 
     interface UserSession {

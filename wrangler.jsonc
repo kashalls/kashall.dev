@@ -24,7 +24,8 @@
   ],
   // Reached through ctx.exports, so each Preview gets its own namespace automatically.
   "exports": {
-    "VisitorCounter": { "type": "durable-object", "storage": "sqlite" }
+    "VisitorCounter": { "type": "durable-object", "storage": "sqlite" },
+    "PostComments": { "type": "durable-object", "storage": "sqlite" }
   },
   // Branch Previews (Workers Builds) share these, so they never touch production data.
   "previews": {

@@ -2,3 +2,4 @@
 // export (declared under `exports` in wrangler.jsonc).
 export { default } from 'nitropack/presets/cloudflare/runtime/cloudflare-module'
 export { VisitorCounter } from './durable/visitor-counter'
+export { PostComments } from './durable/post-comments'
