@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { refDebounced } from '@vueuse/core'
 
+definePageMeta({ layout: 'field', pageTransition: { name: 'column', mode: 'out-in' } })
+
 const route = useRoute()
 const router = useRouter()
 
-// /posts is only a search results page; without a query it opens the first post.
+// /posts is only a search results page; without a query it goes to the index.
 if (!('q' in route.query)) {
-    await navigateTo('/posts/introduction', { redirectCode: 302 })
+    await navigateTo('/writing', { redirectCode: 302 })
 }
 
 const query = ref(typeof route.query.q === 'string' ? route.query.q : '')
@@ -47,38 +49,19 @@ useSeoMeta({
 </script>
 
 <template>
-    <UiContainer>
-        <!-- Fixed side columns, sized like the Mintlify docs. -->
-        <UPage :ui="{ root: 'lg:grid-cols-[18rem_minmax(0,1fr)] lg:gap-x-12', left: 'lg:col-span-1', center: 'lg:col-span-1' }">
-            <template #left>
-                <BlogSidebar />
-            </template>
-
-            <UPageHeader title="Search" description="Search every post."
-                :ui="{ root: 'pt-0', title: 'font-display' }">
-                <template #links>
-                    <UButton to="/feed.xml" external target="_blank" icon="i-ph-rss" label="RSS" color="neutral"
-                        variant="outline" size="sm" />
-                </template>
-                <UInput v-model="query" icon="i-ph-magnifying-glass" placeholder="Search posts…" size="lg"
-                    autofocus class="mt-6 w-full" :ui="{ base: 'rounded-md' }" />
-            </UPageHeader>
-
-            <UPageBody>
-                <ul v-if="results.length" class="flex flex-col divide-y divide-default">
-                    <li v-for="result in results" :key="result.id" class="py-5 first:pt-0">
-                        <NuxtLink :to="result.id" class="group flex flex-col gap-1.5">
-                            <span v-if="result.titles.length" class="text-sm font-semibold text-primary">
-                                {{ result.titles.join(' › ') }}
-                            </span>
-                            <p class="text-lg font-semibold text-highlighted group-hover:text-primary">{{ result.title }}</p>
-                            <p v-if="result.snippet" class="text-muted">{{ result.snippet }}</p>
-                        </NuxtLink>
-                    </li>
-                </ul>
-                <UEmpty v-else-if="terms.length" icon="i-ph-magnifying-glass" title="No results"
-                    :description="`Nothing matches “${debouncedQuery}”.`" variant="naked" />
-            </UPageBody>
-        </UPage>
-    </UiContainer>
+    <main class="column">
+        <h1 class="page-name">Search</h1>
+        <input v-model="query" type="search" placeholder="Search every post" aria-label="Search posts" autofocus
+            class="search-input">
+        <ul v-if="results.length" class="list mt-8">
+            <li v-for="result in results" :key="result.id">
+                <NuxtLink :to="result.id" class="item">
+                    <span v-if="result.titles.length" class="item-meta text-(--accent)">{{ result.titles.join(' / ') }}</span>
+                    <span class="item-title">{{ result.title }}</span>
+                    <span v-if="result.snippet" class="item-text">{{ result.snippet }}</span>
+                </NuxtLink>
+            </li>
+        </ul>
+        <p v-else-if="terms.length" class="item-text mt-8">Nothing matches “{{ debouncedQuery }}”. Try fewer words, or browse <NuxtLink to="/writing" class="inline-link">everything I've written</NuxtLink>.</p>
+    </main>
 </template>

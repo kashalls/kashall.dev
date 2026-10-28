@@ -1,6 +1,6 @@
 # Design
 
-How the site looks and moves, and why. The front of the site (`/`, `/about`, `/work`, `/writing`, `/live`) uses the particle field layout; posts and the other pages still use the default Nuxt UI layout.
+How the site looks and moves, and why. Every page uses the particle field layout (`app/layouts/field.vue`) except `/lab` and `/gateway`, which still use the default Nuxt UI layout.
 
 ## Principles
 
@@ -36,6 +36,10 @@ Each page has one hue. It colours the page's particle title, the nav marker unde
 | Work    | `#5fb2ff` | The blue iris: my work            |
 | Writing | `#ff7ac8` | Pink, from the banner's hair      |
 | Live    | `#46e08c` | Green: things are up and running  |
+| A post  | Its section's `hue`               | See below                         |
+| Search, Legal | `#c2a5ff` | The site's default          |
+
+Posts take the hue of their section, from `hue` in `app/utils/blogSections.ts`: Home Lab `#60a5fa`, Guides `#fde047`, Blog `#fb7185` (Tailwind's blue-400, yellow-300 and rose-400, so they match the sections' `accent` classes). The particle title shows the section's name, and re-forms when you move to a post in another section.
 
 The particle title is a gradient from `#f4eeff` (near white) into the page's hue, with a glow in the hue at 85% opacity.
 
@@ -68,7 +72,11 @@ Don't go back to a different colour per phrase; eight unrelated hues read as noi
 | Discord status           | `STATUS` in `app/utils/discord.ts`     | Discord's own status colours         |
 | Spotify song             | `#1ed760`                              | Spotify green                        |
 | Failing service          | `#ff7a6b`                              | Live page probes                     |
-| Post sections            | `accent` in `app/utils/blogSections.ts`| Blue, yellow and rose; colour-blind safe |
+| Post sections            | `accent` and `hue` in `app/utils/blogSections.ts`| Blue, yellow and rose; colour-blind safe |
+
+### Nuxt UI components
+
+Post content (callouts, steps, code groups, accordions), comments and inputs are still Nuxt UI components. Inside the field, Nuxt UI's colour variables (`--ui-primary`, `--ui-text-*`, `--ui-bg-*`, `--ui-border-*`) point at the field's own (see the `.field` block in `app/layouts/field.vue`), so they take this palette without being rewritten. `--ui-primary` follows the page's hue, so a Guides post's links and highlights are yellow.
 
 ## Type
 
@@ -89,7 +97,10 @@ Don't go back to a different colour per phrase; eight unrelated hues read as noi
 - **Home:** the eyes fill the upper part of the field. The intro and the name sit bottom-left over a darkened corner of the field, with your Discord presence as one line above them.
 - **Pages:** content sits in a column on the left (`min(38rem, 46vw)`) over a darkened side of the field. The page's title is written large in particles on the right, with the eyes faint above it. On tall screens the title moves to the top and the content goes below it.
 - **Nav:** a bar across the top with the name (hidden on home, where it's already huge) and the four pages. The current page is marked by a single glowing particle in its hue.
+- **Posts:** a single column (`min(46rem, 56vw)`, wider than other pages for code and tables): section and category, the title in the display face, description, date, updated date and tags, then the post, an edit link, previous and next in the section, and comments on Blog posts. The particle title on the right is the section. On wide screens an "On this page" list sits bottom right over the field and marks the heading being read.
+- **Writing:** the index of every post, grouped by section (in its hue) and category, with search and RSS at the top. Search results (`/posts?q=`) use the same column.
 - **Lists:** items are separated by thin `--rule` lines with even spacing; only the first item in a list drops its top padding.
+- **Scrolling:** content fades out under the nav bar (a black-to-clear strip behind the bar on every page but home).
 
 ## The particle field
 
@@ -136,6 +147,6 @@ The eyes come from the Discord banner (`bannerUrl()` in `app/utils/discord.ts`).
 
 ## To do
 
-- **Restyle the blog.** Posts (`/posts`, `/posts/*`) and the legal pages still use the default Nuxt UI layout: the docs-style three-column page, `UHeader`, the glass panels and Nuxt UI's prose. Bring them onto the field's colours, type and motion, with posts reading as a single column.
 - Bring the maintenance banner, contact dialog and command palette to the field layout; they only exist in the default layout.
+- Move `/lab` and `/gateway` onto the field, then the default layout and its Nuxt UI chrome (`UHeader`, the glass panels) can go.
 - Check the production `NUXT_GITHUB_TOKEN`; without a working one, `/api/repos` falls back to GitHub's unauthenticated rate limit.

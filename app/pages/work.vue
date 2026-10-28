@@ -35,7 +35,7 @@ onBeforeUnmount(() => {
 
 <template>
   <main class="column">
-    <h1>Work</h1>
+    <h1 class="page-name">Work</h1>
     <ul class="list">
       <li v-for="project in projects" :key="project.repo">
         <NuxtLink :to="`https://github.com/${project.repo}`" external class="item project"

@@ -5,13 +5,6 @@ useProximityGlow()
 
 const route = useRoute()
 
-// Posts pages glow in their section's colour (primary on search).
-const { current: postsSection } = await useBlogNavigation()
-const postsGlow = computed(() => route.path.startsWith('/posts') && [
-  'bg-radial-[at_100%_0%] to-transparent to-60%',
-  blogSection(postsSection.value)?.accent.glow ?? 'from-primary/15',
-])
-
 // Pages are prerendered, so messages load in the browser. Open pages pick up
 // changes on navigation, when the tab comes back into view, and every five
 // minutes while it's visible; idle hidden tabs cost nothing.
@@ -36,10 +29,7 @@ useDisplayPreferences()
       class="grid md:size-full relative h-full rounded-lg overflow-hidden border border-default transition-all duration-500 shadow-2xl grid-rows-[3.5rem_1fr_3rem] grid-columns-[2.5rem_1fr] [grid-template-areas:'header_header_header''content_content_content''bottom_bottom_bottom'] [grid-template-columns:0rem_1fr_0rem]">
       <LayoutHeader />
 
-      <!-- A scroll container's background stays put as its content scrolls, so
-           the posts' glow stays in view while reading. -->
-      <div class="h-auto overflow-x-hidden overflow-y-scroll scroll p-1 [grid-area:content]" id="content-frame"
-        :class="postsGlow">
+      <div class="h-auto overflow-x-hidden overflow-y-scroll scroll p-1 [grid-area:content]" id="content-frame">
         <LayoutMaintenanceBanner />
         <slot />
       </div>

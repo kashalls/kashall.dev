@@ -16,7 +16,20 @@ const views = [
 ] as const
 const HOME_TONE = '#c2a5ff'
 const view = computed(() => route.path.split('/')[1] || 'home')
-const tone = computed(() => views.find(v => v.id === view.value)?.tone ?? HOME_TONE)
+const { current: postSection } = await useBlogNavigation()
+
+// The particle title and hue a route shows: a page's own, or a post's section.
+function heading(id: string): { label?: string, hue: string } {
+  const page = views.find(v => v.id === id)
+  if (page) return { label: page.label, hue: page.tone }
+  if (id === 'posts') {
+    const section = blogSection(postSection.value)
+    return section ? { label: section.label, hue: section.hue } : { label: 'Search', hue: HOME_TONE }
+  }
+  if (id === 'legal') return { label: 'Legal', hue: HOME_TONE }
+  return { hue: HOME_TONE }
+}
+const tone = computed(() => heading(view.value).hue)
 // A page can borrow the particle title, as Work does for the project under the pointer.
 const focus = useState<string | undefined>('field-focus', () => undefined)
 const title = computed(() => views.find(v => v.id === view.value)?.label)
@@ -313,7 +326,7 @@ function drawTitle(ctx: CanvasRenderingContext2D, label: string, hue: string, as
 }
 
 const paintings = new Map<string, HTMLCanvasElement>()
-const titleFor = (id: string) => focus.value ?? views.find(v => v.id === id)?.label
+const titleFor = (id: string) => focus.value ?? heading(id).label
 const blank = () => {
   const made = document.createElement('canvas')
   made.width = PAINT_WIDTH
@@ -356,7 +369,7 @@ function paintBase(id: string, lids: Pair = [0, 0]) {
     ctx.fillStyle = shade
     ctx.fillRect(0, 0, width, height)
 
-    if (label) drawTitle(ctx, label, views.find(v => v.id === id)?.tone ?? HOME_TONE)
+    if (label) drawTitle(ctx, label, heading(id).hue)
     return canvas
   })
 }
@@ -527,7 +540,8 @@ onMounted(async () => {
 })
 
 watch(view, id => show(id))
-watch(focus, () => {
+// A borrowed title, or moving to a post in another section.
+watch(() => titleFor(view.value), () => {
   if (renderer && live.value && !changing && !blinking) morphTo(0.8, 0.45)
 })
 watch(reduced, value => renderer?.setReduced(value))
@@ -545,6 +559,7 @@ onBeforeUnmount(() => {
       <img v-if="still && !live" :key="still" :src="still" alt="" aria-hidden="true" class="field-still">
     </Transition>
 
+    <div class="top-fade" aria-hidden="true" />
     <header class="bar">
       <NuxtLink to="/" class="mark" :class="view === 'home' && 'is-hidden'">Jordan Jones</NuxtLink>
       <nav aria-label="Sections">
@@ -632,6 +647,58 @@ onBeforeUnmount(() => {
   pointer-events: none;
 }
 
+/* Nuxt UI's colours, pointed at the field's, so its components (post
+   content, comments, inputs) take this look without being rewritten. */
+.field {
+  --ui-primary: var(--accent);
+  --ui-text-dimmed: var(--fg-3);
+  --ui-text-muted: var(--fg-2);
+  --ui-text-toned: var(--fg-2);
+  --ui-text: var(--fg-2);
+  --ui-text-highlighted: var(--fg);
+  --ui-bg: rgb(8 6 16 / 0.85);
+  --ui-bg-muted: rgb(194 165 255 / 0.05);
+  --ui-bg-elevated: rgb(194 165 255 / 0.07);
+  --ui-bg-accented: rgb(194 165 255 / 0.12);
+  --ui-border: var(--rule);
+  --ui-border-muted: rgb(194 165 255 / 0.12);
+  --ui-border-accented: rgb(194 165 255 / 0.3);
+  --ui-radius: 0.25rem;
+}
+
+/* Long-form text: posts and the legal pages. */
+.field .prose-field {
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.field .prose-field :is(h2, h3, h4) {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+
+/* A post or legal page's own title, shown even while the field is live. */
+.field .doc-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+/* Room for code blocks and tables. */
+.field .column.column-wide {
+  width: min(46rem, 56vw);
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .field .column.column-wide {
+    width: auto;
+  }
+}
+
 /* A sentence in one of the hues colours its phrases and leaves the rest as is. */
 .tone-who { --tone: var(--tone-who); }
 .tone-work { --tone: var(--tone-work); }
@@ -689,9 +756,24 @@ onBeforeUnmount(() => {
   left: 0;
   width: min(38rem, 46vw);
   overflow-y: auto;
-  padding: clamp(6rem, 16vh, 9rem) clamp(1.25rem, 4vw, 3.5rem) 4rem;
+  /* Starts just below the nav bar's fade (.top-fade), close under the nav. */
+  padding: calc(clamp(4.5rem, 11vh, 6.5rem) + 0.5rem) clamp(1.25rem, 4vw, 3.5rem) 4rem;
   scrollbar-width: thin;
   scrollbar-color: var(--rule) transparent;
+}
+
+/* Content scrolling up fades out under the nav bar instead of running into it. */
+.top-fade {
+  position: absolute;
+  z-index: 5;
+  inset: 0 0 auto;
+  height: clamp(4.5rem, 11vh, 6.5rem);
+  background: linear-gradient(#000 45%, transparent);
+  pointer-events: none;
+}
+
+.view-home .top-fade {
+  display: none;
 }
 
 @media (max-aspect-ratio: 1/1) {
@@ -702,15 +784,15 @@ onBeforeUnmount(() => {
   }
 }
 
-.column h1 {
+.column h1.page-name {
   font-family: var(--font-display);
   font-size: 1rem;
   color: var(--fg-3);
   margin-bottom: 1.5rem;
 }
 
-/* The field already writes the title large; the heading is for when it can't. */
-.is-live .column h1 {
+/* The field already writes the page's name large; the heading is for when it can't. */
+.is-live .column h1.page-name {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -763,6 +845,25 @@ onBeforeUnmount(() => {
   max-width: 60ch;
   line-height: 1.65;
   color: var(--fg-2);
+}
+
+.field .search-input {
+  width: 100%;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+  background: transparent;
+  font-size: 1.15rem;
+  color: var(--fg);
+  outline: none;
+  transition: border-color 200ms;
+}
+
+.field .search-input::placeholder {
+  color: var(--fg-3);
+}
+
+.field .search-input:focus-visible {
+  border-color: var(--accent);
 }
 
 .field .inline-link {

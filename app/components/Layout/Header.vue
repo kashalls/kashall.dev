@@ -4,23 +4,18 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 const route = useRoute()
 const { sections } = await useBlogNavigation()
 
-const onPosts = computed(() => route.path.startsWith('/posts'))
+const items = computed<NavigationMenuItem[]>(() =>
+    sections.value.map(section => ({ label: section.label, icon: section.icon, to: section.first, accent: section.accent })))
 
-// The posts sidebar lists the sections itself, so they only sit up here elsewhere.
-const items = computed<NavigationMenuItem[]>(() => onPosts.value
-    ? [{ label: 'Posts', to: '/posts', active: true }]
-    : sections.value.map(section => ({ label: section.label, icon: section.icon, to: section.first, accent: section.accent })))
-
-// Active by path: /posts/x isn't nested under /posts in the router.
 const menuLinks = computed<NavigationMenuItem[]>(() => [
     { label: 'Home', icon: 'i-ph-house', to: '/', active: route.path === '/' },
-    { label: 'Posts', icon: 'i-ph-article', to: '/posts', active: onPosts.value },
+    { label: 'Writing', icon: 'i-ph-pen-nib', to: '/writing' },
 ])
 </script>
 
 <template>
     <!-- Sized by the layout's grid row rather than UHeader's own height and
-         stickiness. Same width as the home page, a little wider than the posts layout. -->
+         stickiness. -->
     <UHeader title="Jordan Jones" mode="slideover" :menu="{ title: 'Menu' }" :ui="{
         root: 'static z-auto h-auto bg-transparent backdrop-blur-none bg-gradient-to-tr from-white/25 to-white/25 dark:from-[#0e0c12]/25 dark:to-[#0e0f0f]/25 [grid-area:header]',
         container: 'max-w-[96rem] px-2 sm:px-2 md:px-4 lg:px-4',
@@ -52,9 +47,7 @@ const menuLinks = computed<NavigationMenuItem[]>(() => [
         <template #body>
             <UNavigationMenu :items="menuLinks" orientation="vertical" color="primary" />
             <USeparator class="my-6" />
-            <BlogNav v-if="onPosts" />
-            <!-- Off the posts pages, just the sections, as in the header. -->
-            <UNavigationMenu v-else :items="items" orientation="vertical" color="neutral">
+            <UNavigationMenu :items="items" orientation="vertical" color="neutral">
                 <template #item-leading="{ item }">
                     <span class="flex size-6 items-center justify-center rounded-md ring-1"
                         :class="[item.accent.text, item.accent.ring]">

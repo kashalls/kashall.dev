@@ -13,7 +13,7 @@ const down = computed(() => services.value?.filter(service => service.up === fal
 
 <template>
   <main class="column">
-    <h1>Live</h1>
+    <h1 class="page-name">Live</h1>
     <ClientOnly>
       <p class="lead">
         <template v-if="!lanyard">Connecting to Discord.</template>
