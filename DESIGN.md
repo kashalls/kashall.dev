@@ -1,6 +1,6 @@
 # Design
 
-How the site looks and moves, and why. Every page uses the particle field layout (`app/layouts/field.vue`) except `/lab` and `/gateway`, which still use the default Nuxt UI layout.
+How the site looks and moves, and why. Every page uses the particle field layout (`app/layouts/field.vue`) except `/gateway`, which still uses the default Nuxt UI layout.
 
 ## Principles
 
@@ -148,5 +148,5 @@ The eyes come from the Discord banner (`bannerUrl()` in `app/utils/discord.ts`).
 ## To do
 
 - Bring the maintenance banner, contact dialog and command palette to the field layout; they only exist in the default layout.
-- Move `/lab` and `/gateway` onto the field, then the default layout and its Nuxt UI chrome (`UHeader`, the glass panels) can go.
+- Move `/gateway` onto the field, then the default layout and its Nuxt UI chrome (`UHeader`, the glass panels) can go.
 - Check the production `NUXT_GITHUB_TOKEN`; without a working one, `/api/repos` falls back to GitHub's unauthenticated rate limit.
