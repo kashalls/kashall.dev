@@ -15,7 +15,10 @@ const views = [
   { id: 'live', label: 'Live', to: '/live', tone: '#46e08c' },
 ] as const
 const HOME_TONE = '#c2a5ff'
-const view = computed(() => route.path.split('/')[1] || 'home')
+// The Live page's colour for a failing service.
+const FAIL_TONE = '#ff7a6b'
+const error = useError()
+const view = computed(() => error.value ? 'error' : route.path.split('/')[1] || 'home')
 const { current: postSection } = await useBlogNavigation()
 
 // The particle title and hue a route shows: a page's own, or a post's section.
@@ -27,13 +30,16 @@ function heading(id: string): { label?: string, hue: string } {
     return section ? { label: section.label, hue: section.hue } : { label: 'Search', hue: HOME_TONE }
   }
   if (id === 'legal') return { label: 'Legal', hue: HOME_TONE }
+  if (id === 'gateway') return { label: '502', hue: FAIL_TONE }
+  if (id === 'error') return { label: String(statusMeta(error.value?.statusCode).code), hue: FAIL_TONE }
   return { hue: HOME_TONE }
 }
 const tone = computed(() => heading(view.value).hue)
 // A page can borrow the particle title, as Work does for the project under the pointer.
 const focus = useState<string | undefined>('field-focus', () => undefined)
 const title = computed(() => views.find(v => v.id === view.value)?.label)
-useHead({ title: computed(() => title.value ? `${title.value}, Jordan Jones` : 'Jordan Jones') })
+// The error page sets its own title.
+useHead({ title: computed(() => title.value ? `${title.value}, Jordan Jones` : error.value ? undefined : 'Jordan Jones') })
 
 // --- The images the particle field takes its colour from -------------------
 
@@ -572,6 +578,7 @@ onBeforeUnmount(() => {
     </header>
 
     <slot />
+    <ContactDialog />
   </div>
 </template>
 

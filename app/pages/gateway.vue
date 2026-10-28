@@ -1,6 +1,8 @@
 <script setup lang="ts">
 // Fallback page for hostnames that resolve to the gateway with no service
 // configured behind them. Point the gateway's default backend here.
+definePageMeta({ layout: 'field', pageTransition: { name: 'column', mode: 'out-in' } })
+
 const url = useRequestURL()
 const host = computed(() => url.host)
 const { openContact } = useContact()
@@ -15,16 +17,14 @@ useRobotsRule(false)
 </script>
 
 <template>
-    <StatusWindows code="502" title="No Service Configured"
-        description="This hostname is resolving to one of Jordan's gateway endpoints, but there's no service wired up behind it yet.">
-        <template #extra>
-            <div class="rounded-lg border border-default bg-elevated/50 px-3 py-2 text-xs">
-                <p class="text-dimmed">Hostname</p>
-                <p class="break-all font-mono text-default">{{ host }}</p>
-            </div>
-        </template>
-
-        <UButton icon="i-ph-envelope-simple" color="primary" @click="openContact">Contact the operator</UButton>
-        <UButton to="/" icon="i-ph-house" color="primary" variant="ghost">Homepage</UButton>
-    </StatusWindows>
+    <main class="column">
+        <h1 class="doc-title">No service configured</h1>
+        <p class="lead mt-4">This hostname is resolving to one of Jordan's gateway endpoints, but there's no service wired up behind it yet.</p>
+        <p class="mt-8 text-sm text-(--fg-3)">Hostname</p>
+        <p class="mt-1 break-all font-mono text-(--fg)">{{ host }}</p>
+        <p class="mt-8 flex gap-6 text-sm">
+            <button type="button" class="text-(--accent) hover:text-(--fg)" @click="openContact">Contact the operator</button>
+            <NuxtLink to="/" class="text-(--fg-3) hover:text-(--fg)">Homepage</NuxtLink>
+        </p>
+    </main>
 </template>
