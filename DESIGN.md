@@ -72,6 +72,7 @@ Don't go back to a different colour per phrase; eight unrelated hues read as noi
 | Nuxt                     | `#00dc82`                              | Nuxt green                           |
 | Discord status           | `STATUS` in `app/utils/discord.ts`     | Discord's own status colours         |
 | Spotify song             | `#1ed760`                              | Spotify green                        |
+| Social icons (About)     | `color` in `shared/utils/socials.ts`   | Each brand's colour, lifted for black; email is the site lavender |
 | Failing service          | `#ff7a6b`                              | Live page probes                     |
 | Post sections            | `accent` and `hue` in `app/utils/blogSections.ts`| Blue, yellow and rose; colour-blind safe |
 
