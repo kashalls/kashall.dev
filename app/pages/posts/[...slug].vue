@@ -159,7 +159,7 @@ useEventListener(column, 'scroll', track, { passive: true })
     .toc {
         position: fixed;
         right: clamp(1.25rem, 4vw, 3.5rem);
-        bottom: clamp(1.5rem, 5vh, 3rem);
+        bottom: calc(clamp(1.5rem, 5vh, 3rem) + var(--notice-room, 0px));
         display: block;
         width: 15rem;
         max-height: 26vh;

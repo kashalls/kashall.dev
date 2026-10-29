@@ -1,11 +1,26 @@
 <script setup lang="ts">
-import { useEventListener, useDebounceFn } from '@vueuse/core'
+import { useDebounceFn, useDocumentVisibility, useElementSize, useEventListener, useIntervalFn } from '@vueuse/core'
 
 const route = useRoute()
 const { reduced } = useMotionPreference()
 useDisplayPreferences()
 // Opens the presence socket once; the pages read the shared state.
 useLanyard()
+
+// Pages are prerendered, so messages load in the browser. Open pages pick up
+// changes on navigation, when the tab comes back into view, and every five
+// minutes while it's visible; idle hidden tabs cost nothing.
+const { messages, refresh: refreshMessages } = useSiteMessages()
+if (import.meta.client) {
+  const visibility = useDocumentVisibility()
+  onMounted(refreshMessages)
+  watch(() => route.path, refreshMessages)
+  watch(visibility, (state) => { if (state === 'visible') refreshMessages() })
+  useIntervalFn(() => { if (visibility.value === 'visible') refreshMessages() }, 5 * 60_000)
+}
+// Whatever else sits in the bottom right corner, like a post's contents, moves up by this.
+const notice = useTemplateRef<HTMLElement>('notice')
+const { height: noticeHeight } = useElementSize(notice, undefined, { box: 'border-box' })
 
 // Each page's hue colours its particle title, the nav marker and its links.
 const views = [
@@ -559,7 +574,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="field" :class="[`view-${view}`, { 'is-live': live }]" :style="{ '--accent': tone }">
+  <div class="field" :class="[`view-${view}`, { 'is-live': live }]"
+    :style="{ '--accent': tone, '--notice-room': messages.maintenance ? `${noticeHeight + 16}px` : '0px' }">
     <canvas ref="canvas" aria-hidden="true" class="field-canvas" />
     <Transition name="still">
       <img v-if="still && !live" :key="still" :src="still" alt="" aria-hidden="true" class="field-still">
@@ -578,6 +594,7 @@ onBeforeUnmount(() => {
     </header>
 
     <slot />
+    <p v-if="messages.maintenance" ref="notice" class="notice" role="status">{{ messages.maintenance }}</p>
     <ContactDialog />
   </div>
 </template>
@@ -594,6 +611,7 @@ onBeforeUnmount(() => {
   --tone-work: #5fb2ff;
   --tone-side: #ff9b4a;
   --rule: rgb(194 165 255 / 0.18);
+  --notice: #ffb547;
 
   position: relative;
   height: 100dvh;
@@ -767,6 +785,47 @@ onBeforeUnmount(() => {
   padding: calc(clamp(4.5rem, 11vh, 6.5rem) + 0.5rem) clamp(1.25rem, 4vw, 3.5rem) 4rem;
   scrollbar-width: thin;
   scrollbar-color: var(--rule) transparent;
+}
+
+/* A maintenance message, in the corner the field leaves empty on wide screens. */
+.notice {
+  position: fixed;
+  z-index: 6;
+  right: clamp(1.25rem, 4vw, 3.5rem);
+  bottom: clamp(1.5rem, 5vh, 3rem);
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  max-width: 16rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--fg);
+  text-shadow: 0 0 10px #000;
+}
+
+/* A particle in the warning colour, like the nav's marker. */
+.notice::before {
+  content: '';
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--notice);
+  box-shadow: 0 0 8px 2px var(--notice);
+  transform: translateY(-0.1em);
+}
+
+/* Tall screens keep their bottom for the name and content, so it goes under the nav. */
+@media (max-aspect-ratio: 1/1) {
+  .notice {
+    top: 3.75rem;
+    bottom: auto;
+    left: clamp(1.25rem, 4vw, 3.5rem);
+    max-width: none;
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.5rem;
+    background: rgb(0 0 0 / 0.85);
+  }
 }
 
 /* Content scrolling up fades out under the nav bar instead of running into it. */
