@@ -11,7 +11,7 @@ After almost continuous revisions, I've finally got my personal website to a sta
 - GitHub star counts for the Work page, cached server-side for an hour
 - Homelab stats pulled from [kromgo](https://github.com/kashalls/kromgo) badges
 - Contact form protected by Cloudflare Turnstile and delivered with Resend
-- Comments under Blog posts from GitHub accounts at least 14 days old, with one level of replies and hearts
+- Comments under Blog posts and a guestbook, from GitHub accounts at least 14 days old, with one level of replies and hearts
 - A `/gateway` fallback page for hostnames that hit the gateway with no service behind them
 - Pre-rendered OG images, sitemap and robots.txt
 

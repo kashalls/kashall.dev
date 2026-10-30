@@ -27,6 +27,7 @@ const views = [
   { id: 'about', label: 'About', to: '/about', tone: '#d9c6ff' },
   { id: 'work', label: 'Work', to: '/work', tone: '#5fb2ff' },
   { id: 'writing', label: 'Writing', to: '/writing', tone: '#ff7ac8' },
+  { id: 'guestbook', label: 'Guestbook', to: '/guestbook', tone: '#46e08c' },
 ] as const
 const HOME_TONE = '#c2a5ff'
 // Red: something isn't there or isn't working.
@@ -582,7 +583,10 @@ onBeforeUnmount(() => {
 
     <div class="top-fade" aria-hidden="true" />
     <header class="bar">
-      <NuxtLink to="/" class="mark" :class="view === 'home' && 'is-hidden'">Jordan Jones</NuxtLink>
+      <NuxtLink to="/" class="mark" :class="view === 'home' && 'is-hidden'">
+        <span class="mark-name">Jordan Jones</span>
+        <NuxtImg src="/jordanjones.svg" alt="Jordan Jones" width="209" height="290" class="mark-logo" />
+      </NuxtLink>
       <nav aria-label="Sections">
         <ul class="flex gap-5 sm:gap-8">
           <li v-for="item in views" :key="item.id">
@@ -669,6 +673,18 @@ onBeforeUnmount(() => {
 .mark.is-hidden {
   opacity: 0;
   pointer-events: none;
+}
+
+.mark-logo {
+  display: none;
+  width: auto;
+  height: 1.75rem;
+}
+
+/* The name and all four pages don't fit across a phone, so the logo stands in. */
+@media (max-width: 30rem) {
+  .mark-name { display: none; }
+  .mark-logo { display: block; }
 }
 
 /* Nuxt UI's colours, pointed at the field's, so its components (post

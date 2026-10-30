@@ -1,8 +1,9 @@
 <script setup lang="ts">
-const props = defineProps<{ path: string }>()
+const props = defineProps<{ path: string, guestbook?: boolean }>()
+const noun = computed(() => props.guestbook ? 'entry' : 'comment')
 
 // Posts are prerendered, so comments and the session always load in the browser.
-const api = computed(() => `/api/comments/${props.path.replace(/^\/posts\//, '')}`)
+const api = computed(() => `/api/comments/${props.path.replace(/^\/(posts\/)?/, '')}`)
 const { data, status, refresh } = useFetch<{ comments: PostComment[], viewerIsOwner: boolean }>(api, { server: false, lazy: true, deep: true })
 const { loggedIn, user, clear } = useUserSession()
 const signInUrl = computed(() => `/auth/github?redirect=${encodeURIComponent(`${props.path}#comments`)}`)
@@ -49,9 +50,9 @@ async function post() {
         data.value?.comments.push(comment)
         content.value = ''
         replyTo.value = null
-        message.value = 'Comment posted.'
+        message.value = props.guestbook ? 'Entry posted.' : 'Comment posted.'
     } catch (e) {
-        message.value = errorMessage(e, 'Could not post the comment. Please try again.')
+        message.value = errorMessage(e, `Could not post the ${noun.value}. Please try again.`)
     } finally {
         posting.value = false
     }
@@ -69,15 +70,15 @@ async function heart(comment: PostComment) {
 }
 
 async function remove(comment: PostComment) {
-    if (!window.confirm('Remove this comment? Its replies stay up.')) return
+    if (!window.confirm(`Remove this ${noun.value}? Its replies stay up.`)) return
     busy.value = comment.id
     try {
         await $fetch(api.value, { method: 'DELETE', query: { id: comment.id } })
         if (replyTo.value?.id === comment.id) replyTo.value = null
         await refresh()
-        message.value = 'Comment removed.'
+        message.value = props.guestbook ? 'Entry removed.' : 'Comment removed.'
     } catch (e) {
-        message.value = errorMessage(e, 'Could not remove the comment. Please try again.')
+        message.value = errorMessage(e, `Could not remove the ${noun.value}. Please try again.`)
     } finally {
         busy.value = null
     }
@@ -93,8 +94,8 @@ async function signOut() {
 <template>
     <section id="comments" aria-labelledby="comments-heading" class="flex flex-col gap-4">
         <div class="flex items-baseline justify-between gap-3">
-            <h2 id="comments-heading" class="font-display text-xl text-highlighted">Discussion</h2>
-            <span v-if="data" class="text-sm text-muted">{{ total }} {{ total === 1 ? 'comment' : 'comments' }}</span>
+            <h2 id="comments-heading" class="font-display text-xl text-highlighted">{{ guestbook ? 'Entries' : 'Discussion' }}</h2>
+            <span v-if="data" class="text-sm text-muted">{{ total }} {{ total === 1 ? noun : guestbook ? 'entries' : 'comments' }}</span>
         </div>
 
         <form v-if="loggedIn && user" class="flex flex-col gap-3 rounded-lg border border-default bg-elevated/30 p-4"
@@ -118,31 +119,31 @@ async function signOut() {
             </div>
 
             <UTextarea ref="textarea" v-model="content" :rows="3" autoresize :maxlength="1000" required
-                :aria-label="replyTo ? 'Your reply' : 'Your comment'"
-                :placeholder="replyTo ? 'Add your reply…' : 'Leave a thought, a question, a little hello…'" />
+                :aria-label="replyTo ? 'Your reply' : `Your ${noun}`"
+                :placeholder="replyTo ? 'Add your reply…' : guestbook ? 'Say hello, or leave a note…' : 'Leave a thought, a question, a little hello…'" />
 
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <span class="text-xs" :class="content.length >= 950 ? 'text-error' : 'text-dimmed'">
                     {{ content.length >= 850 ? `${content.length}/1000` : `Posting as @${user.login}` }}
                 </span>
                 <UButton type="submit" :loading="posting" :disabled="!canPost" trailing-icon="i-ph-arrow-up-right"
-                    :label="replyTo ? 'Post reply' : 'Post comment'" />
+                    :label="replyTo ? 'Post reply' : guestbook ? 'Sign the guestbook' : 'Post comment'" />
             </div>
         </form>
 
         <div v-else class="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-default bg-elevated/30 p-4">
-            <p class="text-sm text-muted">Sign in with GitHub to join the discussion.</p>
-            <UButton :to="signInUrl" external icon="i-simple-icons-github" label="Sign in with GitHub" color="neutral" />
+            <p class="text-sm text-muted">Sign in with GitHub to {{ guestbook ? 'sign the guestbook' : 'join the discussion' }}.</p>
+            <UButton :to="signInUrl" external icon="i-simple-icons-github" label="Sign in with GitHub" variant="outline" />
         </div>
 
         <p v-if="message" role="status" class="text-sm text-muted">{{ message }}</p>
         <p v-if="status === 'error'" role="alert" class="text-sm text-muted">
-            Could not load comments.
+            Could not load {{ guestbook ? 'the guestbook' : 'comments' }}.
             <UButton label="Try again" color="neutral" variant="link" class="p-0" @click="refresh()" />
         </p>
         <!-- Keyed on data, not status: status is idle when prerendered but pending while hydrating. -->
-        <p v-else-if="!data" class="text-sm text-muted">Loading comments…</p>
-        <p v-else-if="!threads.length" class="text-sm text-muted">No comments yet. Start the conversation.</p>
+        <p v-else-if="!data" class="text-sm text-muted">Loading {{ guestbook ? 'the guestbook' : 'comments' }}…</p>
+        <p v-else-if="!threads.length" class="text-sm text-muted">{{ guestbook ? 'No one has signed yet. Be the first.' : 'No comments yet. Start the conversation.' }}</p>
 
         <div v-for="thread in threads" :key="thread.comment.id" class="flex flex-col gap-3">
             <div v-for="comment in [thread.comment, ...thread.replies]" :id="`comment-${comment.id}`" :key="comment.id"
@@ -163,7 +164,7 @@ async function signOut() {
                     Replying to {{ byId.get(comment.replyTo) && !byId.get(comment.replyTo)!.removed ? name(byId.get(comment.replyTo)!) : 'a removed comment' }}
                 </p>
                 <p class="whitespace-pre-wrap break-words" :class="comment.removed ? 'italic text-dimmed' : 'text-default'">
-                    {{ comment.removed ? 'This comment was removed.' : comment.content }}
+                    {{ comment.removed ? `This ${noun} was removed.` : comment.content }}
                 </p>
                 <div v-if="!comment.removed" class="-ml-2 flex items-center gap-1">
                     <UButton :icon="comment.hearted ? 'i-ph-heart-fill' : 'i-ph-heart'" :label="String(comment.hearts)"
