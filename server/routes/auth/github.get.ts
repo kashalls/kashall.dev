@@ -22,14 +22,22 @@ const signIn = defineOAuthGitHubEventHandler({
     },
     onError(event, error) {
         console.error('GitHub OAuth error:', error)
-        return sendRedirect(event, returnTo(event))
+        return sendRedirect(event, withSignInFailed(returnTo(event)))
     },
 })
 
 const returnTo = (event: H3Event) => {
-    const path = getCookie(event, RETURN_COOKIE)
+    // The cookie only comes back after the trip to GitHub; a failure before it
+    // (like missing OAuth config) still has the path on this request.
+    const path = event.context.authReturnTo ?? getCookie(event, RETURN_COOKIE)
     deleteCookie(event, RETURN_COOKIE, { path: '/' })
     return path || '/'
+}
+
+/** Flags the page you return to, so it can say sign-in failed (useSignInFailed). */
+const withSignInFailed = (path: string) => {
+    const [rest, hash] = path.split('#', 2)
+    return `${rest}${rest!.includes('?') ? '&' : '?'}signin=failed${hash ? `#${hash}` : ''}`
 }
 
 /**
@@ -38,7 +46,9 @@ const returnTo = (event: H3Event) => {
  */
 export default defineEventHandler((event) => {
     const { redirect } = getQuery(event)
-    if (typeof redirect === 'string' && /^\/(?![/\\])/.test(redirect))
+    if (typeof redirect === 'string' && /^\/(?![/\\])/.test(redirect)) {
         setCookie(event, RETURN_COOKIE, redirect, { path: '/', httpOnly: true, sameSite: 'lax', maxAge: 600 })
+        event.context.authReturnTo = redirect
+    }
     return signIn(event)
 })

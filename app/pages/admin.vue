@@ -3,6 +3,7 @@ definePageMeta({ layout: 'field', pageTransition: { name: 'column', mode: 'out-i
 useRobotsRule(false)
 
 const { loggedIn } = useUserSession()
+const signInFailed = useSignInFailed()
 // Rendered per request, so the session and everything below load on the server.
 // /api/admin answers 404 to anyone but the site owner.
 const { data, error, refresh } = await useFetch('/api/admin/comments', { immediate: loggedIn.value })
@@ -45,6 +46,7 @@ async function saveMessages() {
 
     <template v-if="!loggedIn">
       <p class="lead">Sign in to manage the site.</p>
+      <p v-if="signInFailed" role="alert" class="mt-4 text-sm text-[#ff7a6b]">Couldn't sign in with GitHub. Please try again.</p>
       <UButton to="/auth/github?redirect=/admin" external icon="i-simple-icons-github" label="Sign in with GitHub"
         variant="outline" class="mt-6 self-start" />
     </template>

@@ -6,6 +6,7 @@ const noun = computed(() => props.guestbook ? 'entry' : 'comment')
 const api = computed(() => `/api/comments/${props.path.replace(/^\/(posts\/)?/, '')}`)
 const { data, status, refresh } = useFetch<{ comments: PostComment[], viewerIsOwner: boolean }>(api, { server: false, lazy: true, deep: true })
 const { loggedIn, user, clear } = useUserSession()
+const signInFailed = useSignInFailed()
 const signInUrl = computed(() => `/auth/github?redirect=${encodeURIComponent(`${props.path}#comments`)}`)
 
 // The session loads after the comments, so refetch for the viewer's hearts.
@@ -132,6 +133,7 @@ async function signOut() {
         </form>
 
         <div v-else class="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-default bg-elevated/30 p-4">
+            <p v-if="signInFailed" role="alert" class="w-full text-sm text-error">Couldn't sign in with GitHub. Please try again.</p>
             <p class="text-sm text-muted">Sign in with GitHub to {{ guestbook ? 'sign the guestbook' : 'join the discussion' }}.</p>
             <UButton :to="signInUrl" external icon="i-simple-icons-github" label="Sign in with GitHub" variant="outline" />
         </div>
