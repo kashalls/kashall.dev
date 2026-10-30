@@ -27,10 +27,9 @@ const views = [
   { id: 'about', label: 'About', to: '/about', tone: '#d9c6ff' },
   { id: 'work', label: 'Work', to: '/work', tone: '#5fb2ff' },
   { id: 'writing', label: 'Writing', to: '/writing', tone: '#ff7ac8' },
-  { id: 'live', label: 'Live', to: '/live', tone: '#46e08c' },
 ] as const
 const HOME_TONE = '#c2a5ff'
-// The Live page's colour for a failing service.
+// Red: something isn't there or isn't working.
 const FAIL_TONE = '#ff7a6b'
 const error = useError()
 const view = computed(() => error.value ? 'error' : route.path.split('/')[1] || 'home')

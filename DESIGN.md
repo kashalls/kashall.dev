@@ -35,10 +35,9 @@ Each page has one hue. It colours the page's particle title, the nav marker unde
 | About   | `#d9c6ff` | Light lavender: who I am          |
 | Work    | `#5fb2ff` | The blue iris: my work            |
 | Writing | `#ff7ac8` | Pink, from the banner's hair      |
-| Live    | `#46e08c` | Green: things are up and running  |
 | A post  | Its section's `hue`               | See below                         |
 | Search, Legal | `#c2a5ff` | The site's default          |
-| Errors, Gateway | `#ff7a6b` | The Live page's failing-service colour |
+| Errors, Gateway | `#ff7a6b` | Red: something isn't there or isn't working |
 
 Posts take the hue of their section, from `hue` in `app/utils/blogSections.ts`: Home Lab `#60a5fa`, Guides `#fde047`, Blog `#fb7185` (Tailwind's blue-400, yellow-300 and rose-400, so they match the sections' `accent` classes). The particle title shows the section's name, and re-forms when you move to a post in another section.
 
@@ -73,9 +72,7 @@ Don't go back to a different colour per phrase; eight unrelated hues read as noi
 | Discord status           | `STATUS` in `app/utils/discord.ts`     | Discord's own status colours         |
 | Spotify song             | `#1ed760`                              | Spotify green                        |
 | Maintenance message      | `#ffb547` (`--notice`)                 | Amber: a warning, not a failure      |
-| Game cards (Live)        | `classColors` in `app/components/Games/WowCard.vue`; Overwatch `#f99e1a` | Blizzard's class colours and Overwatch orange |
 | Social icons (About)     | `color` in `shared/utils/socials.ts`   | Each brand's colour, lifted for black; email is the site lavender |
-| Failing service          | `#ff7a6b`                              | Live page probes                     |
 | Post sections            | `accent` and `hue` in `app/utils/blogSections.ts`| Blue, yellow and rose; colour-blind safe |
 
 ### Nuxt UI components
@@ -100,12 +97,11 @@ Post content (callouts, steps, code groups, accordions), comments and inputs are
 
 - **Home:** the eyes fill the upper part of the field. The intro and the name sit bottom-left over a darkened corner of the field, with your Discord presence as one line above them.
 - **Pages:** content sits in a column on the left (`min(38rem, 46vw)`) over a darkened side of the field. The page's title is written large in particles on the right, with the eyes faint above it. On tall screens the title moves to the top and the content goes below it.
-- **Nav:** a bar across the top with the name (hidden on home, where it's already huge) and the four pages. The current page is marked by a single glowing particle in its hue.
+- **Nav:** a bar across the top with the name (hidden on home, where it's already huge) and the three pages. The current page is marked by a single glowing particle in its hue.
 - **Posts:** a single column (`min(46rem, 56vw)`, wider than other pages for code and tables): section and category, the title in the display face, description, date, updated date and tags, then the post, an edit link, previous and next in the section, and comments on Blog posts. The particle title on the right is the section. On wide screens an "On this page" list sits bottom right over the field and marks the heading being read.
 - **Errors and the gateway:** the particle title is the status code (502 on the gateway), with the status as the column's heading and the way home under it.
 - **Writing:** the index of every post, grouped by section (in its hue) and category, with search and RSS at the top. Search results (`/posts?q=`) use the same column.
 - **Lists:** items are separated by thin `--rule` lines with even spacing; only the first item in a list drops its top padding.
-- **Live:** your Discord presence, the homelab's probes, then a card for each game character from `api.ok8.sh` (World of Warcraft and Overwatch). The cards are the one place that keeps a game's own art, logo, fonts and colours, so they read as the games rather than the site; on phones the logo sits above the name.
 - **Maintenance message:** when the `maintenance` key is set in the `MESSAGES` KV namespace (see `server/api/meta.get.ts`), a short line with an amber particle sits in the bottom right corner on wide screens, and under the nav on tall ones. A post's "On this page" list moves up to make room.
 - **Scrolling:** content fades out under the nav bar (a black-to-clear strip behind the bar on every page but home).
 
