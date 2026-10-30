@@ -73,6 +73,7 @@ Don't go back to a different colour per phrase; eight unrelated hues read as noi
 | Discord status           | `STATUS` in `app/utils/discord.ts`     | Discord's own status colours         |
 | Spotify song             | `#1ed760`                              | Spotify green                        |
 | Maintenance message      | `#ffb547` (`--notice`)                 | Amber: a warning, not a failure      |
+| Game cards (Live)        | `classColors` in `app/components/Games/WowCard.vue`; Overwatch `#f99e1a` | Blizzard's class colours and Overwatch orange |
 | Social icons (About)     | `color` in `shared/utils/socials.ts`   | Each brand's colour, lifted for black; email is the site lavender |
 | Failing service          | `#ff7a6b`                              | Live page probes                     |
 | Post sections            | `accent` and `hue` in `app/utils/blogSections.ts`| Blue, yellow and rose; colour-blind safe |
@@ -104,6 +105,7 @@ Post content (callouts, steps, code groups, accordions), comments and inputs are
 - **Errors and the gateway:** the particle title is the status code (502 on the gateway), with the status as the column's heading and the way home under it.
 - **Writing:** the index of every post, grouped by section (in its hue) and category, with search and RSS at the top. Search results (`/posts?q=`) use the same column.
 - **Lists:** items are separated by thin `--rule` lines with even spacing; only the first item in a list drops its top padding.
+- **Live:** your Discord presence, the homelab's probes, then a card for each game character from `api.ok8.sh` (World of Warcraft and Overwatch). The cards are the one place that keeps a game's own art, logo, fonts and colours, so they read as the games rather than the site; on phones the logo sits above the name.
 - **Maintenance message:** when the `maintenance` key is set in the `MESSAGES` KV namespace (see `server/api/meta.get.ts`), a short line with an amber particle sits in the bottom right corner on wide screens, and under the nav on tall ones. A post's "On this page" list moves up to make room.
 - **Scrolling:** content fades out under the nav bar (a black-to-clear strip behind the bar on every page but home).
 

@@ -2,9 +2,17 @@
 definePageMeta({ layout: 'field', pageTransition: { name: 'column', mode: 'out-in' } })
 
 import type { LanyardData } from '~/types/lanyard'
+import type { OverwatchPlayer, WowCharacter } from '~/types/games'
 
 const lanyard = useState<LanyardData>('lanyard')
 const { data: services } = useFetch('/api/status', { server: false, lazy: true })
+
+// Client-only so the prerendered page doesn't bake in stats from build time.
+const GAMES_API = 'https://api.ok8.sh'
+const { data: wow, pending: wowPending } = useFetch<{ characters: WowCharacter[] }>(`${GAMES_API}/wow/characters`, { server: false, lazy: true })
+const { data: ow, pending: owPending } = useFetch<{ players: OverwatchPlayer[] }>(`${GAMES_API}/overwatch/players`, { server: false, lazy: true })
+const characters = computed(() => wow.value?.characters ?? [])
+const players = computed(() => ow.value?.players ?? [])
 
 const percent = (value: number | null) => value === null ? 'n/a' : `${(value * 100).toFixed(value === 1 ? 0 : 2)}%`
 const activities = computed(() => (lanyard.value?.activities ?? []).filter(a => ![2, 4, 6].includes(a.type)))
@@ -40,5 +48,19 @@ const down = computed(() => services.value?.filter(service => service.up === fal
         </li>
       </ul>
     </template>
+
+    <h2 class="group-label">Games</h2>
+    <ClientOnly>
+      <p v-if="!characters.length && !players.length" class="item-text">
+        {{ wowPending || owPending ? 'Looking up my characters.' : "The game APIs didn't return anything. Check back in a bit." }}
+      </p>
+      <div v-else class="flex flex-col gap-4">
+        <GamesWowCard v-for="c in characters" :key="`${c.flavor}-${c.realm}-${c.name}`" :character="c" />
+        <GamesOverwatchCard v-for="p in players" :key="p.battletag" :player="p" />
+      </div>
+      <template #fallback>
+        <p class="item-text">Looking up my characters.</p>
+      </template>
+    </ClientOnly>
   </main>
 </template>
