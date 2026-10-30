@@ -49,6 +49,11 @@ export function bannerUrl(id: string, size = 600): string {
 	return `${DCDN}/banners/${id}?size=${size}`
 }
 
+/** An app's icon, for activities without art of their own. dcdn 404s for apps it doesn't know. */
+export function appIconUrl(applicationId: string, size = 128): string {
+	return `${DCDN}/app-icons/${applicationId}?size=${size}`
+}
+
 export function avatarUrl(id: string, avatar: string | null, size = 64): string {
 	return avatar
 		? `https://cdn.discordapp.com/avatars/${id}/${avatar}.webp?size=${size}`

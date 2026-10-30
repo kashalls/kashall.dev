@@ -15,7 +15,12 @@ const activities = computed(() => (lanyard.value?.activities ?? [])
   .filter(a => a.type !== ActivityType.Custom && a.type !== 6 && !a.id.startsWith('spotify:')))
 
 const VERB: Record<number, string> = { 0: 'Playing', 1: 'Streaming', 2: 'Listening to', 3: 'Watching', 5: 'Competing in' }
-const art = (a: Activity) => activityImageUrl(a.application_id, a.assets?.large_image)
+// Art that fails to load drops back to the controller icon.
+const broken = ref(new Set<string>())
+const art = (a: Activity) => {
+  const url = activityImageUrl(a.application_id, a.assets?.large_image) ?? (a.application_id ? appIconUrl(a.application_id) : undefined)
+  return url && !broken.value.has(url) ? url : undefined
+}
 const badge = (a: Activity) => activityImageUrl(a.application_id, a.assets?.small_image)
 
 function clock(ms: number) {
@@ -65,7 +70,7 @@ const progress = computed(() => {
       </li>
       <li v-for="a in activities" :key="a.id" class="presence-card">
         <span class="presence-art">
-          <NuxtImg v-if="art(a)" :src="art(a)" :alt="a.assets?.large_text ?? ''" width="44" height="44" />
+          <NuxtImg v-if="art(a)" :src="art(a)" :alt="a.assets?.large_text ?? ''" width="44" height="44" @error="broken.add(art(a)!)" />
           <UIcon v-else name="i-ph-game-controller" class="size-5 text-(--fg-3)" />
           <NuxtImg v-if="badge(a)" :src="badge(a)" :alt="a.assets?.small_text ?? ''" width="18" height="18" class="presence-badge" />
         </span>
