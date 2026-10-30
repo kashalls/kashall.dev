@@ -7,13 +7,13 @@ useDisplayPreferences()
 // Opens the presence socket once; the pages read the shared state.
 useLanyard()
 
-// A first visit that lands on home plays the intro (playIntro). Decided before
+// Each session's first landing on home plays the intro (playIntro). Decided before
 // first paint, like the display preferences, so the prerendered page doesn't
 // show and then vanish. Skipped under reduced motion, saved or from the OS.
 const INTRO_KEY = 'kashall-intro-seen'
 useHead({
   script: [{
-    innerHTML: `try{var r=localStorage.getItem('kashall-reduce-motion');if(location.pathname==='/'&&!localStorage.getItem('${INTRO_KEY}')&&(r!==null?r!=='true':!matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('intro')}catch(e){}`,
+    innerHTML: `try{var r=localStorage.getItem('kashall-reduce-motion');if(location.pathname==='/'&&!sessionStorage.getItem('${INTRO_KEY}')&&(r!==null?r!=='true':!matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('intro')}catch(e){}`,
   }],
 })
 
@@ -573,10 +573,9 @@ useEventListener('click', (event: MouseEvent) => {
 
 onMounted(async () => {
   const intro = document.documentElement.classList.contains('intro')
-  if (intro) {
-    try { localStorage.setItem(INTRO_KEY, '1') } catch {}
-    lids = [1, 1]
-  }
+  // Landing anywhere uses up the session's intro, not just landing on home.
+  try { sessionStorage.setItem(INTRO_KEY, '1') } catch {}
+  if (intro) lids = [1, 1]
   await assets
   shownTitle = titleFor(view.value)
   renderer = createNebulaRenderer(canvas.value!, {
