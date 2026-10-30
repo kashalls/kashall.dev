@@ -1,20 +1,6 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'field', pageTransition: { name: 'column', mode: 'out-in' } })
 
-import type { LanyardData } from '~/types/lanyard'
-
-const lanyard = useState<LanyardData>('lanyard')
-
-// One line of presence, in words.
-const presence = computed(() => {
-  const l = lanyard.value
-  if (!l) return undefined
-  if (l.listening_to_spotify && l.spotify) return `Listening to ${l.spotify.song} by ${l.spotify.artist}`
-  const activity = l.activities?.find(a => ![2, 4, 6].includes(a.type))
-  if (activity) return `${ActivityType[activity.type]} ${activity.name}`
-  return `${STATUS[l.discord_status]?.label ?? 'Offline'} on Discord`
-})
-
 defineOgImage('Default', {
   title: 'Jordan Jones',
   description: 'Freelance Software Engineer — integrations, full-stack & infrastructure.',
@@ -24,9 +10,7 @@ defineOgImage('Default', {
 <template>
   <main class="home">
     <ClientOnly>
-      <Transition name="presence" mode="out-in">
-        <p v-if="presence" :key="presence" class="home-presence">{{ presence }}</p>
-      </Transition>
+      <HomePresence />
     </ClientOnly>
     <div class="home-about">
       <p class="tone-who">Hi, I'm <span>Jordan</span>, a <span>Platform Engineer</span> with a <span>software engineering background</span>.</p>
@@ -68,33 +52,5 @@ defineOgImage('Default', {
 /* Grey, so each sentence's coloured phrases stand out. */
 .home-about p {
   color: var(--fg-2);
-}
-
-.home-presence {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-  font-size: 0.85rem;
-  color: var(--fg-3);
-}
-
-.home-presence::before {
-  content: '';
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px 1px var(--accent);
-}
-
-.presence-enter-active,
-.presence-leave-active {
-  transition: opacity 400ms;
-}
-
-.presence-enter-from,
-.presence-leave-to {
-  opacity: 0;
 }
 </style>

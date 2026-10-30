@@ -71,7 +71,7 @@ Don't go back to a different colour per phrase; eight unrelated hues read as noi
 | TypeScript               | `#4f94e0`                              | GitHub's colour, lifted for black    |
 | Nuxt                     | `#00dc82`                              | Nuxt green                           |
 | Discord status           | `STATUS` in `app/utils/discord.ts`     | Discord's own status colours         |
-| Spotify song             | `#1ed760`                              | Spotify green                        |
+| Spotify (presence card)  | `#1ed760`                              | Spotify green                        |
 | Maintenance message      | `#ffb547` (`--notice`)                 | Amber: a warning, not a failure      |
 | Social icons (About)     | `color` in `shared/utils/socials.ts`   | Each brand's colour, lifted for black; email is the site lavender |
 | Post sections            | `accent` and `hue` in `app/utils/blogSections.ts`| Blue, yellow and rose; colour-blind safe |
@@ -96,7 +96,7 @@ Post content (callouts, steps, code groups, accordions), comments and inputs are
 
 ## Layout
 
-- **Home:** the eyes fill the upper part of the field. The intro and the name sit bottom-left over a darkened corner of the field, with your Discord presence as one line above them.
+- **Home:** the eyes fill the upper part of the field. The intro and the name sit bottom-left over a darkened corner of the field, with your Discord presence above them (`app/components/Home/Presence.vue`): your status and custom status on one line, then a stack of small cards, one for Spotify (album art, a progress bar) and one per game or app (its art, details and elapsed time). The front card shows and the rest peek out behind it; hovering, or "+N more" on touch screens, fans them out.
 - **Pages:** content sits in a column on the left (`min(38rem, 46vw)`) over a darkened side of the field. The page's title is written large in particles on the right, with the eyes faint above it. On tall screens the title moves to the top and the content goes below it.
 - **Nav:** a bar across the top with the name (hidden on home, where it's already huge; the J logo stands in for it on phones, where it won't fit beside the links) and the four pages. The current page is marked by a single glowing particle in its hue.
 - **Posts:** a single column (`min(46rem, 56vw)`, wider than other pages for code and tables): section and category, the title in the display face, description, date, updated date and tags, then the post, an edit link, previous and next in the section, and comments on Blog posts. The particle title on the right is the section. On wide screens an "On this page" list sits bottom right over the field and marks the heading being read.

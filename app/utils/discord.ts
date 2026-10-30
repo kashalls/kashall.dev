@@ -48,3 +48,17 @@ export function statusColor(status?: string): string {
 export function bannerUrl(id: string, size = 600): string {
 	return `${DCDN}/banners/${id}?size=${size}`
 }
+
+export function avatarUrl(id: string, avatar: string | null, size = 64): string {
+	return avatar
+		? `https://cdn.discordapp.com/avatars/${id}/${avatar}.webp?size=${size}`
+		: 'https://cdn.discordapp.com/embed/avatars/0.png'
+}
+
+/** An activity's image key: `mp:` keys are proxied external images, numeric ones the app's own assets. */
+export function activityImageUrl(applicationId: string | null | undefined, key?: string): string | undefined {
+	if (!key) return undefined
+	if (key.startsWith('mp:')) return `https://media.discordapp.net/${key.slice(3)}`
+	if (applicationId && /^\d+$/.test(key)) return `https://cdn.discordapp.com/app-assets/${applicationId}/${key}.png`
+	return undefined
+}
