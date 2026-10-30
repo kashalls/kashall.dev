@@ -585,7 +585,6 @@ onBeforeUnmount(() => {
     <div class="top-fade" aria-hidden="true" />
     <header class="bar">
       <NuxtLink to="/" class="mark" :class="view === 'home' && 'is-hidden'">
-        <span class="mark-name">Jordan Jones</span>
         <NuxtImg src="/jordanjones.svg" alt="Jordan Jones" width="209" height="290" class="mark-logo" />
       </NuxtLink>
       <nav aria-label="Sections">
@@ -665,9 +664,6 @@ onBeforeUnmount(() => {
 }
 
 .mark {
-  white-space: nowrap;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
   transition: opacity 500ms;
 }
 
@@ -677,15 +673,8 @@ onBeforeUnmount(() => {
 }
 
 .mark-logo {
-  display: none;
   width: auto;
   height: 1.75rem;
-}
-
-/* The name and all four pages don't fit across a phone, so the logo stands in. */
-@media (max-width: 30rem) {
-  .mark-name { display: none; }
-  .mark-logo { display: block; }
 }
 
 /* Nuxt UI's colours, pointed at the field's, so its components (post
