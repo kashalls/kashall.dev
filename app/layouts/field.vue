@@ -627,7 +627,7 @@ onBeforeUnmount(() => {
 
     <div class="top-fade" aria-hidden="true" />
     <header class="bar">
-      <NuxtLink to="/" class="mark" :class="view === 'home' && 'is-hidden'">
+      <NuxtLink to="/" class="mark">
         <NuxtImg src="/jordanjones.svg" alt="Jordan Jones" width="209" height="290" class="mark-logo" />
       </NuxtLink>
       <nav aria-label="Sections">
@@ -704,15 +704,6 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   gap: 1rem;
   padding: clamp(1rem, 3vh, 2rem) clamp(1.25rem, 4vw, 3.5rem);
-}
-
-.mark {
-  transition: opacity 500ms;
-}
-
-.mark.is-hidden {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .mark-logo {
@@ -947,7 +938,6 @@ onBeforeUnmount(() => {
 }
 
 .home > :nth-child(2) { transition-delay: 150ms; }
-.home > :nth-child(3) { transition-delay: 300ms; }
 
 html.intro .bar,
 html.intro .home > * {

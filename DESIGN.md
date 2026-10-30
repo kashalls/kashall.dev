@@ -46,7 +46,7 @@ The particle title is a gradient from `#f4eeff` (near white) into the page's hue
 
 ### Intro tones
 
-The home intro and the About page colour key phrases by what they're about, one hue per sentence. The words around them stay `--fg-2`, so the phrases stand out. All three come from the banner art.
+The About page colours key phrases by what they're about, one hue per sentence. The words around them stay `--fg-2`, so the phrases stand out. All three come from the banner art.
 
 | Class        | Token        | Value     | Meaning                         |
 | ------------ | ------------ | --------- | ------------------------------- |
@@ -90,16 +90,15 @@ Post content (callouts, steps, code groups, accordions), comments and inputs are
 
 - The name on the home page is set huge (up to 10.5rem), tightly tracked (`-0.035em`) with a line height of 0.82, and sits at the very bottom of the screen.
 - Body copy stays under about 60 characters a line (`max-width: 60ch`) at a line height of 1.5 to 1.65.
-- The home intro uses `text-wrap: balance` so its lines come out even, with 0.9rem between sentences.
 - Use non-breaking hyphens (`&#8209;`) in compounds like "Full‑stack" so they don't break at the hyphen.
 - Sentence case everywhere. No all-caps labels.
 
 ## Layout
 
-- **Home:** the eyes fill the upper part of the field. The intro and the name sit bottom-left over a darkened corner of the field, with your Discord presence above them (`app/components/Home/Presence.vue`): your status and custom status on one line, then a stack of small cards, one for Spotify (album art, a progress bar) and one per game or app (its art, details and elapsed time). The front card shows and the rest peek out behind it; hovering, or "+N more" on touch screens, fans them out.
+- **Home:** the eyes fill the upper part of the field. The name sits bottom-left over a darkened corner of the field, with your Discord presence above it (`app/components/Home/Presence.vue`): your status and custom status on one line, then a stack of small cards, one for Spotify (album art, a progress bar) and one per game or app (its art, details and elapsed time). The front card shows and the rest peek out behind it; hovering, or "+N more" on touch screens, fans them out.
 - **Intro:** the first landing on home in a session (`kashall-intro-seen` in session storage, so once per tab until it's closed) plays an intro: the page is hidden while the dust gathers into the banner with the eyes shut, the eyes open sleepily (half, a drowsy dip, then open), and the nav and home content fade in one after another. Any click, key, scroll or touch skips to the page. It never plays under reduced motion, without WebGL, or when the first page isn't home, and the page shows after six seconds even if the app never starts.
 - **Pages:** content sits in a column on the left (`min(38rem, 46vw)`) over a darkened side of the field. The page's title is written large in particles on the right, with the eyes faint above it. On tall screens the title moves to the top and the content goes below it.
-- **Nav:** a bar across the top with the J logo (`public/jordanjones.svg`, linking home; hidden on home, where the name is already huge) and the four pages. The current page is marked by a single glowing particle in its hue.
+- **Nav:** a bar across the top with the J logo (`public/jordanjones.svg`, linking home) and the four pages. The current page is marked by a single glowing particle in its hue.
 - **Posts:** a single column (`min(46rem, 56vw)`, wider than other pages for code and tables): section and category, the title in the display face, description, date, updated date and tags, then the post, an edit link, previous and next in the section, and comments on Blog posts. The particle title on the right is the section. On wide screens an "On this page" list sits bottom right over the field and marks the heading being read.
 - **Errors and the gateway:** the particle title is the status code (502 on the gateway), with the status as the column's heading and the way home under it.
 - **Writing:** the index of every post, grouped by section (in its hue) and category, with search and RSS at the top. Search results (`/posts?q=`) use the same column.

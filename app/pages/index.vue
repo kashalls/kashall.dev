@@ -12,11 +12,6 @@ defineOgImage('Default', {
     <ClientOnly>
       <HomePresence />
     </ClientOnly>
-    <div class="home-about">
-      <p class="tone-who">Hi, I'm <span>Jordan</span>, a <span>Platform Engineer</span> with a <span>software engineering background</span>.</p>
-      <p class="tone-work">I design and maintain <span>Kubernetes infrastructure</span> and write <span>tooling that makes platforms more extensible</span>.</p>
-      <p class="tone-side">On the side, I provide <span>Residential &amp; Business IT Services</span>, <span>Full&#8209;stack Web Development</span> &amp; <span>Managed Infrastructure Services</span>.</p>
-    </div>
     <h1 class="home-name">Jordan Jones</h1>
   </main>
 </template>
@@ -36,21 +31,5 @@ defineOgImage('Default', {
   line-height: 0.82;
   letter-spacing: -0.035em;
   color: var(--fg);
-}
-
-.home-about {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  max-width: 46rem;
-  margin-bottom: clamp(1rem, 3vh, 1.75rem);
-  font-size: clamp(1rem, 1.35vw, 1.15rem);
-  line-height: 1.5;
-  text-wrap: balance;
-}
-
-/* Grey, so each sentence's coloured phrases stand out. */
-.home-about p {
-  color: var(--fg-2);
 }
 </style>
