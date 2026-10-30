@@ -7,6 +7,16 @@ useDisplayPreferences()
 // Opens the presence socket once; the pages read the shared state.
 useLanyard()
 
+// A first visit that lands on home plays the intro (playIntro). Decided before
+// first paint, like the display preferences, so the prerendered page doesn't
+// show and then vanish. Skipped under reduced motion, saved or from the OS.
+const INTRO_KEY = 'kashall-intro-seen'
+useHead({
+  script: [{
+    innerHTML: `try{var r=localStorage.getItem('kashall-reduce-motion');if(location.pathname==='/'&&!localStorage.getItem('${INTRO_KEY}')&&(r!==null?r!=='true':!matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('intro')}catch(e){}`,
+  }],
+})
+
 // Pages are prerendered, so messages load in the browser. Open pages pick up
 // changes on navigation, when the tab comes back into view, and every five
 // minutes while it's visible; idle hidden tabs cost nothing.
@@ -528,6 +538,30 @@ function scheduleBlink() {
   }, 2500 + Math.random() * 4000)
 }
 
+// Wakes from shut, half opens, drifts back down a little, then opens.
+const WAKE: Frame[] = [[0.55, 0.55, 450], [0.55, 0.55, 250], [0.8, 0.8, 180], [0, 0, 380]]
+let introPlaying = false
+
+// The cloud gathers with the eyes shut, they open, then the page fades in.
+async function playIntro() {
+  introPlaying = true
+  // the renderer's own gather from a scatter on load
+  await wait(1900)
+  await blink(WAKE)
+  await wait(150)
+  endIntro()
+}
+
+function endIntro() {
+  if (!introPlaying && !document.documentElement.classList.contains('intro')) return
+  introPlaying = false
+  document.documentElement.classList.remove('intro')
+  scheduleBlink()
+}
+
+// Any input skips to the page; the eyes finish opening on their own.
+useEventListener(['pointerdown', 'keydown', 'wheel', 'touchstart'], () => { if (introPlaying) endIntro() }, { passive: true })
+
 useEventListener('click', (event: MouseEvent) => {
   if (!banner || (event.target as Element).closest('a, button, input, textarea, select, label')) return
   const [bx, by] = screenToBanner([event.clientX, event.clientY])
@@ -538,14 +572,20 @@ useEventListener('click', (event: MouseEvent) => {
 })
 
 onMounted(async () => {
+  const intro = document.documentElement.classList.contains('intro')
+  if (intro) {
+    try { localStorage.setItem(INTRO_KEY, '1') } catch {}
+    lids = [1, 1]
+  }
   await assets
   shownTitle = titleFor(view.value)
   renderer = createNebulaRenderer(canvas.value!, {
-    src: paintBase(view.value).toDataURL('image/jpeg', 0.9),
+    src: paintBase(view.value, lids).toDataURL('image/jpeg', 0.9),
     reduced: reduced.value,
     onStruggle: () => {
       renderer?.dispose()
       live.value = false
+      endIntro()
       show(view.value)
     },
   })
@@ -556,9 +596,13 @@ onMounted(async () => {
       renderer!.setGaze(anchor, reach)
       // hands the renderer the irises, which the first image leaves out
       morphTo(0.3, 0)
-      scheduleBlink()
+      if (intro) playIntro()
+      else scheduleBlink()
     })
-    .catch(() => show(view.value))
+    .catch(() => {
+      endIntro()
+      show(view.value)
+    })
 })
 
 watch(view, id => show(id))
@@ -895,6 +939,28 @@ onBeforeUnmount(() => {
 .column > :nth-child(3) { --n: 2; }
 .column > :nth-child(4) { --n: 3; }
 .column > :nth-child(n + 5) { --n: 4; }
+
+/* The intro (playIntro) holds the page back until the eyes open, then fades
+   it in: the nav, then each block of the home page in turn. */
+.bar,
+.home > * {
+  transition: opacity 900ms ease;
+}
+
+.home > :nth-child(2) { transition-delay: 150ms; }
+.home > :nth-child(3) { transition-delay: 300ms; }
+
+html.intro .bar,
+html.intro .home > * {
+  opacity: 0;
+  transition: none;
+  /* in case the app never starts to end it */
+  animation: intro-fallback 900ms 6s forwards;
+}
+
+@keyframes intro-fallback {
+  to { opacity: 1; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .column-leave-active,
