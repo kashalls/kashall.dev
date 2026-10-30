@@ -6,11 +6,12 @@ After almost continuous revisions, I've finally got my personal website to a sta
 
 ### Features
 
-- Live Discord presence (activities, Spotify, profile banner and bio) streamed from [Lanyard](https://github.com/Phineas/lanyard)
-- GitHub contribution stats, cached server-side for an hour
+- A WebGL particle nebula that re-forms into each page's title, with the Discord banner's eyes drawn in particles that follow the cursor and blink
+- Live Discord presence (activities and Spotify) streamed from [Lanyard](https://github.com/Phineas/lanyard)
+- GitHub star counts for the Work page, cached server-side for an hour
 - Homelab stats pulled from [kromgo](https://github.com/kashalls/kromgo) badges
 - Contact form protected by Cloudflare Turnstile and delivered with Resend
-- Comments under Blog posts from GitHub accounts at least 14 days old, with one level of replies and hearts
+- Comments under Blog posts and a guestbook, from GitHub accounts at least 14 days old, with one level of replies and hearts
 - A `/gateway` fallback page for hostnames that hit the gateway with no service behind them
 - Pre-rendered OG images, sitemap and robots.txt
 
@@ -25,7 +26,7 @@ Environment variables:
 
 | Variable                     | Purpose                                                  |
 | ---------------------------- | -------------------------------------------------------- |
-| `NUXT_GITHUB_TOKEN`          | Required for `/api/github` (GitHub GraphQL API)          |
+| `NUXT_GITHUB_TOKEN`          | Optional; raises the GitHub rate limit for `/api/repos`  |
 | `NUXT_RESEND_API_KEY`        | Enables sending mail from the contact form               |
 | `NUXT_TURNSTILE_SITE_KEY`    | Turnstile site key (dev uses the always-pass test keys)  |
 | `NUXT_TURNSTILE_SECRET_KEY`  | Turnstile secret for server-side verification            |
@@ -60,7 +61,7 @@ Commenting needs GitHub sign-in (`/auth/github?redirect=<path>` returns to the p
 
 GitHub sign-in needs an [OAuth app](https://github.com/settings/developers) whose callback URL is `https://ok8.sh/auth/github`. GitHub only redirects to that callback's host, so local dev and Previews each need their own OAuth app (callback `http://localhost:3000/auth/github` for dev).
 
-`/api/meta` serves the `maintenance` and `live` keys in `MESSAGES`. A `maintenance` value shows as a banner above the content and deleting the key hides it; `live` isn't displayed yet.
+`/api/meta` serves the `maintenance` and `live` keys in `MESSAGES`. A `maintenance` value shows in the corner of the page and deleting the key hides it; `live` isn't displayed yet. Signed in as the site owner, `/admin` sets both, lists the comments and guestbook entries you haven't replied to, and lets you reply to or remove any of them; any other account gets a 404. Or use Wrangler:
 
 ```bash
 bunx wrangler kv key put maintenance "The contact form is down" --binding MESSAGES --remote

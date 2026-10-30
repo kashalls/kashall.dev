@@ -1,4 +1,6 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'field', pageTransition: { name: 'column', mode: 'out-in' } })
+
 const route = useRoute()
 
 const { data: page } = await useAsyncData(`legal-${route.path}`, () =>
@@ -25,17 +27,13 @@ const updated = computed(() => formatDate(postDate(page.value!.updated)))
 </script>
 
 <template>
-    <UiContainer v-if="page">
-        <UPage :ui="{ center: 'w-full max-w-[45rem] justify-self-center' }">
-            <UPageHeader :title="page.title" :ui="{ root: 'pt-0', title: 'font-display' }">
-                <p class="mt-3 text-sm text-muted">
-                    Last updated <time :datetime="new Date(page.updated).toISOString()">{{ updated }}</time>
-                </p>
-            </UPageHeader>
-
-            <UPageBody>
-                <ContentRenderer :value="page" />
-            </UPageBody>
-        </UPage>
-    </UiContainer>
+    <main v-if="page" class="column column-wide">
+        <header class="mb-10">
+            <h1 class="doc-title">{{ page.title }}</h1>
+            <p class="mt-4 text-sm text-(--fg-3)">
+                Last updated <time :datetime="new Date(page.updated).toISOString()">{{ updated }}</time>
+            </p>
+        </header>
+        <ContentRenderer :value="page" class="prose-field" />
+    </main>
 </template>

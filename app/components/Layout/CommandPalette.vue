@@ -2,9 +2,6 @@
 import type { CommandPaletteGroup, CommandPaletteItem } from '@nuxt/ui'
 
 const open = ref(false)
-const route = useRoute()
-// The posts sidebar's full-text search; it takes over search on post pages.
-const { open: contentSearchOpen } = useContentSearch()
 const colorMode = useColorMode()
 const toast = useToast()
 const { openContact } = useContact()
@@ -17,8 +14,6 @@ defineShortcuts({
     meta_k: {
         usingInput: true,
         handler: () => {
-            // The posts full-text search owns ⌘K on post pages.
-            if (route.path.startsWith('/posts')) return
             open.value = !open.value
         },
     },
@@ -35,11 +30,6 @@ const { data: posts, execute: loadPosts } = useLazyAsyncData('palette-posts', ()
 watch(open, (isOpen) => {
     if (isOpen && !posts.value) loadPosts()
 })
-
-async function goToSection(id: string) {
-    if (route.path !== '/') await navigateTo('/')
-    await showHomeSection(id, reduced.value)
-}
 
 function barrelRoll() {
     const frame = document.getElementById('content-frame')
@@ -81,13 +71,10 @@ const groups = computed<CommandPaletteGroup[]>(() => [
         label: 'Pages',
         items: [
             { label: 'Home', icon: 'i-ph-house', to: '/' },
-            { label: 'Posts', icon: 'i-ph-article', to: '/posts' },
-            ...homeSections.map(section => ({
-                label: section.label,
-                suffix: 'Home section',
-                icon: section.icon,
-                onSelect: () => goToSection(section.id),
-            })),
+            { label: 'About', icon: 'i-ph-user', to: '/about' },
+            { label: 'Work', icon: 'i-ph-briefcase', to: '/work' },
+            { label: 'Writing', icon: 'i-ph-pen-nib', to: '/writing' },
+            { label: 'Guestbook', icon: 'i-ph-book-open-text', to: '/guestbook' },
         ],
     },
     {
@@ -141,7 +128,7 @@ const groups = computed<CommandPaletteGroup[]>(() => [
     <UTooltip text="Search" :kbds="['meta', 'K']">
         <UButton icon="i-ph-magnifying-glass" color="neutral" variant="ghost" aria-label="Search"
             class="text-muted hover:text-highlighted"
-            @click="route.path.startsWith('/posts') ? contentSearchOpen = true : open = true" />
+            @click="open = true" />
     </UTooltip>
 
     <UModal v-model:open="open" :ui="{ content: 'sm:max-w-xl' }">

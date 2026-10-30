@@ -18,7 +18,6 @@ export enum ActivityType {
 
 export const DISCORD_USER_ID = '201077739589992448'
 
-const CDN = 'https://cdn.discordapp.com'
 const DCDN = 'https://dcdn.dstn.to'
 
 export interface DiscordUserLike {
@@ -32,17 +31,6 @@ export interface DiscordUserLike {
 		badge?: string | null
 		tag?: string | null
 	} | null
-}
-
-export function avatarUrl(user?: DiscordUserLike, size = 128): string | null {
-	if (!user?.avatar) return null
-	const animated = user.avatar.startsWith('a_')
-	return `${CDN}/avatars/${user.id}/${user.avatar}.${animated ? 'gif' : 'png'}?size=${size}`
-}
-
-export function decorationUrl(user?: DiscordUserLike): string | null {
-	const asset = user?.avatar_decoration_data?.asset
-	return asset ? `${CDN}/avatar-decoration-presets/${asset}.png?size=96&passthrough=true` : null
 }
 
 export const STATUS: Record<'online' | 'idle' | 'dnd' | 'offline', { color: string; label: string }> = {
@@ -61,14 +49,21 @@ export function bannerUrl(id: string, size = 600): string {
 	return `${DCDN}/banners/${id}?size=${size}`
 }
 
-/** Resolves an activity's large image asset to a usable image URL. */
-export function activityImage(activity?: { application_id?: string | null; assets?: { large_image?: string; small_image?: string } }): string {
-	if (!activity) return ''
-	const asset = activity.assets?.large_image ?? activity.assets?.small_image
-	if (asset) {
-		if (asset.startsWith('mp:external/')) return `https://media.discordapp.net/${asset.replace('mp:', '')}`
-		if (asset.startsWith('spotify:')) return `https://i.scdn.co/image/${asset.replace('spotify:', '')}`
-		if (activity.application_id) return `${CDN}/app-assets/${activity.application_id}/${asset}.png`
-	}
-	return activity.application_id ? `${DCDN}/app-icons/${activity.application_id}` : ''
+/** An app's icon, for activities without art of their own. dcdn 404s for apps it doesn't know. */
+export function appIconUrl(applicationId: string, size = 128): string {
+	return `${DCDN}/app-icons/${applicationId}?size=${size}`
+}
+
+export function avatarUrl(id: string, avatar: string | null, size = 64): string {
+	return avatar
+		? `https://cdn.discordapp.com/avatars/${id}/${avatar}.webp?size=${size}`
+		: 'https://cdn.discordapp.com/embed/avatars/0.png'
+}
+
+/** An activity's image key: `mp:` keys are proxied external images, numeric ones the app's own assets. */
+export function activityImageUrl(applicationId: string | null | undefined, key?: string): string | undefined {
+	if (!key) return undefined
+	if (key.startsWith('mp:')) return `https://media.discordapp.net/${key.slice(3)}`
+	if (applicationId && /^\d+$/.test(key)) return `https://cdn.discordapp.com/app-assets/${applicationId}/${key}.png`
+	return undefined
 }

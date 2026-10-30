@@ -13,31 +13,21 @@ defineOgImage('Default', {
     badge: 'Error',
 })
 
-const calm = ref(false)
-// once someone unticks it themselves, the page stops ticking it for them
-const keepParticles = ref(false)
-watch(calm, (value) => { if (!value) keepParticles.value = true })
-const onStruggling = () => { if (!keepParticles.value) calm.value = true }
-
 const goHome = () => clearError({ redirect: '/' })
 const reload = () => { if (import.meta.client) window.location.reload() }
 </script>
 
 <template>
     <UApp>
-        <NuxtLayout name="default">
-            <template #background>
-                <LazyLayoutParticleBackground :dispersed="calm" @struggling="onStruggling" />
-            </template>
-            <StatusWindows :code="meta.code" :title="meta.title" :description="meta.description">
-                <template #below>
-                    <UiPanel title="Background" icon="i-ph-sparkle">
-                        <UCheckbox v-model="calm" label="Woah there, my computer doesn't like that" />
-                    </UiPanel>
-                </template>
-                <UButton icon="i-ph-house" color="primary" @click="goHome">Go home</UButton>
-                <UButton icon="i-ph-arrow-clockwise" color="primary" variant="ghost" @click="reload">Reload</UButton>
-            </StatusWindows>
+        <NuxtLayout name="field">
+            <main class="column">
+                <h1 class="doc-title">{{ meta.title }}</h1>
+                <p class="lead mt-4">{{ meta.description }}</p>
+                <p class="mt-8 flex gap-6 text-sm">
+                    <button type="button" class="text-(--accent) hover:text-(--fg)" @click="goHome">Go home</button>
+                    <button type="button" class="text-(--fg-3) hover:text-(--fg)" @click="reload">Reload</button>
+                </p>
+            </main>
         </NuxtLayout>
     </UApp>
 </template>

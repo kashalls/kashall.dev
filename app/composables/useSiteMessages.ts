@@ -1,6 +1,6 @@
 /**
- * Messages from /api/meta, shared by every caller. The default layout decides
- * when to refresh them. A failed refresh keeps the last messages, where
+ * Messages from /api/meta, shared by every caller. The layouts decide when
+ * to refresh them. A failed refresh keeps the last messages, where
  * useFetch would reset them to its default.
  */
 export const useSiteMessages = () => {

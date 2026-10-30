@@ -1,9 +1,7 @@
-import type { ContentSurroundLink } from '@nuxt/ui'
-
 /**
- * Posts navigation: each blog section with its groups and posts in sidebar
- * order, plus which section the current page is in. Shared by the sidebar,
- * the header's mobile menu and the previous/next links.
+ * Posts navigation: each blog section with its groups and posts in order,
+ * plus which section the current page is in. Shared by the Writing page, the
+ * field's title, the header's menu and the previous/next links.
  */
 export const useBlogNavigation = async () => {
     const route = useRoute()
@@ -12,7 +10,7 @@ export const useBlogNavigation = async () => {
         queryCollection('blog')
             .where('draft', '=', false)
             .order('date', 'DESC')
-            .select('title', 'sidebarTitle', 'description', 'path', 'icon', 'order', 'section', 'category', 'date')
+            .select('title', 'description', 'path', 'icon', 'order', 'section', 'category', 'date')
             .all(),
     )
 
@@ -21,7 +19,7 @@ export const useBlogNavigation = async () => {
         return index === -1 ? list.length : index
     }
 
-    // Each section's groups in sidebar order: categories for most sections,
+    // Each section's groups in order: categories for most sections,
     // years for dated ones. Posts follow their `order`, then newest first (the
     // sort is stable, so unordered posts keep the query's order).
     const sections = computed(() => {
@@ -47,20 +45,17 @@ export const useBlogNavigation = async () => {
             .filter(section => section.first)
     })
 
-    // The current post's section. Off a post (search), the first section's
-    // groups are listed but no tab is highlighted.
+    // The current post's section; none off a post.
     const current = computed(() => posts.value?.find(post => post.path === route.path)?.section)
-    const active = computed(() => sections.value.find(section => section.id === current.value) ?? sections.value[0])
 
-    // Previous/next within the current section, in sidebar order. UContentSurround
-    // renders a missing neighbour (null) as an empty slot, though its type omits null.
+    // Previous/next within the current section, in order; null at either end.
     const surround = computed(() => {
-        const list = active.value?.categories.flatMap(category => category.posts) ?? []
+        const list = sections.value.find(section => section.id === current.value)?.categories.flatMap(category => category.posts) ?? []
         const index = list.findIndex(post => post.path === route.path)
         if (index === -1) return []
-        const link = (post?: typeof list[number]) => post ? { title: post.title, path: post.path, description: post.description } : null
-        return [link(list[index - 1]), link(list[index + 1])] as ContentSurroundLink[]
+        const link = (post?: typeof list[number]) => post ? { title: post.title, path: post.path } : null
+        return [link(list[index - 1]), link(list[index + 1])]
     })
 
-    return { sections, current, active, surround }
+    return { sections, current, surround }
 }

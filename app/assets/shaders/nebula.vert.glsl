@@ -24,6 +24,26 @@ uniform vec4 uMisc;
 uniform float uDim;
 /** 0..1 as the cloud blows apart for good */
 uniform float uDisperse;
+/** the image the cloud is recolouring towards, fitted like uImage */
+uniform sampler2D uImageNext;
+uniform vec4 uCoverNext;
+uniform float uLodNext;
+/** 0..1 through a morph to uImageNext; 0 when none is under way */
+uniform float uMorph;
+/** how far particles lift away mid-morph; 0 swaps colour in place */
+uniform float uSwirl;
+/** a layer over each image that shifts by uGaze, shown where its mask's red channel is lit */
+uniform sampler2D uLayer;
+uniform sampler2D uMask;
+uniform sampler2D uLayerNext;
+uniform sampler2D uMaskNext;
+/** x: the image has a layer, y: the incoming one does */
+uniform vec2 uOverlay;
+/** screen uv the layers are shifted by */
+uniform vec2 uGaze;
+/** where particles swirl mid-morph, when uHasSwirlMask is set */
+uniform sampler2D uSwirlMask;
+uniform float uHasSwirlMask;
 
 out vec2 vLocal;
 out vec3 vTint;
@@ -69,7 +89,28 @@ void main () {
   vec2 cell = (seed + 0.5 + jitter * 0.9) / uGrid;
   vec2 base = mix(vec2(-BLEED), vec2(1.0 + BLEED), cell);
 
-  vec3 color = textureLod(uImage, base * uCover.xy + uCover.zw, uLod).rgb;
+  vec2 uv = base * uCover.xy + uCover.zw;
+  vec3 color = textureLod(uImage, uv, uLod).rgb;
+  if (uOverlay.x > 0.0) {
+    vec4 layer = textureLod(uLayer, (base - uGaze) * uCover.xy + uCover.zw, uLod);
+    color = mix(color, layer.rgb, layer.a * textureLod(uMask, uv, uLod).r);
+  }
+  // each particle crosses over on its own beat, lifting away mid-way
+  float change = clamp((uMorph - rnd * 0.45) / 0.55, 0.0, 1.0);
+  change = change * change * (3.0 - 2.0 * change);
+  float lift = sin(change * 3.14159) * uSwirl;
+  if (uMorph > 0.0) {
+    vec2 uvNext = base * uCoverNext.xy + uCoverNext.zw;
+    vec3 next = textureLod(uImageNext, uvNext, uLodNext).rgb;
+    if (uOverlay.y > 0.0) {
+      vec4 layer = textureLod(uLayerNext, (base - uGaze) * uCoverNext.xy + uCoverNext.zw, uLodNext);
+      next = mix(next, layer.rgb, layer.a * textureLod(uMaskNext, uvNext, uLodNext).r);
+    }
+    color = mix(color, next, change);
+    if (uHasSwirlMask > 0.0) {
+      lift *= textureLod(uSwirlMask, uvNext, uLodNext).r;
+    }
+  }
   float lum = dot(color, LUMA);
   float depth = smoothstep(0.10, 0.65, lum);
 
@@ -126,7 +167,10 @@ void main () {
   tint += starTint * star * (0.2 + 0.9 * twinkle);
   tint *= uDim * settle * (1.0 - leave);
 
-  vec2 shift = drift + push + parallax + scatter + burst;
+  vec2 swirl = vec2(cos(angle + rnd * 6.2832), sin(angle + rnd * 6.2832)) * lift * (0.015 + 0.045 * hash21(seed + 71.0));
+  tint *= 1.0 + lift * 0.8;
+
+  vec2 shift = drift + push + parallax + scatter + burst + swirl;
   vec2 screen = vec2(
     (base.x + shift.x / aspect) * 2.0 - 1.0,
     1.0 - (base.y + shift.y) * 2.0
