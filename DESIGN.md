@@ -103,6 +103,7 @@ Post content (callouts, steps, code groups, accordions), comments and inputs are
 - **Errors and the gateway:** the particle title is the status code (502 on the gateway), with the status as the column's heading and the way home under it.
 - **Writing:** the index of every post, grouped by section (in its hue) and category, with search and RSS at the top. Search results (`/posts?q=`) use the same column.
 - **Guestbook:** a line inviting a hello, then the same comment thread Blog posts use (GitHub sign-in, replies, hearts), stored in its own `PostComments` instance named `/guestbook`.
+- **Admin (`/admin`):** only for the site owner (a 404 for anyone else signed in, a sign-in prompt when signed out). The site messages, then "Needs a reply" (comments and guestbook entries you haven't answered in their thread), then everything, newest first, each with Reply and Remove.
 - **Lists:** items are separated by thin `--rule` lines with even spacing; only the first item in a list drops its top padding.
 - **Maintenance message:** when the `maintenance` key is set in the `MESSAGES` KV namespace (see `server/api/meta.get.ts`), a short line with an amber particle sits in the bottom right corner on wide screens, and under the nav on tall ones. A post's "On this page" list moves up to make room.
 - **Scrolling:** content fades out under the nav bar (a black-to-clear strip behind the bar on every page but home).

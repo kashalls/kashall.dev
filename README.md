@@ -61,7 +61,7 @@ Commenting needs GitHub sign-in (`/auth/github?redirect=<path>` returns to the p
 
 GitHub sign-in needs an [OAuth app](https://github.com/settings/developers) whose callback URL is `https://ok8.sh/auth/github`. GitHub only redirects to that callback's host, so local dev and Previews each need their own OAuth app (callback `http://localhost:3000/auth/github` for dev).
 
-`/api/meta` serves the `maintenance` and `live` keys in `MESSAGES`. A `maintenance` value shows as a banner above the content and deleting the key hides it; `live` isn't displayed yet.
+`/api/meta` serves the `maintenance` and `live` keys in `MESSAGES`. A `maintenance` value shows in the corner of the page and deleting the key hides it; `live` isn't displayed yet. Signed in as the site owner, `/admin` sets both, lists the comments and guestbook entries you haven't replied to, and lets you reply to or remove any of them; any other account gets a 404. Or use Wrangler:
 
 ```bash
 bunx wrangler kv key put maintenance "The contact form is down" --binding MESSAGES --remote

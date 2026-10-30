@@ -32,16 +32,40 @@ export const usePostComments = async (event: H3Event): Promise<PostCommentsStub>
             .select('path')
             .first()
     if (!post) throw createError({ statusCode: 404, statusMessage: 'Post not found.' })
+    return commentsFor(event, post.path)
+}
 
+/** Every place that takes comments: the guestbook, then each published Blog post. */
+export const commentSources = async (event: H3Event) => {
+    const posts = await queryCollection(event, 'blog')
+        .where('draft', '=', false)
+        .where('section', '=', 'blog')
+        .select('path', 'title')
+        .all()
+    return [
+        { slug: 'guestbook', path: '/guestbook', title: 'Guestbook' },
+        ...posts.map(post => ({ slug: post.path.replace(/^\/posts\//, ''), path: post.path, title: post.title })),
+    ]
+}
+
+/** The PostComments instance for a path that's already known to take comments. */
+export const commentsFor = (event: H3Event, path: string): PostCommentsStub => {
     const exports = event.context.cloudflare?.context?.exports as
         { PostComments?: { getByName(name: string): PostCommentsStub } } | undefined
     if (!exports?.PostComments) throw createError({ statusCode: 503, statusMessage: 'Comments are unavailable right now.' })
-    return exports.PostComments.getByName(post.path)
+    return exports.PostComments.getByName(path)
 }
 
 /** The signed-in GitHub account; commenting, hearts and removal all need one. */
 export const requireCommenter = async (event: H3Event) =>
     (await requireUserSession(event, { message: 'Sign in with GitHub to join the discussion.' })).user
+
+/** The site owner's account. Anyone else gets a 404, so the admin routes don't announce themselves. */
+export const requireSiteOwner = async (event: H3Event) => {
+    const { user } = await getUserSession(event)
+    if (!isSiteOwner(event, user)) throw createError({ statusCode: 404, statusMessage: 'Not found.' })
+    return user!
+}
 
 /** Whether the account is the site owner's. Matched by ID, which survives a rename. */
 export const isSiteOwner = (event: H3Event, account: { id: number } | null | undefined) =>

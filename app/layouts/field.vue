@@ -45,6 +45,7 @@ function heading(id: string): { label?: string, hue: string } {
     return section ? { label: section.label, hue: section.hue } : { label: 'Search', hue: HOME_TONE }
   }
   if (id === 'legal') return { label: 'Legal', hue: HOME_TONE }
+  if (id === 'admin') return { label: 'Admin', hue: HOME_TONE }
   if (id === 'gateway') return { label: '502', hue: FAIL_TONE }
   if (id === 'error') return { label: String(statusMeta(error.value?.statusCode).code), hue: FAIL_TONE }
   return { hue: HOME_TONE }

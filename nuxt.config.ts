@@ -133,6 +133,8 @@ export default defineNuxtConfig({
   routeRules: {
       // Renders the requesting hostname, so it must be rendered per request.
       '/gateway': { prerender: false, sitemap: false },
+      // Only the site owner sees anything here, and it changes with every comment.
+      '/admin': { prerender: false, sitemap: false },
       // Redirects or shows search results depending on ?q=, so it can't be a static file.
       '/posts': { prerender: false },
       // Old blog URLs, from before posts covered docs and guides too.
