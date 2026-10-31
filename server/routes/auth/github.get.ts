@@ -1,4 +1,5 @@
-import type { H3Event } from 'h3'
+import { defineEventHandler, deleteCookie, getCookie, getQuery, sendRedirect, setCookie } from 'nuxt/server'
+import type { RequestEvent } from 'nuxt/server'
 
 const RETURN_COOKIE = 'auth-return-to'
 
@@ -26,10 +27,10 @@ const signIn = defineOAuthGitHubEventHandler({
     },
 })
 
-const returnTo = (event: H3Event) => {
+const returnTo = (event: RequestEvent) => {
     // The cookie only comes back after the trip to GitHub; a failure before it
     // (like missing OAuth config) still has the path on this request.
-    const path = event.context.authReturnTo ?? getCookie(event, RETURN_COOKIE)
+    const path = (event.context.authReturnTo as string | undefined) ?? getCookie(event, RETURN_COOKIE)
     deleteCookie(event, RETURN_COOKIE, { path: '/' })
     return path || '/'
 }
